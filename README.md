@@ -1,0 +1,2 @@
+# SZ
+Susceptibility Zoning plugin
