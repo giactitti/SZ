@@ -187,7 +187,7 @@ class model:
         icon_path = ':/plugins/sz/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'Landslide Susceptibiliy Zoning'),
+            text=self.tr(u'Susceptibiliy Zoning'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
@@ -204,57 +204,57 @@ class model:
         # remove the toolbar
         del self.toolbar
     #import input cause
-    def select_input_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, 'Select input raster cause 1','', '*.tif')
-        self.dlg.lineEdit.setText(filename)
-
-    def select_input2_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 2","", '*.tif')
-        self.dlg.lineEdit_2.setText(filename)
-
-    def select_input3_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 3","", '*.tif')
-        self.dlg.lineEdit_3.setText(filename)
-
-    def select_input4_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 4","", '*.tif')
-        self.dlg.lineEdit_4.setText(filename)
-    #import input cause txt
-    def select_txt_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 1","", '*.txt')
-        self.dlg.lineEdit_6.setText(filename)
-
-    def select_txt2_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 2","", '*.txt')
-        self.dlg.lineEdit_7.setText(filename)
-
-    def select_txt3_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 3","", '*.txt')
-        self.dlg.lineEdit_8.setText(filename)
-
-    def select_txt4_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 4","", '*.txt')
-        self.dlg.lineEdit_9.setText(filename)
-    ####inventory,dem,fold
-    def select_input10_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input inventory","", '*.shp')
-        self.dlg.lineEdit_10.setText(filename)
-
-    def select_input11_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input DEM","", '*.tif')
-        self.dlg.lineEdit_11.setText(filename)
+    # def select_input_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, 'Select input raster cause 1','', '*.tif')
+    #     self.dlg.lineEdit.setText(filename)
+    #
+    # def select_input2_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 2","", '*.tif')
+    #     self.dlg.lineEdit_2.setText(filename)
+    #
+    # def select_input3_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 3","", '*.tif')
+    #     self.dlg.lineEdit_3.setText(filename)
+    #
+    # def select_input4_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 4","", '*.tif')
+    #     self.dlg.lineEdit_4.setText(filename)
+    # #import input cause txt
+    # def select_txt_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 1","", '*.txt')
+    #     self.dlg.lineEdit_6.setText(filename)
+    #
+    # def select_txt2_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 2","", '*.txt')
+    #     self.dlg.lineEdit_7.setText(filename)
+    #
+    # def select_txt3_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 3","", '*.txt')
+    #     self.dlg.lineEdit_8.setText(filename)
+    #
+    # def select_txt4_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 4","", '*.txt')
+    #     self.dlg.lineEdit_9.setText(filename)
+    # ####inventory,dem,fold
+    # def select_input10_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input inventory","", '*.shp')
+    #     self.dlg.lineEdit_10.setText(filename)
+    #
+    # def select_input11_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input DEM","", '*.tif')
+    #     self.dlg.lineEdit_11.setText(filename)
 
     def select_input16_file(self):
         filename= QFileDialog.getExistingDirectory(self.dlg, "Work folder","")
         self.dlg.lineEdit_16.setText(filename)
 
-    def select_input12_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select polygon","", '*.shp')
-        self.dlg.lineEdit_12.setText(filename)
+    # def select_input12_file(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select polygon","", '*.shp')
+    #     self.dlg.lineEdit_12.setText(filename)
 
-    def select_ext(self):
-        filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select polygon","", '*.shp')
-        self.dlg.mExtentGroupBox.setText(filename)
+    # def select_ext(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select polygon","", '*.shp')
+    #     self.dlg.mExtentGroupBox.setText(filename)
 
     #####ymax,xmin,ymin,xmax
 #    def select_ymax(self):
@@ -289,36 +289,37 @@ class model:
             self.dlg = modelDialog()
             ########################################
             #input button
-            self.dlg.lineEdit.clear()
-            self.dlg.pushButton.clicked.connect(self.select_input_file)
-            self.dlg.lineEdit_2.clear()
-            self.dlg.pushButton_2.clicked.connect(self.select_input2_file)
-            self.dlg.lineEdit_3.clear()
-            self.dlg.pushButton_3.clicked.connect(self.select_input3_file)
-            self.dlg.lineEdit_4.clear()
-            self.dlg.pushButton_4.clicked.connect(self.select_input4_file)
-            #input txt classes
-            self.dlg.lineEdit_6.clear()
-            self.dlg.pushButton_6.clicked.connect(self.select_txt_file)
-            self.dlg.lineEdit_7.clear()
-            self.dlg.pushButton_7.clicked.connect(self.select_txt2_file)
-            self.dlg.lineEdit_8.clear()
-            self.dlg.pushButton_8.clicked.connect(self.select_txt3_file)
-            self.dlg.lineEdit_9.clear()
-            self.dlg.pushButton_9.clicked.connect(self.select_txt4_file)
-            #inventory,dem,fold
-            self.dlg.lineEdit_10.clear()
-            self.dlg.pushButton_10.clicked.connect(self.select_input10_file)
-            self.dlg.lineEdit_11.clear()
-            self.dlg.pushButton_11.clicked.connect(self.select_input11_file)
+            # self.dlg.lineEdit.clear()
+            # self.dlg.pushButton.clicked.connect(self.select_input_file)
+            # self.dlg.lineEdit_2.clear()
+            # self.dlg.pushButton_2.clicked.connect(self.select_input2_file)
+            # self.dlg.lineEdit_3.clear()
+            # self.dlg.pushButton_3.clicked.connect(self.select_input3_file)
+            # self.dlg.lineEdit_4.clear()
+            # self.dlg.pushButton_4.clicked.connect(self.select_input4_file)
+            # #input txt classes
+            # self.dlg.lineEdit_6.clear()
+            # self.dlg.pushButton_6.clicked.connect(self.select_txt_file)
+            # self.dlg.lineEdit_7.clear()
+            # self.dlg.pushButton_7.clicked.connect(self.select_txt2_file)
+            # self.dlg.lineEdit_8.clear()
+            # self.dlg.pushButton_8.clicked.connect(self.select_txt3_file)
+            # self.dlg.lineEdit_9.clear()
+            # self.dlg.pushButton_9.clicked.connect(self.select_txt4_file)
+            # #inventory,dem,fold
+            # self.dlg.lineEdit_10.clear()
+            # self.dlg.pushButton_10.clicked.connect(self.select_input10_file)
+            # self.dlg.lineEdit_11.clear()
+            # self.dlg.pushButton_11.clicked.connect(self.select_input11_file)
             self.dlg.lineEdit_16.clear()
             self.dlg.pushButton_12.clicked.connect(self.select_input16_file)
             #output button
             self.dlg.lineEdit_5.clear()
             self.dlg.pushButton_5.clicked.connect(self.select_output_file)
             #boundary shp
-            self.dlg.lineEdit_12.clear()
-            self.dlg.pushButton_13.clicked.connect(self.select_input12_file)
+            #self.dlg.lineEdit_12.clear()
+            #self.dlg.pushButton_13.clicked.connect(self.select_input12_file)
+            #
 
         # show the dialog
         self.dlg.show()
@@ -330,65 +331,73 @@ class model:
             self.test = WoE()
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
-            if len(self.dlg.lineEdit.text())==0:
-                QgsMessageLog.logMessage('ERROR: Cause 1 cannot be empty', tag="WoE")
-                raise ValueError  # Cause 1 cannot be empty, see 'WoE' Log Messages Panel
-            elif len(self.dlg.lineEdit_6.text())==0:
-                QgsMessageLog.logMessage('ERROR: Cause 1 classes cannot be empty', tag="WoE")
-                raise ValueError  # Cause 1 classes cannot be empty, see 'WoE' Log Messages Panel
-            else:
-                self.test.Wcause1=self.dlg.lineEdit.text()
-                QgsMessageLog.logMessage(self.test.Wcause1, tag="WoE")
-                self.test.classes1=self.dlg.lineEdit_6.text()
-                QgsMessageLog.logMessage(self.test.classes1, tag="WoE")
-            if len(self.dlg.lineEdit_2.text())==0:
+            # if len(self.dlg.lineEdit.text())==0:
+            #     QgsMessageLog.logMessage('ERROR: Cause 1 cannot be empty', tag="WoE")
+            #     raise ValueError  # Cause 1 cannot be empty, see 'WoE' Log Messages Panel
+            # elif len(self.dlg.lineEdit_6.text())==0:
+            #     QgsMessageLog.logMessage('ERROR: Cause 1 classes cannot be empty', tag="WoE")
+            #     raise ValueError  # Cause 1 classes cannot be empty, see 'WoE' Log Messages Panel
+            # else:
+            self.test.Wcause1=self.dlg.mMapLayerComboBox_4
+            QgsMessageLog.logMessage(self.test.Wcause1, tag="WoE")
+            self.test.classes1=self.dlg.mMapLayerComboBox_5
+            QgsMessageLog.logMessage(self.test.classes1, tag="WoE")
+            if self.dlg.checkBox_6==False:
                 self.test.Wcause2=None
                 self.test.classes2=None
             else:
-                self.test.Wcause2=self.dlg.lineEdit_2.text()
-                self.test.classes2=self.dlg.lineEdit_7.text()
-            if len(self.dlg.lineEdit_3.text())==0:
+                self.test.Wcause2=self.dlg.mMapLayerComboBox_6
+                self.test.classes2=self.dlg.mMapLayerComboBox_7
+            if self.dlg.checkBox_8==False:
                 self.test.Wcause3=None
                 self.test.classes3=None
             else:
-                self.test.Wcause3=self.dlg.lineEdit_3.text()
-                self.test.classes3=self.dlg.lineEdit_8.text()
-            if len(self.dlg.lineEdit_4.text())==0:
+                self.test.Wcause3=self.dlg.mMapLayerComboBox_8
+                self.test.classes3=self.dlg.mMapLayerComboBox_9
+            if self.dlg.checkBox_10==False:
                 self.test.Wcause4=None
                 self.test.classes4=None
             else:
-                self.test.Wcause4=self.dlg.lineEdit_4.text()
-                self.test.classes4=self.dlg.lineEdit_9.text()
+                self.test.Wcause4=self.dlg.mMapLayerComboBox_10
+                self.test.classes4=self.dlg.mMapLayerComboBox_11
             if len(self.dlg.lineEdit_10.text())==0:
                 QgsMessageLog.logMessage('ERROR: inventory cannot be empty', tag="WoE")
                 raise ValueError  # inventory cannot be empty, see 'WoE' Log Messages Panel
             else:
-                self.test.inventory=self.dlg.lineEdit_10.text()
-            if len(self.dlg.lineEdit_11.text())==0:
-                QgsMessageLog.logMessage('ERROR: dem cannot be empty', tag="WoE")
-                raise ValueError  # dem cannot be empty, see 'WoE' Log Messages Panel
-            else:
-                self.test.Wdem=self.dlg.lineEdit_11.text()
+                self.test.inventory=self.dlg.mMapLayerComboBox_3
+            # if len(self.dlg.lineEdit_11.text())==0:
+            #     QgsMessageLog.logMessage('ERROR: dem cannot be empty', tag="WoE")
+            #     raise ValueError  # dem cannot be empty, see 'WoE' Log Messages Panel
+            # else:
+            self.test.Wdem=self.dlg.mMapLayerComboBox_3
             if len(self.dlg.lineEdit_5.text())==0:
                 QgsMessageLog.logMessage('ERROR: LSIout cannot be empty', tag="WoE")
                 raise ValueError  # LSIout cannot be empty, see 'WoE' Log Messages Panel
             else:
                 self.test.LSIout=self.dlg.lineEdit_5.text()
-            if len(self.dlg.lineEdit_16.text())==0:
+            if self.dlg.checkBox_2==False:
                 self.test.fold='/tmp'
             else:
                 self.test.fold=self.dlg.lineEdit_16.text()
-            if len(self.dlg.lineEdit_12.text())==0:
-                self.test.poly=''
+            if self.dlg.checkBox.isChecked() == False:
+                self.test.poly=self.dlg.mMapLayerComboBox
                 self.test.polynum=0
             else:
                 self.test.polynum=1
-                self.test.poly=self.dlg.lineEdit_12.text()
+                #self.test.poly=self.dlg.lineEdit_12.text()
             #xmin,ymin,xmax,ymax
-            self.test.xmax=round(self.dlg.doubleSpinBox_3.value(),2)
-            self.test.ymax=round(self.dlg.doubleSpinBox.value(),2)
-            self.test.xmin=round(self.dlg.doubleSpinBox_2.value(),2)
-            self.test.ymin=round(self.dlg.doubleSpinBox_4.value(),2)
+            # self.test.xmax=round(self.dlg.doubleSpinBox_3.value(),2)
+            # self.test.ymax=round(self.dlg.doubleSpinBox.value(),2)
+            # self.test.xmin=round(self.dlg.doubleSpinBox_2.value(),2)
+            # self.test.ymin=round(self.dlg.doubleSpinBox_4.value(),2)
+            #xmin,ymin,xmax,ymax
+            self.test.xmax=round(self.dlg.comboExtentChoiche.currentExtent().xMaximum(),2)
+            self.test.ymax=round(self.dlg.comboExtentChoiche.currentExtent().yMaximum(),2)
+            self.test.xmin=round(self.dlg.comboExtentChoiche.currentExtent().xMinimum(),2)
+            self.test.ymin=round(self.dlg.comboExtentChoiche.currentExtent().yMinimum(),2)
+            self.test.epsg=self.dlg.crsChoice.crs().authid()
+
+
             self.test.w=abs(round(self.dlg.doubleSpinBox_5.value(),4))
             self.test.h=abs(round(self.dlg.doubleSpinBox_6.value(),4))
 

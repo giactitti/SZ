@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/plugins/LSZ" >
+    <qresource prefix="/plugins/sz">
         <file>icon.png</file>
     </qresource>
 </RCC>

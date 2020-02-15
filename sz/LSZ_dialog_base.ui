@@ -6,399 +6,385 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>799</width>
-    <height>910</height>
+    <width>723</width>
+    <height>925</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>WoEmodel</string>
+   <string>SZ</string>
   </property>
-  <widget class="QDialogButtonBox" name="button_box">
-   <property name="geometry">
-    <rect>
-     <x>9</x>
-     <y>876</y>
-     <width>166</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QScrollArea" name="scrollArea">
-   <property name="geometry">
-    <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>781</width>
-     <height>851</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>779</width>
-      <height>849</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>DEM (map of reference)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2">
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Cause 4 (optional)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="3" colspan="2">
-      <widget class="QLabel" name="label_21">
-       <property name="text">
-        <string>Classes of the causative factors (.txt):</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>ymax</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
-       <property name="minimum">
-        <double>-100000000.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>100000000.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="lineEdit_4"/>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="lineEdit_3"/>
-     </item>
-     <item row="14" column="0">
-      <widget class="QLabel" name="label_16">
-       <property name="text">
-        <string>width</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="4">
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="16" column="1">
-      <widget class="QLabel" name="label_25">
-       <property name="text">
-        <string>Boundary of the area of interest:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="17" column="1" colspan="3">
-      <widget class="QLineEdit" name="lineEdit_12"/>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>ymin</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="2">
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="3">
-      <widget class="QLineEdit" name="lineEdit_7"/>
-     </item>
-     <item row="19" column="4">
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="4">
-      <widget class="QPushButton" name="pushButton_8">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="4">
-      <widget class="QPushButton" name="pushButton_7">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="label_14">
-       <property name="text">
-        <string>xmin</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1" colspan="3">
-      <widget class="QLineEdit" name="lineEdit_10"/>
-     </item>
-     <item row="20" column="1" colspan="3">
-      <widget class="QLineEdit" name="lineEdit_16"/>
-     </item>
-     <item row="13" column="1">
-      <widget class="QLabel" name="label_23">
-       <property name="text">
-        <string>Cells size as map unite</string>
-       </property>
-      </widget>
-     </item>
-     <item row="19" column="1" colspan="3">
-      <widget class="QLineEdit" name="lineEdit_5"/>
-     </item>
-     <item row="4" column="2">
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Cause 2 (optional)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QLabel" name="label_19">
-       <property name="text">
-        <string>Extension of the study area:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="4">
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QPushButton" name="pushButton_10">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_2"/>
-     </item>
-     <item row="2" column="1" colspan="3">
-      <widget class="QLineEdit" name="lineEdit_11"/>
-     </item>
-     <item row="7" column="2">
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="17" column="0">
-      <widget class="QLabel" name="label_26">
-       <property name="text">
-        <string>Polygon (.shp)(optional)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="19" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Output file (.tif)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="17" column="4">
-      <widget class="QPushButton" name="pushButton_13">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="15" column="1" colspan="3">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
-       <property name="decimals">
-        <number>4</number>
-       </property>
-       <property name="maximum">
-        <double>1000000000.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="15" column="0">
-      <widget class="QLabel" name="label_17">
-       <property name="text">
-        <string>height</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>Landslide inventory (.shp)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="18" column="1">
-      <widget class="QLabel" name="label_24">
-       <property name="text">
-        <string>Output layer</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="3">
-      <widget class="QLineEdit" name="lineEdit_6"/>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="label_20">
-       <property name="text">
-        <string>Causative factors:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QPushButton" name="pushButton_11">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="1" colspan="3">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
-       <property name="decimals">
-        <number>4</number>
-       </property>
-       <property name="maximum">
-        <double>1000000000.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="20" column="4">
-      <widget class="QPushButton" name="pushButton_12">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="3">
-      <widget class="QLineEdit" name="lineEdit_9"/>
-     </item>
-     <item row="12" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox">
-       <property name="minimum">
-        <double>-100000000.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>100000000.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
-       <property name="minimum">
-        <double>-100000000.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>100000000.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="20" column="0">
-      <widget class="QLabel" name="label_18">
-       <property name="text">
-        <string>Work folder (optional)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
-       <property name="minimum">
-        <double>-100000000.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>100000000.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="label_15">
-       <property name="text">
-        <string>xmax</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Cause 3 (optional)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_22">
-       <property name="text">
-        <string>Working variables:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="3">
-      <widget class="QLineEdit" name="lineEdit_8"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Cause 1</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>-152</y>
+        <width>689</width>
+        <height>1026</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="53" column="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="61" column="2">
+        <widget class="QLineEdit" name="lineEdit_16"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_22">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Working variables:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="51" column="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
+         <property name="decimals">
+          <number>4</number>
+         </property>
+         <property name="maximum">
+          <double>1000000000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="22" column="2">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Cause 4 classes (optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="49" column="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
+         <property name="decimals">
+          <number>4</number>
+         </property>
+         <property name="maximum">
+          <double>1000000000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="58" column="2">
+        <widget class="QLineEdit" name="lineEdit_5"/>
+       </item>
+       <item row="58" column="3">
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="44" column="2">
+        <widget class="QLabel" name="label_23">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cells size as map unite</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLabel" name="label_20">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Causative factors and classes of the causative factor:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="37" column="2">
+        <widget class="QLabel" name="label_19">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Extension of the study area:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="54" column="2">
+        <widget class="QLabel" name="label_24">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Output layer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="39" column="2">
+        <widget class="QLabel" name="label_25">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Boundary of the area of interest:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="50" column="2">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>height</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Cause 3 classes (optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Cause 1 classes</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Cause 2 (optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Cause 2 classes (optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Cause 1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="2">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Cause 3 (optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Cause 4 (optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="40" column="2">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>Polygon (.shp)(optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="46" column="2">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>width</string>
+         </property>
+        </widget>
+       </item>
+       <item row="56" column="2">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Output file (.tif)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="61" column="3">
+        <widget class="QPushButton" name="pushButton_12">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>DEM (map of reference)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Landslide inventory (.shp)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="59" column="2">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Work folder (optional)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="38" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="43" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox"/>
+       </item>
+       <item row="52" column="2">
+        <widget class="QLabel" name="label_12">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Final crs</string>
+         </property>
+        </widget>
+       </item>
+       <item row="43" column="3">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>Activate</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_3"/>
+       </item>
+       <item row="7" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_4"/>
+       </item>
+       <item row="16" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_8"/>
+       </item>
+       <item row="12" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_6"/>
+       </item>
+       <item row="12" column="3">
+        <widget class="QCheckBox" name="checkBox_6">
+         <property name="text">
+          <string>Activate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_7"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_2"/>
+       </item>
+       <item row="19" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_9"/>
+       </item>
+       <item row="21" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_10"/>
+       </item>
+       <item row="9" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_5"/>
+       </item>
+       <item row="23" column="2">
+        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_11"/>
+       </item>
+       <item row="21" column="3">
+        <widget class="QCheckBox" name="checkBox_10">
+         <property name="text">
+          <string>Activate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="3">
+        <widget class="QCheckBox" name="checkBox_8">
+         <property name="text">
+          <string>Activate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="60" column="2">
+        <widget class="QCheckBox" name="checkBox_2">
+         <property name="text">
+          <string>default is /tmp</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsMapLayerComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qgsmaplayercombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
@@ -408,8 +394,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>29</x>
+     <y>909</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -424,8 +410,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
+     <x>29</x>
+     <y>909</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>

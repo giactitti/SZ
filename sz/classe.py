@@ -68,12 +68,13 @@ class WoE:
         self.extent = "%s,%s,%s,%s" % (self.xmin, self.xmax, self.ymin, self.ymax)
         ##############
         ds0 = gdal.Open(self.Wdem)
-        self.epsg = int(osr.SpatialReference(wkt=ds0.GetProjection()).GetAttrValue('AUTHORITY',1))
+        QgsMessageLog.logMessage((self.epsg), tag="WoE")
+        #self.epsg = int(osr.SpatialReference(wkt=ds0.GetProjection()).GetAttrValue('AUTHORITY',1))
         del ds0
         if self.polynum==1:
             try:
                 #os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs EPSG:'+str(self.epsg)+' -r bilinear -overwrite'+ self.Wdem+' /tmp/demreproj.tif')
-                os.system('gdal_translate -a_srs EPSG:'+str(self.epsg)+' -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+str(self.Wdem)+' /tmp/demq.tif')
+                os.system('gdal_translate -a_srs '+self.epsg+' -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+str(self.Wdem)+' /tmp/demq.tif')
             except:
                 #print("Failure to set nodata values on raster dem")
                 QgsMessageLog.logMessage("Failure to save sized /tmp dem", tag="WoE")
@@ -93,7 +94,7 @@ class WoE:
                 raise ValueError  # Failure to save sized DEM, see 'WoE' Log Messages Panel
         else:
             try:
-                os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs EPSG:'+str(self.epsg)+' -r bilinear '+ self.Wdem+' /tmp/demreproj.tif')
+                os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ self.Wdem+' /tmp/demreproj.tif')
                 os.system('gdal_translate -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 /tmp/demreproj.tif /tmp/demxxx.tif')
             except:
                 #print("Failure to set nodata values on raster dem")
@@ -241,6 +242,7 @@ class WoE:
             #print v
             #print causexl,causexr,causeyb,causeyt
             #print self.xmin,self.xmax,self.ymin,self.ymax
+            QgsMessageLog.logMessage(self.extent, tag="WoE")
             if (causexl)>(self.xmin) or (causexr)<(self.xmax) or (causeyb)>(self.ymin) or (causeyt)<(self.ymax):
                 #print('Could not create output file')
                 QgsMessageLog.logMessage('Cause %s extension cannot satisfy selected extension'%v, tag="WoE")
@@ -271,7 +273,7 @@ class WoE:
             pathszcause=self.fold+'/sizedcause'+str(i)+'.tif'
             if self.polynum==1:
                 try:
-                    os.system('gdal_translate -a_srs EPSG:'+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ self.Wcause +' /tmp/causeq'+str(i)+'.tif')
+                    os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ self.Wcause +' /tmp/causeq'+str(i)+'.tif')
                 except:
                     #print("Failure to set nodata values on raster dem")
                     QgsMessageLog.logMessage("Failure to save sized /tmp input", tag="WoE")
@@ -289,7 +291,7 @@ class WoE:
                     raise ValueError  # Failure to save sized input, see 'PhysioClimate' Log Messages Panel
             else:
                 try:
-                    os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs EPSG:'+str(self.epsg)+' -r bilinear '+ self.Wcause+' /tmp/causereproj' +str(i)+'.tif')
+                    os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ self.Wcause+' /tmp/causereproj' +str(i)+'.tif')
                     os.system('gdal_translate -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + '/tmp/causereproj' +str(i)+'.tif /tmp/cause' +str(i)+'.tif')
                 except:
                     #print("Failure to set nodata values on raster dem")

@@ -40,7 +40,7 @@ SOURCES = \
 	__init__.py \
 	LSZ.py LSZ_dialog.py
 
-PLUGINNAME = LSZ
+PLUGINNAME = sz
 
 PY_FILES = \
 	__init__.py \
