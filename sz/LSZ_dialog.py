@@ -75,7 +75,7 @@ class modelDialog(QtWidgets.QDialog, FORM_CLASS):
 
         self.comboExtentChoiche = comboExtent(self)
         self.comboExtentChoiche.setObjectName("extent_choice")
-        self.gridLayout_2.addWidget(self.comboExtentChoiche, 38, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.comboExtentChoiche, 45, 2, 1, 1)
 
         # self.lineEdit100 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         # self.lineEdit100.setObjectName("lineEdit100")
@@ -84,7 +84,7 @@ class modelDialog(QtWidgets.QDialog, FORM_CLASS):
 
         self.crsChoice = QgsProjectionSelectionWidget()
         self.crsChoice.setObjectName("crs_choice")
-        self.gridLayout_2.addWidget(self.crsChoice, 53, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.crsChoice, 61, 2, 1, 1)
 
         self.comboExtentChoiche.setCurrentIndex(0)
         self.crsChoice.setCrs(QgsCoordinateReferenceSystem('EPSG:3857'))
@@ -98,28 +98,31 @@ class modelDialog(QtWidgets.QDialog, FORM_CLASS):
         self.checkBox.toggled.connect(self.mMapLayerComboBox.setEnabled)
 
         self.mMapLayerComboBox_4.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        self.mMapLayerComboBox_5.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        #self.mMapLayerComboBox_5.setFilters(QgsMapLayerProxyModel.RasterLayer)
 
         self.checkBox_6.setEnabled(True)
         self.checkBox_6.setChecked(True)
         self.mMapLayerComboBox_6.setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.checkBox_6.toggled.connect(self.mMapLayerComboBox_6.setEnabled)
-        self.mMapLayerComboBox_7.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        self.checkBox_6.toggled.connect(self.mMapLayerComboBox_7.setEnabled)
+        #self.mMapLayerComboBox_7.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.checkBox_6.toggled.connect(self.lineEdit_7.setEnabled)
+        self.checkBox_6.toggled.connect(self.pushButton_7.setEnabled)
 
         self.checkBox_8.setEnabled(True)
         self.checkBox_8.setChecked(True)
         self.mMapLayerComboBox_8.setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.checkBox_8.toggled.connect(self.mMapLayerComboBox_8.setEnabled)
-        self.mMapLayerComboBox_9.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        self.checkBox_8.toggled.connect(self.mMapLayerComboBox_9.setEnabled)
+        #self.mMapLayerComboBox_9.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.checkBox_8.toggled.connect(self.lineEdit_8.setEnabled)
+        self.checkBox_8.toggled.connect(self.pushButton_8.setEnabled)
 
         self.checkBox_10.setEnabled(True)
         self.checkBox_10.setChecked(True)
         self.mMapLayerComboBox_10.setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.checkBox_10.toggled.connect(self.mMapLayerComboBox_10.setEnabled)
-        self.mMapLayerComboBox_11.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        self.checkBox_10.toggled.connect(self.mMapLayerComboBox_11.setEnabled)
+        #self.mMapLayerComboBox_11.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.checkBox_10.toggled.connect(self.lineEdit_9.setEnabled)
+        self.checkBox_10.toggled.connect(self.pushButton_9.setEnabled)
 
         self.checkBox_2.setEnabled(True)
         #self.checkBox_2.setChecked(True)
