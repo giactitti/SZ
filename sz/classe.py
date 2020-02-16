@@ -156,7 +156,9 @@ class WoE:
             driver = self.ds.GetDriver()
             out_data = driver.Create(self.fold + '/inventorynxn.tif', self.xsize, self.ysize, 1, gdal.GDT_Float32)
             #########################
-            values=np.zeros((self.ysize,self.xsize),dtype='float32')
+            valuess=np.zeros((self.ysize,self.xsize),dtype='int16')
+            #QgsMessageLog.logMessage(str(self.ysize)+str(self.xsize), tag="WoE")
+
             #print 'ciao1'
             if out_data is None:
                 QgsMessageLog.logMessage("Could not create output file", tag="WoE")
@@ -169,14 +171,14 @@ class WoE:
                 #print max(NumPxl[:,1]),max(NumPxl[:,0]),'max'
                 #if NumPxl[i,1]<self.ysize and NumPxl[i,0]<self.xsize:
                 if XY[i,1]<self.ymax and XY[i,1]>self.ymin and XY[i,0]<self.xmax and XY[i,0]>self.xmin:
-                    values[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1.
-            dem_data = values.astype('float32')
+                    valuess[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
+            dem_datas = valuess.astype('float32')
             # idxinv=[]
             # idxinv=np.where(np.isnan(self.dem))
             # values[idxinv]=-9999
             # write the data to output file
             out_band = out_data.GetRasterBand(1)
-            out_band.WriteArray(dem_data, 0, 0)
+            out_band.WriteArray(dem_datas, 0, 0)
             # flush data to disk, set the NoData value and calculate stats
             out_band.FlushCache()
             #print ds.GetNoDataValue
@@ -185,17 +187,18 @@ class WoE:
             out_data.SetGeoTransform(self.ds.GetGeoTransform())
             out_data.SetProjection(self.ds.GetProjection())
             #################################dem
+
         except:
             QgsMessageLog.logMessage("Failure to save sized inventory", tag="WoE")
             raise ValueError  # Failure to save sized inventory, see 'WoE' Log Messages Panel
         finally:
-            del dem_data
+            del dem_datas
             del out_band
             ds9=None
         ###########################################load inventory
         self.catalog=np.array([])
-        self.catalog=values
-        del values
+        self.catalog=valuess
+        del valuess
         #ds4 = gdal.Open(self.fold + '/inventorynxn.tif')
         #if ds4 is None:#######verify if empty
         #    QgsMessageLog.logMessage("ERROR: can't open raster inventory", tag="WoE")
