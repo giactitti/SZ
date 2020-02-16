@@ -96,6 +96,9 @@ class WoE:
             try:
                 os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ self.Wdem+' /tmp/demreproj.tif')
                 os.system('gdal_translate -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 /tmp/demreproj.tif /tmp/demxxx.tif')
+
+                QgsMessageLog.logMessage('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ self.Wdem+' /tmp/demreproj.tif', tag="WoE")
+                QgsMessageLog.logMessage('gdal_translate -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 /tmp/demreproj.tif /tmp/demxxx.tif', tag="WoE")
             except:
                 #print("Failure to set nodata values on raster dem")
                 QgsMessageLog.logMessage("Failure to save sized dem", tag="WoE")

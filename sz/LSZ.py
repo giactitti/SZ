@@ -338,61 +338,100 @@ class model:
                 QgsMessageLog.logMessage('ERROR: Classes 1 classes cannot be empty', tag="WoE")
                 raise ValueError  # Cause 1 classes cannot be empty, see 'WoE' Log Messages Panel
             else:
-                self.test.Wcause1=self.dlg.mMapLayerComboBox_4
-                QgsMessageLog.logMessage(self.test.Wcause1, tag="WoE")
+                self.test.Wcause1a=self.dlg.mMapLayerComboBox_4.currentLayer().dataProvider().dataSourceUri()
+                if self.test.Wcause1a.rfind('|')==-1:
+                    self.test.Wcause1=self.test.Wcause1a[:]
+                else:
+                    self.test.Wcause1=self.test.Wcause1a[:self.test.Wcause1a.rfind('|')]
+                #QgsMessageLog.logMessage(self.test.Wcause1, tag="WoE")
                 self.test.classes1=self.dlg.lineEdit_6.text()
                 QgsMessageLog.logMessage(self.test.classes1, tag="WoE")
-            if self.dlg.checkBox_6==False:
+
+            if self.dlg.checkBox_6.isChecked()==False:
                 self.test.Wcause2=None
                 self.test.classes2=None
-            elif len(self.dlg.lineEdit_7.text())==0:
+            elif len(self.dlg.lineEdit_7.text())==0 and self.dlg.checkBox_6 == True:
                 QgsMessageLog.logMessage('ERROR: Classes 2 cannot be empty', tag="WoE")
                 raise ValueError  # inventory cannot be empty, see 'WoE' Log Messages Panel
             else:
-                self.test.Wcause2=self.dlg.mMapLayerComboBox_6
+                self.test.Wcause2a=self.dlg.mMapLayerComboBox_6.currentLayer().dataProvider().dataSourceUri()
+                if self.test.Wcause2a.rfind('|')==-1:
+                    self.test.Wcause2=self.test.Wcause2a[:]
+                else:
+                    self.test.Wcause2=self.test.Wcause2a[:self.test.Wcause2a.rfind('|')]
                 self.test.classes2=self.dlg.lineEdit_7.text()
-            if self.dlg.checkBox_8==False:
+
+            if self.dlg.checkBox_8.isChecked()==False:
                 self.test.Wcause3=None
                 self.test.classes3=None
-            elif len(self.dlg.lineEdit_8.text())==0:
+            elif len(self.dlg.lineEdit_8.text())==0 and self.dlg.checkBox_8 == True:
                 QgsMessageLog.logMessage('ERROR: Classes 3 cannot be empty', tag="WoE")
                 raise ValueError  # inventory cannot be empty, see 'WoE' Log Messages Panel
             else:
-                self.test.Wcause3=self.dlg.mMapLayerComboBox_8
+                self.test.Wcause3a=self.dlg.mMapLayerComboBox_8.currentLayer().dataProvider().dataSourceUri()
+                if self.test.Wcause3a.rfind('|')==-1:
+                    self.test.Wcause3=self.test.Wcause3a[:]
+                else:
+                    self.test.Wcause3=self.test.Wcause3a[:self.test.Wcause3a.rfind('|')]
                 self.test.classes3=self.dlg.lineEdit_8.text()
-            if self.dlg.checkBox_10==False:
+
+            if self.dlg.checkBox_10.isChecked()==False:
                 self.test.Wcause4=None
                 self.test.classes4=None
-            elif len(self.dlg.lineEdit_9.text())==0:
+            elif len(self.dlg.lineEdit_9.text())==0 and self.dlg.checkBox_10 == True:
                 QgsMessageLog.logMessage('ERROR: Classes 4 cannot be empty', tag="WoE")
                 raise ValueError  # inventory cannot be empty, see 'WoE' Log Messages Panel
             else:
-                self.test.Wcause4=self.dlg.mMapLayerComboBox_10
+                self.test.Wcause4a=self.dlg.mMapLayerComboBox_10.currentLayer().dataProvider().dataSourceUri()
+                if self.test.Wcause4a.rfind('|')==-1:
+                    self.test.Wcause4=self.test.Wcause4a[:]
+                else:
+                    self.test.Wcause4=self.test.Wcause4a[:self.test.Wcause4a.rfind('|')]
                 self.test.classes4=self.dlg.lineEdit_9.text()
-            if len(self.dlg.lineEdit_10.text())==0:
-                QgsMessageLog.logMessage('ERROR: inventory cannot be empty', tag="WoE")
-                raise ValueError  # inventory cannot be empty, see 'WoE' Log Messages Panel
+
+            # if len(self.dlg.lineEdit_10.text())==0:
+            #     QgsMessageLog.logMessage('ERROR: inventory cannot be empty', tag="WoE")
+            #     raise ValueError  # inventory cannot be empty, see 'WoE' Log Messages Panel
+            # else:
+            self.test.inventorya=self.dlg.mMapLayerComboBox_2.currentLayer().dataProvider().dataSourceUri()
+            if self.test.inventorya.rfind('|')==-1:
+                self.test.inventory=self.test.inventorya[:]
             else:
-                self.test.inventory=self.dlg.mMapLayerComboBox_3
+                self.test.inventory=self.test.inventorya[:self.test.inventorya.rfind('|')]
             # if len(self.dlg.lineEdit_11.text())==0:
             #     QgsMessageLog.logMessage('ERROR: dem cannot be empty', tag="WoE")
             #     raise ValueError  # dem cannot be empty, see 'WoE' Log Messages Panel
             # else:
-            self.test.Wdem=self.dlg.mMapLayerComboBox_3
+            self.test.Wdema=self.dlg.mMapLayerComboBox_3.currentLayer().dataProvider().dataSourceUri()
+            if self.test.Wdema.rfind('|')==-1:
+                self.test.Wdem=self.test.Wdema[:]
+            else:
+                self.test.Wdem=self.test.Wdema[:self.test.Wdema.rfind('|')]
+
+
             if len(self.dlg.lineEdit_5.text())==0:
                 QgsMessageLog.logMessage('ERROR: LSIout cannot be empty', tag="WoE")
                 raise ValueError  # LSIout cannot be empty, see 'WoE' Log Messages Panel
             else:
                 self.test.LSIout=self.dlg.lineEdit_5.text()
-            if self.dlg.checkBox_2==False:
+
+            if self.dlg.checkBox_2.isChecked()==False:
                 self.test.fold='/tmp'
+            elif len(self.dlg.lineEdit_16.text())==0 and self.dlg.checkBox_2.isChecked()==True:
+                QgsMessageLog.logMessage('ERROR: workfolder cannot be empty', tag="WoE")
+                raise ValueError  # workfolder cannot be empty, see 'WoE' Log Messages Panel
             else:
                 self.test.fold=self.dlg.lineEdit_16.text()
-            if self.dlg.checkBox.isChecked() == False:
-                self.test.poly=self.dlg.mMapLayerComboBox
-                self.test.polynum=0
-            else:
+
+            if self.dlg.checkBox.isChecked() == True:
+                self.test.polya=self.dlg.mMapLayerComboBox.currentLayer().dataProvider().dataSourceUri()
+                if self.test.polya.rfind('|')==-1:
+                    self.test.poly=self.test.polya[:]
+                else:
+                    self.test.poly=self.test.polya[:self.test.polya.rfind('|')]
                 self.test.polynum=1
+            else:
+                self.test.polynum=0
                 #self.test.poly=self.dlg.lineEdit_12.text()
             #xmin,ymin,xmax,ymax
             # self.test.xmax=round(self.dlg.doubleSpinBox_3.value(),2)
