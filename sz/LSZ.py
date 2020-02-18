@@ -25,25 +25,20 @@ from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
 
-# Initialize Qt resources from file resources.py
 from .resources import *
-# Import the code for the dialog
 from .LSZ_dialog import modelDialog
 import os.path
-
 ##############################
 import numpy as np
 from osgeo import gdal
 import sys
 import math
 import csv
-#sys.path.append('/home/irpi/.qgis2/python/plugins/WoE')
 from .classe import WoE
 from qgis.core import QgsMessageLog
 import scipy.misc as im
 import sys
 ##############################
-
 
 class model:
     """QGIS Plugin Implementation."""
@@ -73,11 +68,6 @@ class model:
 
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
-        #Create the dialog (after translation) and keep reference
-        #self.dlg = modelDialog()#WOEdialg
-        # if self.first_start == True:
-        #    self.first_start = False
-        #    self.dlg = modelDialog()
 
         # Declare instance attributes
         self.actions = []
@@ -203,23 +193,6 @@ class model:
             self.iface.removeToolBarIcon(action)
         # remove the toolbar
         del self.toolbar
-    #import input cause
-    # def select_input_file(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, 'Select input raster cause 1','', '*.tif')
-    #     self.dlg.lineEdit.setText(filename)
-    #
-    # def select_input2_file(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 2","", '*.tif')
-    #     self.dlg.lineEdit_2.setText(filename)
-    #
-    # def select_input3_file(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 3","", '*.tif')
-    #     self.dlg.lineEdit_3.setText(filename)
-    #
-    # def select_input4_file(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input raster cause 4","", '*.tif')
-    #     self.dlg.lineEdit_4.setText(filename)
-    # #import input cause txt
     def select_txt_file(self):
         filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 1","", '*.txt')
         self.dlg.lineEdit_6.setText(filename)
@@ -235,68 +208,25 @@ class model:
     def select_txt4_file(self):
         filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input classes cause 4","", '*.txt')
         self.dlg.lineEdit_9.setText(filename)
-    # ####inventory,dem,fold
-    # def select_input10_file(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input inventory","", '*.shp')
-    #     self.dlg.lineEdit_10.setText(filename)
-    #
-    # def select_input11_file(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select input DEM","", '*.tif')
-    #     self.dlg.lineEdit_11.setText(filename)
 
     def select_input16_file(self):
         filename= QFileDialog.getExistingDirectory(self.dlg, "Work folder","")
         self.dlg.lineEdit_16.setText(filename)
 
-    # def select_input12_file(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select polygon","", '*.shp')
-    #     self.dlg.lineEdit_12.setText(filename)
-
-    # def select_ext(self):
-    #     filename, _ = QFileDialog.getOpenFileName(self.dlg, "Select polygon","", '*.shp')
-    #     self.dlg.mExtentGroupBox.setText(filename)
-
-    #####ymax,xmin,ymin,xmax
-#    def select_ymax(self):
-#        filename = QFileDialog.getOpenFileName(self.dlg, "Select input inventory","", '*.tif')
-#        self.dlg.doubleSpinBox.setText(filename)
-
-#    def select_xmin(self):
-#        filename = QFileDialog.getOpenFileName(self.dlg, "Select input DEM","", '*.tif')
-#        self.dlg.doubleSpinBox2.setText(filename)
-
-#    def select_ymin(self):
-#        filename = QFileDialog.getExistingDirectory(self.dlg, "Work folder","")
-#        self.dlg.doubleSpinBox4.setText(filename)
-
-#    def select_xmax(self):
-#        filename = QFileDialog.getExistingDirectory(self.dlg, "Work folder","")
-#        self.dlg.doubleSpinBox3.setText(filename)
-
     #output file save
     def select_output_file(self):
         filename, _ = QFileDialog.getSaveFileName(self.dlg, "Select output raster ","", '*.tif')
+        if not QtCore.QFileInfo(filename).suffix():
+            filename += ".tif"
         self.dlg.lineEdit_5.setText(filename)
 
 
     def run(self):
         """Run method that performs all the real work"""
-
-        # Create the dialog with elements (after translation) and keep reference
-        # Only create GUI ONCE in callback, so that it will only load when the plugin is started
         if self.first_start == True:
             self.first_start = False
             self.dlg = modelDialog()
             ########################################
-            #input button
-            # self.dlg.lineEdit.clear()
-            # self.dlg.pushButton.clicked.connect(self.select_input_file)
-            # self.dlg.lineEdit_2.clear()
-            # self.dlg.pushButton_2.clicked.connect(self.select_input2_file)
-            # self.dlg.lineEdit_3.clear()
-            # self.dlg.pushButton_3.clicked.connect(self.select_input3_file)
-            # self.dlg.lineEdit_4.clear()
-            # self.dlg.pushButton_4.clicked.connect(self.select_input4_file)
             # #input txt classes
             self.dlg.lineEdit_6.clear()
             self.dlg.pushButton_6.clicked.connect(self.select_txt_file)
@@ -307,20 +237,11 @@ class model:
             self.dlg.lineEdit_9.clear()
             self.dlg.pushButton_9.clicked.connect(self.select_txt4_file)
             # #inventory,dem,fold
-            # self.dlg.lineEdit_10.clear()
-            # self.dlg.pushButton_10.clicked.connect(self.select_input10_file)
-            # self.dlg.lineEdit_11.clear()
-            # self.dlg.pushButton_11.clicked.connect(self.select_input11_file)
             self.dlg.lineEdit_16.clear()
             self.dlg.pushButton_12.clicked.connect(self.select_input16_file)
             #output button
             self.dlg.lineEdit_5.clear()
             self.dlg.pushButton_5.clicked.connect(self.select_output_file)
-            #boundary shp
-            #self.dlg.lineEdit_12.clear()
-            #self.dlg.pushButton_13.clicked.connect(self.select_input12_file)
-            #
-
         # show the dialog
         self.dlg.show()
         # Run the dialog event loop
@@ -329,10 +250,6 @@ class model:
         if result:
             # import class classe###################
             self.test = WoE()
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            # if len(self.dlg.lineEdit.text())==0:
-            #     QgsMessageLog.logMessage('ERROR: Cause 1 cannot be empty', tag="WoE")
             #     raise ValueError  # Cause 1 cannot be empty, see 'WoE' Log Messages Panel
             if len(self.dlg.lineEdit_6.text())==0:
                 QgsMessageLog.logMessage('ERROR: Classes 1 classes cannot be empty', tag="WoE")
@@ -389,25 +306,11 @@ class model:
                     self.test.Wcause4=self.test.Wcause4a[:self.test.Wcause4a.rfind('|')]
                 self.test.classes4=self.dlg.lineEdit_9.text()
 
-            # if len(self.dlg.lineEdit_10.text())==0:
-            #     QgsMessageLog.logMessage('ERROR: inventory cannot be empty', tag="WoE")
-            #     raise ValueError  # inventory cannot be empty, see 'WoE' Log Messages Panel
-            # else:
             self.test.inventorya=self.dlg.mMapLayerComboBox_2.currentLayer().dataProvider().dataSourceUri()
             if self.test.inventorya.rfind('|')==-1:
                 self.test.inventory=self.test.inventorya[:]
             else:
                 self.test.inventory=self.test.inventorya[:self.test.inventorya.rfind('|')]
-            # if len(self.dlg.lineEdit_11.text())==0:
-            #     QgsMessageLog.logMessage('ERROR: dem cannot be empty', tag="WoE")
-            #     raise ValueError  # dem cannot be empty, see 'WoE' Log Messages Panel
-            # else:
-            self.test.Wdema=self.dlg.mMapLayerComboBox_3.currentLayer().dataProvider().dataSourceUri()
-            if self.test.Wdema.rfind('|')==-1:
-                self.test.Wdem=self.test.Wdema[:]
-            else:
-                self.test.Wdem=self.test.Wdema[:self.test.Wdema.rfind('|')]
-
 
             if len(self.dlg.lineEdit_5.text())==0:
                 QgsMessageLog.logMessage('ERROR: LSIout cannot be empty', tag="WoE")
@@ -431,13 +334,8 @@ class model:
                     self.test.poly=self.test.polya[:self.test.polya.rfind('|')]
                 self.test.polynum=1
             else:
+                self.test.poly=None
                 self.test.polynum=0
-                #self.test.poly=self.dlg.lineEdit_12.text()
-            #xmin,ymin,xmax,ymax
-            # self.test.xmax=round(self.dlg.doubleSpinBox_3.value(),2)
-            # self.test.ymax=round(self.dlg.doubleSpinBox.value(),2)
-            # self.test.xmin=round(self.dlg.doubleSpinBox_2.value(),2)
-            # self.test.ymin=round(self.dlg.doubleSpinBox_4.value(),2)
             #xmin,ymin,xmax,ymax
             self.test.xmax=round(self.dlg.comboExtentChoiche.currentExtent().xMaximum(),2)
             self.test.ymax=round(self.dlg.comboExtentChoiche.currentExtent().yMaximum(),2)
@@ -452,3 +350,4 @@ class model:
             self.test.iter()
             self.test.sumWf()
             self.test.saveLSI()
+            QgsMessageLog.logMessage('Task completed', tag="WoE")

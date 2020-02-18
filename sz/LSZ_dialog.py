@@ -51,106 +51,76 @@ from qgis.core import Qgis, QgsFeedback, QgsGeometry, QgsWkbTypes, QgsRasterLaye
 from qgis.gui import QgsFileWidget, QgsMapTool, QgsRubberBand, QgsProjectionSelectionWidget
 from qgis.core import QgsProcessing
 
-#from .LSZ_dialog_base import Ui_WoEDialogBase
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.core import QgsProcessing
+from qgis.core import QgsProcessingAlgorithm
+from qgis.core import QgsProcessingMultiStepFeedback
+from qgis.core import QgsProcessingParameterExtent
+import processing
+from qgis import gui
 
-# This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'LSZ_dialog_base.ui'))
-
-# class modelDialog(QtWidgets.QDialog, FORM_CLASS):
-# guida= Ui_WoEDialogBase()
 
 class modelDialog(QtWidgets.QDialog, FORM_CLASS):
     closingPlugin = pyqtSignal()
     def __init__(self, parent=None):
         """Constructor."""
         super(modelDialog, self).__init__(parent)
-        # # Set up the user interface from Designer through FORM_CLASS.
-        # # After self.setupUi() you can access any designer object by doing
-        # # self.<objectname>, and you can use autoconnect slots - see
-        # # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
-        # # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
         self.iface = iface
 
         self.comboExtentChoiche = comboExtent(self)
         self.comboExtentChoiche.setObjectName("extent_choice")
-        self.gridLayout_2.addWidget(self.comboExtentChoiche, 45, 2, 1, 1)
-
-        # self.lineEdit100 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        # self.lineEdit100.setObjectName("lineEdit100")
-        # self.lineEdit100.setReadOnly(True)
-        # self.gridLayout_2.addWidget(self.lineEdit100, 68, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.comboExtentChoiche, 43, 2, 1, 1)
 
         self.crsChoice = QgsProjectionSelectionWidget()
         self.crsChoice.setObjectName("crs_choice")
-        self.gridLayout_2.addWidget(self.crsChoice, 61, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.crsChoice, 59, 2, 1, 1)
 
         self.comboExtentChoiche.setCurrentIndex(0)
         self.crsChoice.setCrs(QgsCoordinateReferenceSystem('EPSG:3857'))
 
         self.ext=self.comboExtentChoiche.currentExtent()
-        #self.lineEdit100.setText(str(self.ext.xMaximum())+','+str(self.ext.xMinimum())+','+str(self.ext.yMaximum())+','+str(self.ext.yMinimum()))
         self.mMapLayerComboBox_2.setFilters(QgsMapLayerProxyModel.PointLayer)
-        self.mMapLayerComboBox_3.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        #self.mMapLayerComboBox_2.enabledChange(True)
 
         self.checkBox.setEnabled(True)
         self.checkBox.setChecked(True)
         self.mMapLayerComboBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
         self.checkBox.toggled.connect(self.mMapLayerComboBox.setEnabled)
-        #self.mMapLayerComboBox.enabledChange(True)
-
 
         self.mMapLayerComboBox_4.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        #self.mMapLayerComboBox_4.enabledChange(True)
-
-        #self.mMapLayerComboBox_5.setFilters(QgsMapLayerProxyModel.RasterLayer)
 
         self.checkBox_6.setEnabled(True)
         self.checkBox_6.setChecked(True)
         self.mMapLayerComboBox_6.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        #self.mMapLayerComboBox_6.enabledChange(True)
 
         self.checkBox_6.toggled.connect(self.mMapLayerComboBox_6.setEnabled)
-        #self.mMapLayerComboBox_7.setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.checkBox_6.toggled.connect(self.lineEdit_7.setEnabled)
         self.checkBox_6.toggled.connect(self.pushButton_7.setEnabled)
 
         self.checkBox_8.setEnabled(True)
         self.checkBox_8.setChecked(True)
         self.mMapLayerComboBox_8.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        #self.mMapLayerComboBox_8.enabledChange(True)
 
         self.checkBox_8.toggled.connect(self.mMapLayerComboBox_8.setEnabled)
-        #self.mMapLayerComboBox_9.setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.checkBox_8.toggled.connect(self.lineEdit_8.setEnabled)
         self.checkBox_8.toggled.connect(self.pushButton_8.setEnabled)
 
         self.checkBox_10.setEnabled(True)
         self.checkBox_10.setChecked(True)
         self.mMapLayerComboBox_10.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        #self.mMapLayerComboBox_10.enabledChange(True)
 
         self.checkBox_10.toggled.connect(self.mMapLayerComboBox_10.setEnabled)
-        #self.mMapLayerComboBox_11.setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.checkBox_10.toggled.connect(self.lineEdit_9.setEnabled)
         self.checkBox_10.toggled.connect(self.pushButton_9.setEnabled)
 
         self.checkBox_2.setEnabled(True)
-        #self.checkBox_2.setChecked(True)
-        #self.lineEdit_16.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        #self.pushButton_12.setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.checkBox_2.setChecked(False)
         self.lineEdit_16.setEnabled(False)
         self.pushButton_12.setEnabled(False)
         self.checkBox_2.toggled.connect(self.lineEdit_16.setEnabled)
         self.checkBox_2.toggled.connect(self.pushButton_12.setEnabled)
-        #self.checkbox_2.toggled.connect(lambda checked: not checked and self.lineEdit_16.setChecked(False))
-
-
-
-
 
 class comboExtent(QtWidgets.QComboBox):
 
@@ -161,24 +131,11 @@ class comboExtent(QtWidgets.QComboBox):
         self.activated.connect(self.checkItem)
         self.addItem("CANVAS EXTENT",'C')
 
-    # def visibilityChangedAction(self, visible):
-    #     if not visible:
-    #         self.contextMapTool.hide()
-
-
-    # def before_computeRiskAction(self):
-    #     ce = self.comboExtentChoiche.currentExtent()
-
     def showPopup(self):
-
         self.clear()
-
         self.addItem("CANVAS EXTENT",'C')
-        self.addItem("SELECT EXTENT ON CANVAS",'S')
-
         for id,layer in QgsProject.instance().mapLayers().items():
             self.addItem("%s [%s]" % (layer.name(),layer.crs().authid()), layer)
-
         super(comboExtent, self).showPopup()
 
     def currentExtent(self):
@@ -193,7 +150,6 @@ class comboExtent(QtWidgets.QComboBox):
         self.contextMapTool.reset()
         if self.currentData() == 'S':
             self.iface.mapCanvas().setMapTool(self.contextMapTool)
-
 
 class selectExtentMapTool(QgsMapTool):
 
@@ -228,11 +184,9 @@ class selectExtentMapTool(QgsMapTool):
             x = event.pos().x()
             y = event.pos().y()
             releasedPoint = self.iface.mapCanvas().getCoordinateTransform().toMapCoordinates(x, y)
-            #self.contextShape.reset()
             self.pressed = False
             self.parentObj.selectedExtent = QgsRectangle(self.PressedPoint,releasedPoint)
             self.parentObj.iface.mapCanvas().setMapTool(None)
-            #print (self.parentObj.selectedExtent)
 
     def reset(self):
         self.contextShape.reset()

@@ -29,11 +29,10 @@ import csv
 from qgis.core import QgsMessageLog
 import processing
 import os
-#import scipy.misc as im
 import ogr
 
 class WoE:
-    def iter(self):########################control all functions
+    def iter(self):
         listcause=[]
         listclasses=[]
         if self.Wcause1==None:
@@ -56,90 +55,24 @@ class WoE:
         else:
             listcause.append(self.Wcause4)
             listclasses.append(self.classes4)
-        #########################################################################
+        #######################################################################
         countcause=len(listcause)######delete empty cause!!!!!!!!!!
         if countcause==0:#verify empty row input
             QgsMessageLog.logMessage('Select at least one cause', tag="WoE")
             raise ValueError  # Select at least one cause, see 'WoE' Log Messages Panel
-        #self.Wfs={}
         ####################################translate dem and inventory
-        self.newXNumPxl=np.round(abs(self.xmax-self.xmin)/(self.w)).astype(int)
-        self.newYNumPxl=np.round(abs(self.ymax-self.ymin)/(self.h)).astype(int)
+        self.newXNumPxl=(np.ceil(abs(self.xmax-self.xmin)/(self.w))-1).astype(int)
+        self.newYNumPxl=(np.ceil(abs(self.ymax-self.ymin)/(self.h))-1).astype(int)
+        self.xsize=self.newXNumPxl
+        self.ysize=self.newYNumPxl
+        self.shape=np.array([self.newXNumPxl,self.newYNumPxl])
         self.extent = "%s,%s,%s,%s" % (self.xmin, self.xmax, self.ymin, self.ymax)
         ##############
-        ds0 = gdal.Open(self.Wdem)
-        QgsMessageLog.logMessage((self.epsg), tag="WoE")
-        #self.epsg = int(osr.SpatialReference(wkt=ds0.GetProjection()).GetAttrValue('AUTHORITY',1))
-        del ds0
-        if self.polynum==1:
-            try:
-                #os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs EPSG:'+str(self.epsg)+' -r bilinear -overwrite'+ self.Wdem+' /tmp/demreproj.tif')
-                os.system('gdal_translate -a_srs '+self.epsg+' -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+str(self.Wdem)+' /tmp/demq.tif')
-            except:
-                #print("Failure to set nodata values on raster dem")
-                QgsMessageLog.logMessage("Failure to save sized /tmp dem", tag="WoE")
-                raise ValueError  # Failure to save sized DEM, see 'WoE' Log Messages Panel
-            try:
-                #os.system('ogr2ogr -t_srs EPSG:'+str(self.epsg)+' /tmp/poly.shp '+self.poly)
-
-                #processing.runalg('saga:clipgridwithpolygon', '/tmp/sizedemxxx.tif',self.poly,1,'/tmp/demxxx.tif')
-                #os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs EPSG:'+str(self.epsg)+' -r bilinear -cutline /tmp/poly.shp -co GEOTIFF_KEYS_FLAVOR=ESRI_PE -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 -overwrite -wo OPTIMIZE_SIZE=TRUE '+self.Wdem+' /tmp/demreproj.tif')
-                #processing.runalg('grass7:r.mask.vect', self.poly,'/tmp/demq.tif',None,None,False,self.extent,0.0,-1.0,0.0001,'/tmp/demxxx.tif')
-                #processing.run('saga:cliprasterwithpolygon', '/tmp/demq.tif',self.poly,'/tmp/demxxx.tif')
-                #processing.run('saga:cliprasterwithpolygon', {'INPUT': '/tmp/demq.tif','POLYGONS': self.poly,'OUTPUT': '/tmp/demxxx.tif'})
-                processing.run('gdal:cliprasterbymasklayer', {'INPUT': '/tmp/demq.tif','MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': '/tmp/demxxx.tif'})
-            except:
-                #print("Failure to set nodata values on raster dem")
-                QgsMessageLog.logMessage("Failure to save clipped dem", tag="WoE")
-                raise ValueError  # Failure to save sized DEM, see 'WoE' Log Messages Panel
-        else:
-            try:
-                os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ self.Wdem+' /tmp/demreproj.tif')
-                os.system('gdal_translate -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 /tmp/demreproj.tif /tmp/demxxx.tif')
-
-                QgsMessageLog.logMessage('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ self.Wdem+' /tmp/demreproj.tif', tag="WoE")
-                QgsMessageLog.logMessage('gdal_translate -of GTiff -ot Float32 -strict -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 /tmp/demreproj.tif /tmp/demxxx.tif', tag="WoE")
-            except:
-                #print("Failure to set nodata values on raster dem")
-                QgsMessageLog.logMessage("Failure to save sized dem", tag="WoE")
-                raise ValueError  # Failure to save sized DEM, see 'WoE' Log Messages Panel
-            #########################save dem -9999
-        try:
-            self.ds=None
-            self.ds = gdal.Open('/tmp/demxxx.tif')
-            if self.ds is None:
-                QgsMessageLog.logMessage("ERROR: can't open resized dem", tag="WoE")
-                raise ValueError  # can't open resized dem, see 'WoE' Log Messages Panel
-            self.xsize = self.ds.RasterXSize
-            self.ysize = self.ds.RasterYSize
-            gtdem= self.ds.GetGeoTransform()
-            NoDatadem=self.ds.GetRasterBand(1).GetNoDataValue()
-            #########################################nodata -9999
-            self.dem = np.array(self.ds.GetRasterBand(1).ReadAsArray()).astype('float32')
-            self.dem[self.dem==NoDatadem]= -9999
-            self.dem[np.isnan(self.dem)]= -9999
-            ###########################################save dem
-            driverdem = self.ds.GetDriver()
-            out_datadem = driverdem.Create(self.fold + '/demnxn.tif', self.xsize, self.ysize, 1, gdal.GDT_Float32)
-            dem_datadem = self.dem.astype('float32')
-            out_banddem = out_datadem.GetRasterBand(1)
-            out_banddem.WriteArray(dem_datadem, 0, 0)
-            out_banddem.FlushCache()
-            out_banddem.SetNoDataValue(-9999)
-            out_datadem.SetGeoTransform(self.ds.GetGeoTransform())
-            out_datadem.SetProjection(self.ds.GetProjection())
-            #os.system('gdal_translate -of GTiff -ot Float32 -strict -outsize ' + str(newXNumPxl) +' '+ str(newYNumPxl) +' -a_nodata -9999 -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + '/tmp/dem.tif' +' '+ self.fold + '/demnxn.tif')
-        except:
-            QgsMessageLog.logMessage("Failure to save sized dem", tag="WoE")
-            raise ValueError  # Failure to save sized dem, see 'WoE' Log Messages Panel
-        #finally:
-            #dem_datadem=np.array([])
-        ######################################load dem
-
+        self.origine=[self.xmin,self.ymax]
         #######################################inventory from shp to tif
         try:
             driverd = ogr.GetDriverByName('ESRI Shapefile')
-            ds9 = driverd.Open(self.inventory,0)
+            ds9 = driverd.Open(self.inventory)
             layer = ds9.GetLayer()
             for feature in layer:
                 geom = feature.GetGeometryRef()
@@ -148,94 +81,48 @@ class WoE:
                     XY=np.vstack((XY,xy))
                 except:
                     XY=xy
-            gtdem= self.ds.GetGeoTransform()
-            size=np.array([abs(gtdem[1]),abs(gtdem[5])])
-            OS=np.array([gtdem[0],gtdem[3]])
+            size=np.array([self.w,self.h])
+            OS=np.array([self.xmin,self.ymax])
             NumPxl=(np.ceil(abs((XY-OS)/size)-1))#from 0 first cell
-            NumPxl[NumPxl==-1.]=0
-            driver = self.ds.GetDriver()
-            out_data = driver.Create(self.fold + '/inventorynxn.tif', self.xsize, self.ysize, 1, gdal.GDT_Float32)
-            #########################
             valuess=np.zeros((self.ysize,self.xsize),dtype='int16')
-            #QgsMessageLog.logMessage(str(self.ysize)+str(self.xsize), tag="WoE")
-
-            #print 'ciao1'
-            if out_data is None:
-                QgsMessageLog.logMessage("Could not create output file", tag="WoE")
-                raise ValueError  # Could not create output file, see 'WoE' Log Messages Panel
-            # set values below nodata threshold to nodata
-            #print NumPxl
             for i in range(len(NumPxl)):
-                #print self.xsize,self.ysize,'xy'
-                #print NumPxl[i,1],NumPxl[i,0],'pxl'
-                #print max(NumPxl[:,1]),max(NumPxl[:,0]),'max'
-                #if NumPxl[i,1]<self.ysize and NumPxl[i,0]<self.xsize:
                 if XY[i,1]<self.ymax and XY[i,1]>self.ymin and XY[i,0]<self.xmax and XY[i,0]>self.xmin:
                     valuess[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
             dem_datas = valuess.astype('float32')
-            # idxinv=[]
-            # idxinv=np.where(np.isnan(self.dem))
-            # values[idxinv]=-9999
             # write the data to output file
-            out_band = out_data.GetRasterBand(1)
-            out_band.WriteArray(dem_datas, 0, 0)
-            # flush data to disk, set the NoData value and calculate stats
-            out_band.FlushCache()
-            #print ds.GetNoDataValue
-            out_band.SetNoDataValue(-9999)
-            # georeference the image and set the projection
-            out_data.SetGeoTransform(self.ds.GetGeoTransform())
-            out_data.SetProjection(self.ds.GetProjection())
+            rf1='/tmp/inv.tif'
+            dem_datas1=dem_datas#[::-1]
+            w1=self.w
+            h1=self.h*(-1)
+            self.array2raster(rf1,w1,h1,dem_datas1,self.origine)##########rasterize inventory
+            ##################################
+            IN1a=rf1
+            IN2a='/tmp/invq.tif'
+            IN3a=self.fold + '/inventorynxn.tif'
+            self.cut(IN1a,IN2a,IN3a)##########traslate inventory
+            self.ds15=None
+            self.ds15 = gdal.Open(IN3a)
+            if self.ds15 is None:#####################verify empty row input
+                QgsMessageLog.logMessage("ERROR: can't open raster input", tag="WoE")
+                raise ValueError  # can't open raster input, see 'WoE' Log Messages Panel
+            ap=self.ds15.GetRasterBand(1)
+            NoData=ap.GetNoDataValue()
+            invmatrix = np.array(ap.ReadAsArray()).astype('int16')
+            bands = self.ds15.RasterCount
+            if bands>1:#####################verify bands
+                QgsMessageLog.logMessage("ERROR: input rasters shoud be 1-band raster", tag="WoE")
+                raise ValueError  # input rasters shoud be 1-band raster, see 'WoE' Log Messages Panel
             #################################dem
-
         except:
             QgsMessageLog.logMessage("Failure to save sized inventory", tag="WoE")
             raise ValueError  # Failure to save sized inventory, see 'WoE' Log Messages Panel
-        finally:
-            del dem_datas
-            del out_band
-            ds9=None
         ###########################################load inventory
         self.catalog=np.array([])
-        self.catalog=valuess
+        self.catalog=invmatrix
         del valuess
-        #ds4 = gdal.Open(self.fold + '/inventorynxn.tif')
-        #if ds4 is None:#######verify if empty
-        #    QgsMessageLog.logMessage("ERROR: can't open raster inventory", tag="WoE")
-        #    print ERROR
-        #self.catalog = np.array(ds4.GetRasterBand(1).ReadAsArray())
-        #print self.catalog.dtype
-        #print self.catalog
-        #print np.min(self.catalog)
-        #print
-        #ds4=None
-        #######################################clean
-        idx4=[]
-        idx5=[]
-        idx4=np.where(np.isnan(self.catalog))
-        self.catalog[idx4]=-9999
-        idx5=np.where(np.isnan(self.dem))
-        self.dem[idx5]=-9999
-        ####################################################verify extension of cause and inventory
-        ########dem
-        ds6=gdal.Open(self.Wdem)
-        ds6x = ds6.RasterXSize
-        ds6y = ds6.RasterYSize
-        gt5= ds6.GetGeoTransform()
-        demxl = round(gt5[0],2)
-        demyt = round(gt5[3],2)
-        demxr = round(gt5[0] + gt5[1] * ds6x,2)
-        demyb = round(gt5[3] + gt5[5] * ds6y,2)
-        if self.w < gt5[1] or self.h < gt5[5]:
-                    #print('Could not create output file')
-                    QgsMessageLog.logMessage('Resolution requested is higher than DEM resolution', tag="WoE")
-                    raise ValueError  # Resolution requested is higher than DEM resolution, see 'WoE' Log Messages Panel
-        ds6=None
-
         ###########cause
         for v in range(countcause):
-            #print v
-            ds8=gdal.Open(listcause[v])
+            ds8=gdal.Open(listcause[v],0)
             ds8x = ds8.RasterXSize
             ds8y = ds8.RasterYSize
             gt= ds8.GetGeoTransform()
@@ -243,18 +130,11 @@ class WoE:
             causeyt = round(gt[3],2)
             causexr = round(gt[0] + gt[1] * ds8x,2)
             causeyb = round(gt[3] + gt[5] * ds8y,2)
-            #print gt
-            #print gt5
-            #print v
-            #print causexl,causexr,causeyb,causeyt
-            #print self.xmin,self.xmax,self.ymin,self.ymax
             QgsMessageLog.logMessage(self.extent, tag="WoE")
             if (causexl)>(self.xmin) or (causexr)<(self.xmax) or (causeyb)>(self.ymin) or (causeyt)<(self.ymax):
-                #print('Could not create output file')
                 QgsMessageLog.logMessage('Cause %s extension cannot satisfy selected extension'%v, tag="WoE")
                 raise ValueError  # Cause extension cannot satisfy selected extension, see 'WoE' Log Messages Panel
-            if self.w < gt[1] or self.h < gt[5]:
-                        #print('Could not create output file')
+            if self.w < abs(gt[1]) or self.h < abs(gt[5]):
                         QgsMessageLog.logMessage('Resolution requested is higher than Cause resolution', tag="WoE")
                         raise ValueError  # Resolution requested is higher than Cause resolution, see 'WoE' Log Messages Panel
             ds8=None
@@ -270,86 +150,54 @@ class WoE:
             self.Wcause=listcause[i]
             self.classes=listclasses[i]
             self.Wreclassed=None
-            #self.Weightedcause=None
-            #self.txtout=None
             self.Wreclassed=self.fold+'/reclassedcause'+str(i)+'.tif'
-            #self.Weightedcause=self.fold+'/weightedcause'+str(i)+'.tif'
-            #self.txtout=self.fold+'/Wftxt'+str(i)+'.txt'
             pathszcause=None
-            pathszcause=self.fold+'/sizedcause'+str(i)+'.tif'
-            if self.polynum==1:
-                try:
-                    os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ self.Wcause +' /tmp/causeq'+str(i)+'.tif')
-                except:
-                    #print("Failure to set nodata values on raster dem")
-                    QgsMessageLog.logMessage("Failure to save sized /tmp input", tag="WoE")
-                    raise ValueError  # Failure to save sized input, see 'PhysioClimate' Log Messages Panel
-                try:
-                    processing.run('gdal:cliprasterbymasklayer', {'INPUT': '/tmp/causeq'+str(i)+'.tif','MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': '/tmp/cause'+str(i)+'.tif'})
-                    #processing.run('saga:cliprasterwithpolygon', {'INPUT': '/tmp/causeq'+str(i)+'.tif','POLYGONS': self.poly,'OUTPUT': '/tmp/cause'+str(i)+'.tif'})
-                    #processing.run('saga:cliprasterwithpolygon', '/tmp/causeq'+str(i)+'.tif',self.poly,0,'/tmp/cause'+str(i)+'.tif')
-                    #processing.runalg('grass7:r.mask.vect', self.poly,'/tmp/causeq'+str(i)+'.tif',None,None,False,self.extent,0.0,-1.0,0.0001,'/tmp/cause'+str(i)+'.tif')
-                    #processing.runalg('saga:clipgridwithpolygon', '/tmp/clipcause'+str(i)+'.tif',self.poly,1,'/tmp/cause'+str(i)+'.tif')
-                    #os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs EPSG:'+str(self.epsg)+' -r bilinear -cutline /tmp/poly.shp -co GEOTIFF_KEYS_FLAVOR=ESRI_PE -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 -overwrite -wo OPTIMIZE_SIZE=TRUE '+ self.Wcause+ ' /tmp/clipcause' +str(i)+'.tif')
-                except:
-                    #print("Failure to set nodata values on raster dem")
-                    QgsMessageLog.logMessage("Failure to save clipped input", tag="WoE")
-                    raise ValueError  # Failure to save sized input, see 'PhysioClimate' Log Messages Panel
-            else:
-                try:
-                    os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ self.Wcause+' /tmp/causereproj' +str(i)+'.tif')
-                    os.system('gdal_translate -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + '/tmp/causereproj' +str(i)+'.tif /tmp/cause' +str(i)+'.tif')
-                except:
-                    #print("Failure to set nodata values on raster dem")
-                    QgsMessageLog.logMessage("Failure to save sized input", tag="WoE")
-                    raise ValueError  # Failure to save sized input, see 'PhysioClimate' Log Messages Panel
-            self.matrix=None
-            self.RasterInt=None
-            ###################
-            ds2=None
-            #print ds2
-            ds2 = gdal.Open('/tmp/cause'+str(i)+'.tif')
-            if ds2 is None:#####################verify empty row input
+            pathszcause=self.fold+'/Wsizedcause'+str(i)+'.tif'
+            self.ds2=None
+            self.ds2 = gdal.Open(self.Wcause)
+            if self.ds2 is None:#####################verify empty row input
                 QgsMessageLog.logMessage("ERROR: can't open raster input", tag="WoE")
                 raise ValueError  # can't open raster input, see 'WoE' Log Messages Panel
-            a=ds2.GetRasterBand(1)
+            gt=self.ds2.GetGeoTransform()
+            ww=gt[1]
+            hh=gt[5]
+            a=self.ds2.GetRasterBand(1)
             NoData=a.GetNoDataValue()
-            #print NoData
-            self.RasterInt = np.array(a.ReadAsArray()).astype('int16')
+            self.RasterInt = np.array(a.ReadAsArray()).astype('int64')
             self.matrix = np.array(a.ReadAsArray()).astype('float32')
-            bands = ds2.RasterCount
+            bands = self.ds2.RasterCount
             if bands>1:#####################verify bands
                 QgsMessageLog.logMessage("ERROR: input rasters shoud be 1-band raster", tag="WoE")
                 raise ValueError  # input rasters shoud be 1-band raster, see 'WoE' Log Messages Panel
-            #########################################nodata -9999, clean nan values
-            try:
-                idx6=[]
-                idx7=[]
-                idx6=np.where(np.isnan(self.matrix))
-                self.matrix[idx6]=-9999
-                self.RasterInt=self.matrix.astype('int64')
-                idx7=np.where(np.isnan(self.RasterInt))
-                self.RasterInt[idx7]=-9999
-                self.matrix[self.matrix==NoData]= -9999
-                self.RasterInt[self.matrix==NoData]= -9999
-                ###########################################
-                driverC = self.ds.GetDriver()
-                out_dataC = driverC.Create(pathszcause, self.xsize, self.ysize, 1, gdal.GDT_Float32)
-                dataC = self.matrix.astype('float32')
-                out_bandC = out_dataC.GetRasterBand(1)
-                out_bandC.WriteArray(dataC, 0, 0)
-                out_bandC.FlushCache()
-                out_bandC.SetNoDataValue(-9999)
-                out_dataC.SetGeoTransform(self.ds.GetGeoTransform())
-                out_dataC.SetProjection(self.ds.GetProjection())
-            except:
-                #print("Failure to set nodata values on raster Wf")
-                QgsMessageLog.logMessage("Failure to save sized cause", tag="WoE")
-                raise ValueError  # Failure to set nodata values on raster Wf, see 'WoE' Log Messages Panel
-                #print ERROR
             ################################################################
             self.classification()#############
-            self.save()####################
+            self.RasterInt1=self.RasterInt#[::-1]
+            np.size(self.RasterInt1)
+            self.array2raster(pathszcause,ww,hh,self.RasterInt1,self.origine)
+            ###################
+            IN2='/tmp/causeq'+str(i)+'.tif'
+            IN1=pathszcause
+            IN3=self.Wreclassed
+            self.cut(IN1,IN2,IN3)##############################
+            self.matrix=None
+            self.RasterInt=None
+            self.ds22=None
+            self.ds22 = gdal.Open(self.Wreclassed)
+            if self.ds22 is None:#####################verify empty row input
+                QgsMessageLog.logMessage("ERROR: can't open raster input", tag="WoE")
+                raise ValueError  # can't open raster input, see 'WoE' Log Messages Panel
+            gt=self.ds22.GetGeoTransform()
+            ww=gt[1]
+            hh=gt[5]
+            aa=self.ds22.GetRasterBand(1)
+            NoData=aa.GetNoDataValue()
+            self.RasterInt = np.array(aa.ReadAsArray()).astype('int64')
+            self.matrix = np.array(aa.ReadAsArray()).astype('float32')
+            bands = self.ds22.RasterCount
+            if bands>1:#####################verify bands
+                QgsMessageLog.logMessage("ERROR: input rasters shoud be 1-band raster", tag="WoE")
+                raise ValueError  # input rasters shoud be 1-band raster, see 'WoE' Log Messages Panel
+            ####################
             Causes[i]=self.RasterInt
             Mat[i]=self.matrix
             id[i]=np.where(self.RasterInt==-9999)
@@ -358,13 +206,14 @@ class WoE:
             self.RasterInt=None
             out_bandC=None
             dataC=None
-        self.Raster=np.array([])
-        self.Matrix=np.array([])
         for causa in range(countcause):
+            self.Raster=np.array([])
+            self.Matrix=np.array([])
             self.txtout=None
             self.Weightedcause=None
             self.txtout=self.fold+'/Wftxt'+str(causa)+'.txt'
             self.Weightedcause=self.fold+'/weightedcause'+str(causa)+'.tif'
+            self.ds10=None
             self.Raster=Causes[causa]
             self.Matrix=Mat[causa]
             for cc in range(countcause):
@@ -374,21 +223,13 @@ class WoE:
             self.Wfs[causa]=self.weighted
             self.saveWf()##################
             self.weighted=np.array([])
-        #self.dem=np.array([])
-        #self.catalog=np.array([])
-        #Causes={}
-        #Mat={}
-        #id={}
-        #self.Matrix=np.array([])
-        #self.Raster=np.array([])
-        del self.dem
+        #del self.dem
         del self.catalog
         del Causes
         del Mat
         del id
         del self.Matrix
         del self.Raster
-
 
     def classification(self):###############classify causes according to txt classes
         Min={}
@@ -398,10 +239,8 @@ class WoE:
             c = csv.reader(f,delimiter=' ')
             count=1
             for cond in c:
-                #print cond
                 b=np.array([])
                 b=np.asarray(cond)
-                #print b[0]
                 Min[count]=b[0].astype(int)
                 Max[count]=b[1].astype(int)
                 clas[count]=b[2].astype(int)
@@ -420,41 +259,6 @@ class WoE:
         for i in range(1,count):
             self.matrix[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i]
             self.RasterInt[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i].astype(int)
-        #print Max[key_max],Min[key_min]
-        #print self.matrix[(self.RasterInt<Min[key_min])]
-        #print self.RasterInt[self.RasterInt==1]
-            #print clas[i]#################àse una classe non viene consideraa allora vale nulla
-
-    def save(self):#############save causes reclassed
-        try:
-            out_data = None
-            # read in data from first band of input raster
-            cols = self.xsize
-            rows = self.ysize
-            # create single-band float32 output raster
-            driver = self.ds.GetDriver()
-            out_data = driver.Create(self.Wreclassed, cols, rows, 1, gdal.GDT_Float32)
-            if out_data is None:
-                QgsMessageLog.logMessage("Could not create output file", tag="WoE")
-                raise ValueError  # Could not create output file, see 'WoE' Log Messages Panel
-            # set values below nodata threshold to nodata
-            dem_data=np.array([])
-            dem_data = self.RasterInt
-            # write the data to output file
-            out_band = out_data.GetRasterBand(1)
-            out_band.WriteArray(dem_data, 0, 0)
-            # flush data to disk, set the NoData value and calculate stats
-            out_band.FlushCache()
-            out_band.SetNoDataValue(-9999)
-            # georeference the image and set the projection
-            out_data.SetGeoTransform(self.ds.GetGeoTransform())
-            out_data.SetProjection(self.ds.GetProjection())
-        except:
-            QgsMessageLog.logMessage("ERROR: failure to save reclassed cause", tag="WoE")
-            raise ValueError  # failure to save reclassed cause, see 'WoE' Log Messages Panel
-        finally:
-            del dem_data
-            del out_band
 
     def WoE(self):######################calculate W+,W-,Wf
         ################################################
@@ -464,8 +268,6 @@ class WoE:
         idx3=[]
         idx=np.where(np.isnan(self.catalog))
         self.catalog[idx]=-9999
-        idx1=np.where(np.isnan(self.dem))
-        self.dem[idx1]=-9999
         ###############################################
         product=np.array([])
         diff=np.array([])
@@ -475,8 +277,6 @@ class WoE:
         idx2=np.where(self.catalog==-9999)
         product[idx2]=-9999
         diff[idx2]=-9999
-        idx3=np.where(self.dem==-9999)
-        product[idx3]=-9999
         diff[idx3]=-9999
         product[self.Raster==-9999]=-9999
         diff[self.Raster==-9999]=-9999
@@ -497,7 +297,6 @@ class WoE:
         self.weighted=self.Matrix
         file = open(self.txtout,'w')#################save W+, W- and Wf
         for i in range(1,M+1):
-            #print i
             Npx1=None
             Npx2=None
             Npx3=None
@@ -506,7 +305,6 @@ class WoE:
             Wminus=None
             Wf=None
             var=[]
-            #print countProduct[i],countDiff[i]
             if countProduct[i]==0 or countDiff[i]==0:
                 Wf=0.
                 Wplus=0.
@@ -530,7 +328,7 @@ class WoE:
                         Npx4 = float(countDiff[iii])
                 Npx4 -= float(countDiff[i])
                 #W+ W-
-                #print Npx1,Npx2,Npx3,Npx4
+                #Npx1,Npx2,Npx3,Npx4
                 if Npx1==0 or Npx3==0:
                     Wplus=0.
                 else:
@@ -553,33 +351,14 @@ class WoE:
             # read in data from first band of input raster
             cols = self.xsize
             rows = self.ysize
-            # create single-band float32 output raster
-            driver = self.ds.GetDriver()
-            out_data = driver.Create(self.Weightedcause, cols, rows, 1, gdal.GDT_Float32)
-            if out_data is None:
-                #print('Could not create output file')
-                QgsMessageLog.logMessage("Could not create output file", tag="WoE")
-                raise ValueError  # Could not create output file, see 'WoE' Log Messages Panel
-            # set values below nodata threshold to nodata
-            dem_data=np.array([])
-            dem_data = self.weighted
-            # write the data to output file
-            out_band = out_data.GetRasterBand(1)
-            out_band.WriteArray(dem_data, 0, 0)
-            # flush data to disk, set the NoData value and calculate stats
-            out_band.FlushCache()
-            out_band.SetNoDataValue(-9999)
-            # georeference the image and set the projection
-            out_data.SetGeoTransform(self.ds.GetGeoTransform())
-            out_data.SetProjection(self.ds.GetProjection())
+            self.weighted1=self.weighted#[::-1]
+            w2=self.w
+            h2=self.h*(-1)
+            self.array2raster(self.Weightedcause,w2,h2,self.weighted1,self.origine)
+
         except:
-            #print("Failure to set nodata values on raster Wf")
             QgsMessageLog.logMessage("Failure to set nodata values on raster Wf", tag="WoE")
             raise ValueError  # Failure to set nodata values on raster Wf, see 'WoE' Log Messages Panel
-            #print ERROR
-        finally:
-            del dem_data
-            del out_band
 
     def sumWf(self):
         self.LSI=sum(self.Wfs.values())
@@ -596,34 +375,66 @@ class WoE:
 
     def saveLSI(self):
         try:
-            out_data = None
-            # read in data from first band of input raster
-            cols = self.xsize
-            rows = self.ysize
-            # create single-band float32 output raster
-            driver = self.ds.GetDriver()
-            out_data = driver.Create(self.LSIout, cols, rows, 1, gdal.GDT_Float32)
-            if out_data is None:
-                QgsMessageLog.logMessage("ERROR: Could not create output file", tag="WoE")
-                raise ValueError  # Could not create output file, see 'WoE' Log Messages Panel
-                #print ERROR
-            # set values below nodata threshold to nodata
-            dem_data = self.LSI
-            # write the data to output file
-            out_band = out_data.GetRasterBand(1)
-            out_band.WriteArray(dem_data, 0, 0)
-            # flush data to disk, set the NoData value and calculate stats
-            out_band.FlushCache()
-            out_band.SetNoDataValue(-9999)
-            # georeference the image and set the projection
-            out_data.SetGeoTransform(self.ds.GetGeoTransform())
-            out_data.SetProjection(self.ds.GetProjection())
+            w3=self.w
+            h3=self.h*(-1)
+            self.array2raster(self.LSIout,w3,h3,self.LSI,self.origine)
         except:
-            #print("Failure to set nodata values on raster LSI")
             QgsMessageLog.logMessage("ERROR: Failure to set nodata values on raster LSI", tag="WoE")
             raise ValueError  # Failure to set nodata values on raster LSI, see 'WoE' Log Messages Panel
-            #print ERROR
-        finally:
-            del out_data
-            del dem_data
-            del self.LSI
+
+    def array2raster(self,newRasterfn,pixelWidth,pixelHeight,array,oo):
+        cr=np.shape(array)
+        cols=cr[1]
+        rows=cr[0]
+        originX = oo[0]
+        originY = oo[1]
+        driver = gdal.GetDriverByName('GTiff')
+        outRaster = driver.Create(newRasterfn, int(cols), int(rows), 1, gdal.GDT_Float32)
+        outRaster.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))
+        outband = outRaster.GetRasterBand(1)
+        outband.SetNoDataValue(-9999)
+        outband.WriteArray(array)
+        outRasterSRS = osr.SpatialReference()
+        outRasterSRS.ImportFromEPSG(int(self.epsg[self.epsg.rfind(':')+1:]))
+        outRaster.SetProjection(outRasterSRS.ExportToWkt())
+        outband.FlushCache()
+
+    def cut(self,in1,in2,in3):
+        if self.polynum==1:
+            try:
+                if os.path.isfile(in2):
+                    os.remove(in2)
+
+                os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
+
+                print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
+            except:
+                QgsMessageLog.logMessage("Failure to save sized /tmp input", tag="WoE")
+                raise ValueError  # Failure to save sized /tmp input Log Messages Panel
+            try:
+                if os.path.isfile(in3):
+                    os.remove(in3)
+
+                processing.run('gdal:cliprasterbymasklayer', {'INPUT': in2,'MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'MULTITHREADING': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': in3})
+
+            except:
+                QgsMessageLog.logMessage("Failure to save clipped input", tag="WoE")
+                raise ValueError  # Failure to save sized /tmp input Log Messages Panel
+        else:
+            try:
+                if os.path.isfile(in3):
+                    os.remove(in3)
+                if os.path.isfile(in2):
+                    os.remove(in2)
+
+                os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
+
+                print('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
+
+                os.system('gdal_translate -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in2 +' '+in3)
+
+                print('gdal_translate -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in2 +' '+in3)
+
+            except:
+                QgsMessageLog.logMessage("Failure to save sized input", tag="WoE")
+                raise ValueError  # Failure to save sized /tmp input sized Log Messages Panel
