@@ -62,21 +62,29 @@ from qgis import gui
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'LSZ_dialog_base.ui'))
 
+
+
 class modelDialog(QtWidgets.QDialog, FORM_CLASS):
-    closingPlugin = pyqtSignal()
+    #closingPlugin = pyqtSignal()
+
     def __init__(self, parent=None):
         """Constructor."""
         super(modelDialog, self).__init__(parent)
         self.setupUi(self)
         self.iface = iface
 
+
+
+        #self.tabs.blockSignals(False) #now listen the currentChanged signal
+
+
         self.comboExtentChoiche = comboExtent(self)
         self.comboExtentChoiche.setObjectName("extent_choice")
-        self.gridLayout_2.addWidget(self.comboExtentChoiche, 43, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.comboExtentChoiche, 47, 2, 1, 1)
 
         self.crsChoice = QgsProjectionSelectionWidget()
         self.crsChoice.setObjectName("crs_choice")
-        self.gridLayout_2.addWidget(self.crsChoice, 59, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.crsChoice, 64, 2, 1, 1)
 
         self.comboExtentChoiche.setCurrentIndex(0)
         self.crsChoice.setCrs(QgsCoordinateReferenceSystem('EPSG:3857'))
@@ -121,6 +129,90 @@ class modelDialog(QtWidgets.QDialog, FORM_CLASS):
         self.pushButton_12.setEnabled(False)
         self.checkBox_2.toggled.connect(self.lineEdit_16.setEnabled)
         self.checkBox_2.toggled.connect(self.pushButton_12.setEnabled)
+
+        self.mMapLayerComboBox_3.setFilters(QgsMapLayerProxyModel.VectorLayer)
+        self.mMapLayerComboBox_5.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        self.mMapLayerComboBox_7.setFilters(QgsMapLayerProxyModel.VectorLayer)
+        self.mMapLayerComboBox_9.setFilters(QgsMapLayerProxyModel.VectorLayer)
+
+        self.indice=0
+        self.methodindice=0
+        #self.tabs = QTabWidget()
+        #self.tabs.blockSignals(True) #just for not showing the initial message
+        self.tabWidget.currentChanged.connect(self.onChange) #changed!
+
+        self.comboBox.addItem("Weight of Evidence",0)
+        self.comboBox.addItem("Frequency Ratio",1)
+        self.comboBox.currentIndexChanged.connect(self.selectionchange)
+
+        self.ii=0
+        self.groupBoxlista={}
+        self.mMapLayerComboBoxlista={}
+        self.pushButtonlista={}
+        self.lineEditlista={}
+        self.lineEditname={}
+        #self.pushButton_2.clicked.connect(self.clickMethod)
+        #self.second_start = True
+        self.checkBox_3.setEnabled(True)
+        self.checkBox_3.setChecked(False)
+        self.lineEdit_2.setEnabled(False)
+        self.pushButton_3.setEnabled(False)
+        self.checkBox_3.toggled.connect(self.lineEdit_2.setEnabled)
+        self.checkBox_3.toggled.connect(self.pushButton_3.setEnabled)
+
+    def clickMethod(self):
+        causenumber=self.ii
+        self.groupBoxlista[self.ii]='groupBox'+str(self.ii)
+        self.mMapLayerComboBoxlista[self.ii]='mMapLayerComboBox'+str(self.ii)
+        self.pushButtonlista[self.ii]='pushButton'+str(self.ii)
+        self.lineEditlista[self.ii]='lineEdit'+str(self.ii)
+        self.lineEditname[self.ii]='lineEdit'+str(self.ii)
+        self.groupBoxlista[self.ii] = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
+        self.groupBoxlista[self.ii].setAutoFillBackground(True)
+        self.groupBoxlista[self.ii].setFlat(False)
+        self.groupBoxlista[self.ii].setObjectName("groupBox"+str(self.ii))
+        self.gridLayout_n = QtWidgets.QGridLayout(self.groupBoxlista[self.ii])
+        self.gridLayout_n.setObjectName("gridLayout_"+str(self.ii))
+        self.pushButtonlista[self.ii] = QtWidgets.QPushButton(self.groupBoxlista[self.ii])
+        self.pushButtonlista[self.ii].setObjectName("pushButton_"+str(self.ii))
+        self.gridLayout_n.addWidget(self.pushButtonlista[self.ii], 2, 1, 1, 1)
+        self.lineEditlista[self.ii] = QtWidgets.QLineEdit(self.groupBoxlista[self.ii])
+        self.lineEditlista[self.ii].setObjectName("lineEdit_"+str(self.ii))
+        self.gridLayout_n.addWidget(self.lineEditlista[self.ii], 2, 0, 1, 1)
+        self.label_n = QtWidgets.QLabel(self.groupBoxlista[self.ii])
+        self.label_n.setObjectName("label_"+str(self.ii))
+        self.gridLayout_n.addWidget(self.label_n, 1, 0, 1, 1)
+        self.mMapLayerComboBoxlista[self.ii] = gui.QgsMapLayerComboBox(self.groupBoxlista[self.ii])
+        self.mMapLayerComboBoxlista[self.ii].setObjectName("mMapLayerComboBox_"+str(self.ii))
+        self.gridLayout_n.addWidget(self.mMapLayerComboBoxlista[self.ii], 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.groupBoxlista[self.ii], 23+self.ii, 2, 1, 1)
+        self.groupBoxlista[self.ii].setTitle(QtCore.QCoreApplication.translate("WoEDialogBase", "Cause "+str(self.ii+5)))
+        self.pushButtonlista[self.ii].setText(QtCore.QCoreApplication.translate("WoEDialogBase", "..."))
+        self.label_n.setText(QtCore.QCoreApplication.translate("WoEDialogBase", "Cause "+str(self.ii+5)+" classes"))
+        self.lineEditlista[self.ii].clear()
+        self.pushButtonlista[self.ii].clicked.connect(self.selecttxt)
+        self.ii+=1
+
+    def selecttxt(self):
+        filename, _ = QFileDialog.getOpenFileName(self, "Select input classes cause "+str(self.ii+4),"", '*.txt')
+        self.lineEditlista[self.ii-1].setText(filename)
+
+    def selectionchange(self,i):
+        self.methodindice=i
+        print("Items in the list are :")
+        for count in range(self.comboBox.count()):
+            print(self.comboBox.itemText(count))
+            print("Current index",i,"selection changed ",self.comboBox.currentText())
+
+    def onChange(self,i): #changed!
+        self.indice=i
+        QgsMessageLog.logMessage(str(i), tag="WoE")
+
+    def closeEvent(self, event):
+        #self.reset_form()
+        for y in range(self.ii):
+            self.groupBoxlista[y].setParent(None)
+        self.ii=0
 
 class comboExtent(QtWidgets.QComboBox):
 
@@ -190,3 +282,8 @@ class selectExtentMapTool(QgsMapTool):
 
     def reset(self):
         self.contextShape.reset()
+
+
+#class on():
+    # def onChange(self,i): #changed!
+    #     QtGui.QMessageBox.information(self,"Tab Index Changed!",           "Current Tab Index: %d" % i ) #changed!

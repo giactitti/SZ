@@ -55,8 +55,16 @@ class WoE:
         else:
             listcause.append(self.Wcause4)
             listclasses.append(self.classes4)
+        for y in range(self.ii):
+            if self.Wcauselista[y]==None:
+                pass
+            else:
+                listcause.append(self.Wcauselista[y])
+                listclasses.append(self.classeslista[y])
         #######################################################################
         countcause=len(listcause)######delete empty cause!!!!!!!!!!
+        print(listclasses)
+        print(listcause)
         if countcause==0:#verify empty row input
             QgsMessageLog.logMessage('Select at least one cause', tag="WoE")
             raise ValueError  # Select at least one cause, see 'WoE' Log Messages Panel
@@ -71,24 +79,7 @@ class WoE:
         self.origine=[self.xmin,self.ymax]
         #######################################inventory from shp to tif
         try:
-            driverd = ogr.GetDriverByName('ESRI Shapefile')
-            ds9 = driverd.Open(self.inventory)
-            layer = ds9.GetLayer()
-            for feature in layer:
-                geom = feature.GetGeometryRef()
-                xy=np.array([geom.GetX(),geom.GetY()])
-                try:
-                    XY=np.vstack((XY,xy))
-                except:
-                    XY=xy
-            size=np.array([self.w,self.h])
-            OS=np.array([self.xmin,self.ymax])
-            NumPxl=(np.ceil(abs((XY-OS)/size)-1))#from 0 first cell
-            valuess=np.zeros((self.ysize,self.xsize),dtype='int16')
-            for i in range(len(NumPxl)):
-                if XY[i,1]<self.ymax and XY[i,1]>self.ymin and XY[i,0]<self.xmax and XY[i,0]>self.xmin:
-                    valuess[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
-            dem_datas = valuess.astype('float32')
+            dem_datas=self.vector2array(self.inventory,self.w,self.h,self.xmin,self.ymin,self.xmax,self.ymax,self.xsize,self.ysize)
             # write the data to output file
             rf1='/tmp/inv.tif'
             dem_datas1=dem_datas#[::-1]
@@ -119,7 +110,7 @@ class WoE:
         ###########################################load inventory
         self.catalog=np.array([])
         self.catalog=invmatrix
-        del valuess
+        #del valuess
         ###########cause
         for v in range(countcause):
             ds8=gdal.Open(listcause[v],0)
@@ -219,7 +210,10 @@ class WoE:
             for cc in range(countcause):
                 self.Raster[id[cc]]=-9999
                 self.Matrix[id[cc]]=-9999
-            self.WoE()#################
+            if self.method==0:
+                self.WoE()#################
+            elif self.method==1:
+                self.FR()##############
             self.Wfs[causa]=self.weighted
             self.saveWf()##################
             self.weighted=np.array([])
@@ -309,8 +303,12 @@ class WoE:
                 Wf=0.
                 Wplus=0.
                 Wminus=0.
-                var=[i,Wplus,Wminus,Wf]
-                file.write('class,W+,W-,Wf: %s\n' %var)
+                Npx1='none'
+                Npx2='none'
+                Npx3='none'
+                Npx4='none'
+                var=[i,Npx1,Npx2,Npx3,Npx4,Wplus,Wminus,Wf]
+                file.write('class,Npx1,Npx2,Npx3,Npx4,W+,W-,Wf: %s\n' %var)
                 self.weighted[self.Raster == i] = 0.
             else:
                 Npx1=float(countProduct[i])
@@ -338,12 +336,95 @@ class WoE:
                 else:
                     Wminus=math.log((Npx2/(Npx1+Npx2))/(Npx4/(Npx3+Npx4)))
                 Wf=Wplus-Wminus
-                var=[i,Wplus,Wminus,Wf]
-                file.write('class,W+,W-,Wf: %s\n' %var)#################save W+, W- and Wf
+                var=[i,Npx1,Npx2,Npx3,Npx4,Wplus,Wminus,Wf]
+                file.write('class,Npx1,Npx2,Npx3,Npx4,W+,W-,Wf: %s\n' %var)#################save W+, W- and Wf
                 self.weighted[self.Raster == i] = Wf
         file.close()
         product=np.array([])
         diff=np.array([])
+
+    def FR(self):######################calculate
+        ################################################
+        idx=[]
+        idx1=[]
+        idx2=[]
+        idx3=[]
+        idx=np.where(np.isnan(self.catalog))
+        self.catalog[idx]=-9999
+        ###############################################
+        product=np.array([])
+        clas=np.array([])
+        product=(self.catalog*self.Raster)
+        clas=self.Raster
+        ######################################clean nan values
+        idx2=np.where(self.catalog==-9999)
+        product[idx2]=-9999
+        clas[idx2]=-9999
+        clas[idx3]=-9999
+        product[self.Raster==-9999]=-9999
+        clas[self.Raster==-9999]=-9999
+        ############################################
+        M=int(np.nanmax(self.Raster))
+        countProduct = {}
+        countClass = {}
+        for n in range(0,M+1):#verificare se n parte da 0 oppure da 1. e quindi stabilire il valore minimo delle classi ?????????????????????????
+            P=np.array([])
+            D=np.array([])
+            P=np.argwhere(product==float(n))
+            PP=float(len(P))
+            print(PP)
+            countProduct[n]=PP
+            D=np.argwhere(clas==n)
+            DD=float(len(D))
+            countClass[n]=DD
+        self.weighted=np.array([])
+        self.weighted=self.Matrix
+        file = open(self.txtout,'w')#################save W+, W- and Wf
+        for i in range(1,M+1):
+            Npx1=None
+            Npx2=None
+            Npx3=None
+            Npx4=None
+            Wplus=None
+            Wminus=None
+            Wf=None
+            var=[]
+            if countClass[i]==0:#if the class is not present or the landslides are not present then FR=0
+                Wf=0.
+                Npx1='none'
+                Npx2='none'
+                Npx3='none'
+                Npx4='none'
+                #Wplus=0.
+                #Wminus=0.
+                var=[i,Npx1,Npx2,Npx3,Npx4,Wf]
+                file.write('class,Npx1,Npx2,Npx3,Npx4,Wf: %s\n' %var)
+                self.weighted[self.Raster == i] = 0.
+            else:
+                Npx1=float(countProduct[i])
+                Npx2=float(countClass[i])
+                for ii in range(1,M+1):
+                    try:
+                        Npx3 += float(countProduct[ii])
+                    except:
+                        Npx3 = float(countProduct[ii])
+                for iii in range(1,M+1):
+                    try:
+                        Npx4 += float(countClass[iii])
+                    except:
+                        Npx4 = float(countClass[iii])
+                #W+ W-
+                #Npx1,Npx2,Npx3,Npx4
+                if Npx1==0:
+                    Wf=0.
+                else:
+                    Wf=(np.divide((np.divide(Npx1,Npx2)),(np.divide(Npx3,Npx4))))
+                var=[i,Npx1,Npx2,Npx3,Npx4,Wf]
+                file.write('class,Npx1,Npx2,Npx3,Npx4,Wf: %s\n' %var)#################save W+, W- and Wf
+                self.weighted[self.Raster == i] = float(Wf)
+        file.close()
+        product=np.array([])
+        clas=np.array([])
 
     def saveWf(self):
         try:
@@ -438,3 +519,36 @@ class WoE:
             except:
                 QgsMessageLog.logMessage("Failure to save sized input", tag="WoE")
                 raise ValueError  # Failure to save sized /tmp input sized Log Messages Panel
+
+
+    def vector2array(self,inn,pxlw,pxlh,xm,ym,xM,yM,sizex,sizey):
+        driverd = ogr.GetDriverByName('ESRI Shapefile')
+        ds9 = driverd.Open(inn)
+        layer = ds9.GetLayer()
+        count=0
+        for feature in layer:
+            count+=1
+            geom = feature.GetGeometryRef()
+            xy=np.array([geom.GetX(),geom.GetY()])
+            try:
+                XY=np.vstack((XY,xy))
+            except:
+                XY=xy
+        size=np.array([pxlw,pxlh])
+        OS=np.array([xm,yM])
+        NumPxl=(np.ceil(abs((XY-OS)/size)-1))#from 0 first cell
+        valuess=np.zeros((sizey,sizex),dtype='int16')
+        #print(XY)
+        #print(NumPxl)
+        #print(len(NumPxl))
+        #print(count)
+        try:
+            for i in range(count):
+                #print(i,'i')
+                if XY[i,1]<yM and XY[i,1]>ym and XY[i,0]<xM and XY[i,0]>xm:
+                    valuess[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
+        except:#only 1 feature
+            if XY[1]<yM and XY[1]>ym and XY[0]<xM and XY[0]>xm:
+                valuess[NumPxl[1].astype(int),NumPxl[0].astype(int)]=1
+        fuori = valuess.astype('float32')
+        return fuori
