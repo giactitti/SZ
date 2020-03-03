@@ -4,7 +4,7 @@ Your plugin model was created in:
     ./sz
 
 Your QGIS plugin directory is located at:
-    /home/jack/.local/share/QGIS/QGIS3/profiles/default/python/plugins
+    /home/user/.local/share/QGIS/QGIS3/profiles/default/python/plugins
 
 What's Next:
 
