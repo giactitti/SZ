@@ -6,9 +6,9 @@
 
 This repository contains the code for a plugin for [QGIS](https://www.qgis.org), called "Susceptibility Zoning plugin", aiming at creating maps of susceptibility to various natural forcing elements.
 
-The plugin has been developed with a main focus and application towards landslides susceptibility, but it can be applied to different types of natural events.
+The plugin has been developed with a main focus and application towards landslides susceptibility, but it can be applied to different types of natural events or inter-disciplinary applications.
 
-The plugin uses a two variables "Weight of Evidence" (WoE) model as the first statistical method to the calculation of susceptibility for a study area. Additional methods (_other examples to be added_) are being implemented and will be added to the plugin as soon they are ready.
+The plugin uses a bi-variate "Weight of Evidence" (WoE) model as the first statistical method to the calculation of susceptibility for a study area. Additional methods (_other examples to be added_) are being implemented and will be added to the plugin as soon they are ready.
 
 ## How it works
 
