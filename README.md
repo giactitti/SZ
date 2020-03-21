@@ -29,15 +29,15 @@ As the WoE, the Frequency Ratio (FR) is simple a bi-variate statistical method u
 
 ## The plugin interface
 
-![GUI table 1](./images/Screenshot1.png)
+<img src="https://github.com/CNR-IRPI-Padova/SZ/blob/master/images/Screenshot1.png" width="500">
 
 _Fig. 1 Input causes from the main GUI section of SZ plugin for susceptibility mapping._
 
-![GUI table 1](./images/Screenshot2.png)
+<img src="https://github.com/CNR-IRPI-Padova/SZ/blob/master/images/Screenshot2.png" width="500">
 
 _Fig. 2 Rest of input from the main GUI section of SZ plugin for Susceptibility mapping._
 
-![GUI table 2](./images/Screenshot3.png)
+<img src="https://github.com/CNR-IRPI-Padova/SZ/blob/master/images/Screenshot3.png" width="500">
 
 _Fig. 3 Input data for Susceptibility Index ROC based classification and validation._
 
