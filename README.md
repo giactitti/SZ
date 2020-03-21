@@ -29,6 +29,15 @@ As the WoE, the Frequency Ratio (FR) is simple a bi-variate statistical method u
 
 ## The plugin interface
 
+![GUI table 1](./images/Screenshot1.png)
+_Fig. 1 Input causes from the main GUI section of SZ plugin for susceptibility mapping._
+
+![GUI table 1](./images/Screenshot2.png)
+_Fig. 2 Rest of input from the main GUI section of SZ plugin for Susceptibility mapping._
+
+![GUI table 2](./images/Screenshot3.png)
+_Fig. 2 Input data for Susceptibility Index ROC based classification and validation._
+
 ## Applications
 
 _A few examples and references about Belt and Road Initiative_
