@@ -39,7 +39,7 @@ _Fig. 2 Rest of input from the main GUI section of SZ plugin for Susceptibility 
 
 ![GUI table 2](./images/Screenshot3.png)
 
-_Fig. 2 Input data for Susceptibility Index ROC based classification and validation._
+_Fig. 3 Input data for Susceptibility Index ROC based classification and validation._
 
 ## Applications
 
