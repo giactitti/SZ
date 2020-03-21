@@ -29,7 +29,7 @@ As the WoE, the Frequency Ratio (FR) is simple a bi-variate statistical method u
 
 ## The plugin interface
 
-![GUI table 1](./images/Screenshot1.png)
+![GUI table 1](./images/Screenshot1.png width=20)
 
 _Fig. 1 Input causes from the main GUI section of SZ plugin for susceptibility mapping._
 
