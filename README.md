@@ -35,9 +35,8 @@ FR = (Npx1/Npx2)/(ΣNpx1/ΣNpx2)
 
 SI = ΣFR
 
-Npx1 = The number of pixels containing the dependent variable in a class; Npx2 = Total number of pixels of each class in the whole area;
-ΣNpx1 = Total number of pixels containing the event; ΣNpx2 = Total number of pixels in the study area
-
+Npx1 = The number of pixels containing the dependent variable in a class; Npx2 = Total number of pixels of each class in the whole area; ΣNpx1 = Total number of pixels containing the event; ΣNpx2 = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
+ 
 ### Input data
 
 ### Classification of zones
@@ -65,5 +64,10 @@ _A few examples and references about Belt and Road Initiative_
 _A list of presentations made about the plugin and its applications_
 
 ## Collaborations
+
+## Credits
+
+Giacomo Titti and Alessandro Sarretta, Padova, March 2020
+
 
 ...
