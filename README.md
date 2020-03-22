@@ -22,7 +22,9 @@ The WoE is a bi-variate statistical method used for classification. It was intro
 The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative ones. The sum of W+ and W- and of all the independent variables considered provides the Susceptibility Index (SI).
 
 W+ = ln((Npx1/(Npx1+Npx2))/(Npx3/(Npx3+Npx4)))
+
 W- = ln((Npx2/(Npx1+Npx2))/(Npx4/(Npx3+Npx4)))
+
 SI = Σ(W+ - W-)
 
 Npx1 is the number of pixels representing the presence of both independent variable and dependent variable; Npx2 is the number of pixels representing the presence dependent variable and absence of independent variable; Npx3 is the number of pixels representing the presence of independent variable and absence of dependent variable; Npx4 is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
@@ -30,6 +32,7 @@ Npx1 is the number of pixels representing the presence of both independent varia
 As the WoE, the Frequency Ratio (FR) is a simple bi-variate statistical method often used for classification.
 
 FR = (Npx1/Npx2)/(ΣNpx1/ΣNpx2)
+
 SI = ΣFR
 
 Npx1 = The number of pixels containing the dependent variable in a class; Npx2 = Total number of pixels of each class in the whole area;
