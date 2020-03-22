@@ -17,16 +17,23 @@ The plugin uses a bi-variate "Weight of Evidence" (WoE) model and the Frequency 
 
 _Add a short description of WoE and a few useful reference links_
 
-The WoE is a bi-variate statistical method used for classification. It was introduced by by Agterberg et al. (1989) and then by Bonham-Carter et al. [(1988)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/SC010p0015) for spatial analysis. The model, evaluate the predictive power of an independent variable in relation to the dependent variable by the assignment of two weights (W+, W-).
+The WoE is a bi-variate statistical method used for classification. It was introduced by by Agterberg et al. (1989) and then by Bonham-Carter et al. [(1988)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/SC010p0015) for spatial analysis. The model, evaluate the predictive power of an independent variable (cause) in relation to the dependent variable (in our study landslide) by the assignment of two weights (W+, W-).
 
-The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative ones. The sum of W+ and W- and of all the independent variables considered provides the Susceptibility Index.
+The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative ones. The sum of W+ and W- and of all the independent variables considered provides the Susceptibility Index (SI).
+
+W+ = ln((Npx1/(Npx1+Npx2))/(Npx3/(Npx3+Npx4)))
+W- = ln((Npx2/(Npx1+Npx2))/(Npx4/(Npx3+Npx4)))
+SI = Σ(W+ - W-)
+
+Npx1 is the number of pixels representing the presence of both independent variable and dependent variable; Npx2 is the number of pixels representing the presence dependent variable and absence of independent variable; Npx3 is the number of pixels representing the presence of independent variable and absence of dependent variable; Npx4 is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
 
 As the WoE, the Frequency Ratio (FR) is a simple bi-variate statistical method often used for classification.
 
-(Npx1/Npx2)/(ΣNpx1/ΣNpx2)
+FR = (Npx1/Npx2)/(ΣNpx1/ΣNpx2)
+SI = ΣFR
 
-Npx1 = The number of pixels containing landslide in a class; Npx2 = Total number of pixels of each class in the whole area;
-ΣNpx1 = Total number of pixels containing landslide; ΣNpx2 = Total number of pixels in the study area
+Npx1 = The number of pixels containing the dependent variable in a class; Npx2 = Total number of pixels of each class in the whole area;
+ΣNpx1 = Total number of pixels containing the event; ΣNpx2 = Total number of pixels in the study area
 
 ### Input data
 
