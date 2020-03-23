@@ -59,7 +59,9 @@ _Fig. 3 Input data for Susceptibility Index ROC based classification and validat
 
 _A few examples and references about Belt and Road Initiative_
 
-https://idt2.regione.veneto.it/
+
+[Landslide inventory](./data/LandslidesInventory.shp) from [Geoportale Regione Veneto](https://idt2.regione.veneto.it/)
+
 
 ## Presentations
 
