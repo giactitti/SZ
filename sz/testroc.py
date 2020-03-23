@@ -78,127 +78,7 @@ class classifier:
         c={}
         ran=np.array([])
         summ=0
-        while count<self.Off:
-            weight={}
-            fpr={}
-            tpr={}
-            tresh={}
-            roc_auc={}
-            ran=np.array([])
-            FPR={}
-            TPR={}
-            mm=None
-            if count==0:
-                c={}
-                for pop in range(self.numOff):
-                    ran=np.sort(np.random.random_sample(nclasses-1)*(M-m))
-                    c[pop]=np.hstack((m,m+ran,M+1))
-                    #print c
-                    #print ciao
-            else:
-                c=file
-            for k in range(self.numOff):
-                #print weight,'weight'
-                weight[k]=self.y_scores
-                for i in range(nclasses):
-                    index=np.array([])
-                    index=np.where((self.scores>=c[k][i]) & (self.scores<c[k][i+1]))
-                    weight[k][index]=float(i+1)
-                #roc_auc[k]=roc_auc_score(self.y_true, weight[k], None)
-                ####################################
-                fpr = {}
-                tpr = {}
-                P=float(len(np.argwhere(self.y_true==1)))#tp+fn
-                N=float(len(np.argwhere(self.y_true==0)))#tn+fp
-                for i in range(nclasses):
-                    index=np.array([])
-                    fptp=np.array([])
-                    index=np.where(weight[k]==i+1)
-                    fptp=self.y_true[index]
-                    tp=float(len(np.argwhere(fptp==1)))
-                    fp=float(len(np.argwhere(fptp==0)))
-                    #print tp,':tp',fp,':fp'
-                    #print P,':P',N,':N'
-                    fpr[i]=float(fp/N)
-                    tpr[i]=float(tp/P)
-                    #FPR[i]=fpr[i]
-                    #TPR[i]=tpr[i]
-                FPR[k]=np.array([0,fpr[4],fpr[4]+fpr[3],fpr[4]+fpr[3]+fpr[2],fpr[4]+fpr[3]+fpr[2]+fpr[1],fpr[4]+fpr[3]+fpr[2]+fpr[1]+fpr[0]])
-                #TPR=np.array([tpr[0],tpr[0]+tpr[1],tpr[0]+tpr[1]+tpr[2],tpr[0]+tpr[1]+tpr[2]+tpr[3],tpr[0]+tpr[1]+tpr[2]+tpr[3]+tpr[4]])
-                TPR[k]=np.array([0,tpr[4],tpr[4]+tpr[3],tpr[4]+tpr[3]+tpr[2],tpr[4]+tpr[3]+tpr[2]+tpr[1],tpr[4]+tpr[3]+tpr[2]+tpr[1]+tpr[0]])
-                roc_auc[k]=np.trapz(TPR[k],FPR[k])
-            ###############################################
-            mm=None
-            mm=max(roc_auc, key=roc_auc.get)
-            #print fitness
-            if roc_auc[mm]>fitness:#############################fitness
-                fitness=None
-                classes=np.array([])
-                values=np.array([])
-                ttpr=np.array([])
-                ffpr=np.array([])
-                fitness=roc_auc[mm]
-                print(fitness,'AUC')
-                classes=c[mm]
-                values=weight[mm]
-                print(classes,'Classes')
-                ttpr=TPR[mm]
-                ffpr=FPR[mm]
-                summ=1
-            else:
-                summ+=1
-            ##########################PASS
-            #print(count)
-            count+=1
 
-            #if summ==4:
-                #count=self.Off
-                #print 'stop'
-            #########################GA
-            file={}
-            qq=0
-            for q in range(0,self.numOff,5):
-                #print q,'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'
-                a=np.array([])
-                bb=[]
-                cc=[]
-                cc=list(roc_auc.items())
-                #print(cc[q:q+5],'qui')
-                bb=dict(cc[q:q+5])
-                a=sorted(bb.items(), key=operator.itemgetter(1),reverse=True)
-                file[q]=c[a[0][0]]
-                #file[qq+1]=np.hstack((file[qq][0],np.random.uniform(file[qq][0],file[qq][1],1),file[qq][2:]))
-                #file[qq+2]=np.hstack((file[qq][:2],np.random.uniform(file[qq][1],file[qq][2],1),file[qq][3:]))
-                #file[qq+3]=np.hstack((file[qq][:3],np.random.uniform(file[qq][2],file[qq][3],1),file[qq][4:]))
-                #file[qq+4]=np.hstack((file[qq][:4],np.random.uniform(file[qq][3],file[qq][4],1),file[qq][5:]))
-                file[q+1]=np.hstack((file[q][0],file[q][0]+(np.sort(np.random.random_sample(1)*(file[q][2]-file[q][0]))),file[q][2:]))
-                file[q+2]=np.hstack((file[q][:2],file[q][1]+(np.sort(np.random.random_sample(1)*(file[q][3]-file[q][1]))),file[q][3:]))
-                file[q+3]=np.hstack((file[q][:3],file[q][2]+(np.sort(np.random.random_sample(1)*(file[q][4]-file[q][2]))),file[q][4:]))
-                file[q+4]=np.hstack((file[q][:4],file[q][3]+(np.sort(np.random.random_sample(1)*(file[q][5]-file[q][3]))),file[q][5:]))
-                #file[qq+1]=np.hstack((file[qq][:2],file[qq][2]+(np.sort(np.random.random_sample(3)*(file[qq][5]-file[qq][1]))),file[qq][5]))
-                #file[qq+2]=np.hstack((file[qq][0],file[qq][0]+(np.sort(np.random.random_sample(1)*(file[qq][2]-file[qq][0]))),file[qq][2],file[qq][2]+(np.sort(np.random.random_sample(2)*(file[qq][5]-file[qq][2]))),file[qq][5]))
-                #file[qq+3]=np.hstack((file[qq][0],file[qq][0]+(np.sort(np.random.random_sample(2)*(file[qq][3]-file[qq][0]))),file[qq][3],file[qq][3]+(np.sort(np.random.random_sample(1)*(file[qq][5]-file[qq][3]))),file[qq][5]))
-                #file[qq+4]=np.hstack((file[qq][0],file[qq][0]+(np.sort(np.random.random_sample(3)*(file[qq][4]-file[qq][0]))),file[qq][4:]))
-
-                #file[qq+1]=np.hstack((file[qq][:2],np.random.uniform(file[qq][1],file[qq][5],3),file[qq][5]))
-                #file[qq+2]=np.hstack((file[qq][0],np.random.uniform(file[qq][0],file[qq][2],1),file[qq][2],np.random.uniform(file[qq][2],file[qq][5],2),file[qq][5]))
-                #file[qq+3]=np.hstack((file[qq][0],np.random.uniform(file[qq][0],file[qq][3],2),file[qq][3],np.random.uniform(file[qq][3],file[qq][5],1),file[qq][5]))
-                #file[qq+4]=np.hstack((file[qq][0],np.random.uniform(file[qq][0],file[qq][4],3),file[qq][4:]))
-                qq+=5
-        self.fitness=None
-        self.tpr=np.array([])
-        self.fpr=np.array([])
-        self.values=np.array([])
-        self.classes=np.array([])
-        self.fitness=fitness
-        self.values=values
-        self.classes=classes
-        self.tpr=ttpr
-        self.fpr=ffpr
-        file = open(self.fold+'/plotROC.txt','w')#################save txt
-        var=[self.fpr,self.tpr]
-        file.write('false positive, true positive: %s\n' %var)#################save fp,tp
-        np.savetxt(self.out, self.classes, delimiter=',')
 
     def stamp(self):
         ################################figure
@@ -218,8 +98,8 @@ class classifier:
         plt.plot(fprv, tprv, color='green',lw=lw, label= 'Complete dataset (AUC = %0.2f)' %r)
         plt.plot(fprt, tprt, color='green',lw=lw, label= 'Complete dataset (AUC = %0.2f)' %r)
 
-        plt.plot(self.fpr, self.tpr, 'ro')
-        plt.plot(self.fpr, self.tpr, color='darkorange',lw=lw, label='Classified dataset (AUC = %0.2f)' % self.fitness)
+        #plt.plot(self.fpr, self.tpr, 'ro')
+        #plt.plot(self.fpr, self.tpr, color='darkorange',lw=lw, label='Classified dataset (AUC = %0.2f)' % self.fitness)
         plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
         plt.xlim([0.0, 1.0])
         plt.ylim([0.0, 1.05])
