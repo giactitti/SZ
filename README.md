@@ -59,6 +59,8 @@ _Fig. 3 Input data for Susceptibility Index ROC based classification and validat
 
 _A few examples and references about Belt and Road Initiative_
 
+https://idt2.regione.veneto.it/
+
 ## Presentations
 
 _A list of presentations made about the plugin and its applications_

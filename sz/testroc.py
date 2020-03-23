@@ -90,14 +90,12 @@ class classifier:
         #print self.fpr
         #print self.tpr
         #print self.classes
+        aucv=roc_auc_score(self.y_v, self.scores, None)
+        auct=roc_auc_score(self.y_t, self.scores, None)
         r=roc_auc_score(self.y_true, self.scores, None)
         plt.figure()
-        lw = 4
+        lw = 2
         plt.plot(fpr1, tpr1, color='green',lw=lw, label= 'Complete dataset (AUC = %0.2f)' %r)
-
-        plt.plot(fprv, tprv, color='green',lw=lw, label= 'Complete dataset (AUC = %0.2f)' %r)
-        plt.plot(fprt, tprt, color='green',lw=lw, label= 'Complete dataset (AUC = %0.2f)' %r)
-
         #plt.plot(self.fpr, self.tpr, 'ro')
         #plt.plot(self.fpr, self.tpr, color='darkorange',lw=lw, label='Classified dataset (AUC = %0.2f)' % self.fitness)
         plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
@@ -109,22 +107,17 @@ class classifier:
         plt.legend(loc="lower right")
         plt.show()
 
-    # def array2raster(self,newRasterfn,pixelWidth,pixelHeight,array,oo):
-    #     cr=np.shape(array)
-    #     cols=cr[1]
-    #     rows=cr[0]
-    #     originX = oo[0]
-    #     originY = oo[1]
-    #     driver = gdal.GetDriverByName('GTiff')
-    #     outRaster = driver.Create(newRasterfn, int(cols), int(rows), 1, gdal.GDT_Float32)
-    #     outRaster.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))
-    #     outband = outRaster.GetRasterBand(1)
-    #     outband.SetNoDataValue(-9999)
-    #     outband.WriteArray(array)
-    #     outRasterSRS = osr.SpatialReference()
-    #     outRasterSRS.ImportFromEPSG(int(self.epsg[self.epsg.rfind(':')+1:]))
-    #     outRaster.SetProjection(outRasterSRS.ExportToWkt())
-    #     outband.FlushCache()
+        plt.figure()
+        plt.plot(fprv, tprv, color='red',lw=lw, label= 'Prediction performance (AUC = %0.2f)' %aucv)
+        plt.plot(fprt, tprt, color='darkorange',lw=lw, label= 'Success performance (AUC = %0.2f)' %auct)
+        plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+        plt.xlim([0.0, 1.0])
+        plt.ylim([0.0, 1.05])
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title('ROC')
+        plt.legend(loc="lower right")
+        plt.show()
 
     def vector2array(self,inn,pxlw,pxlh,xm,ym,xM,yM,sizex,sizey):
         driverd = ogr.GetDriverByName('ESRI Shapefile')
