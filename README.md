@@ -10,6 +10,12 @@ The plugin has been developed with a main focus and application towards landslid
 
 The plugin uses a bi-variate "Weight of Evidence" (WoE) model and the Frequency Ratio (FR) as first statistical methods to evaluate the susceptibility of a study area to specific event. Additional methods (_other examples to be added_) are being implemented and will be added to the plugin as soon they are ready.
 
+## Installation
+
+The SZ plugin is not an official QGIS plugin.
+
+It can be installed on QGIS3.x downloading this repository, unzipping the file and copying the psarrett folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.4/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
+
 ## How it works
 
 
