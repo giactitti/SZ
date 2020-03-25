@@ -278,10 +278,9 @@ class model:
             self.dlg.pushButton_5.clicked.connect(self.select_output_file)
             ########################################
             #output button roc
-            self.dlg.lineEdit.clear()
-            self.dlg.pushButton.clicked.connect(self.select_output_fileroc)
-
-            self.dlg.pushButton_2.clicked.connect(self.dlg.clickMethod)
+            #self.dlg.lineEdit.clear()
+            #self.dlg.pushButton.clicked.connect(self.select_output_fileroc)
+            #self.dlg.pushButton_2.clicked.connect(self.dlg.clickMethod)
 
             self.dlg.lineEdit_2.clear()
             self.dlg.pushButton_3.clicked.connect(self.select_input3_file)
@@ -451,11 +450,11 @@ class model:
                 else:
                     self.rock.train=self.rock.traina[:self.rock.traina.rfind('|')]
 
-                if len(self.dlg.lineEdit.text())==0:
-                    QgsMessageLog.logMessage('ERROR: output cannot be empty', tag="ROC tool")
-                    raise ValueError  # output cannot be empty, see 'ROCclassy' Log Messages Panel
-                else:
-                    self.rock.out=self.dlg.lineEdit.text()
+                # if len(self.dlg.lineEdit.text())==0:
+                #     QgsMessageLog.logMessage('ERROR: output cannot be empty', tag="ROC tool")
+                #     raise ValueError  # output cannot be empty, see 'ROCclassy' Log Messages Panel
+                # else:
+                #     self.rock.out=self.dlg.lineEdit.text()
 
                 if self.dlg.checkBox_3.isChecked()==False:
                     self.rock.fold='/tmp'
