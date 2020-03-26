@@ -8,22 +8,36 @@ This repository contains the code for a plugin for [QGIS](https://www.qgis.org),
 
 The plugin has been developed with a main focus and application towards landslides susceptibility, but it can be applied to different types of natural events or inter-disciplinary applications.
 
-The plugin uses a bi-variate "Weight of Evidence" (WoE) model and the Frequency Ratio (FR) as first statistical methods to evaluate the susceptibility of a study area to specific event. Additional methods (_other examples to be added_) are being implemented and will be added to the plugin as soon they are ready.
+The plugin uses a bi-variate "Weight of Evidence" (WoE) model and the Frequency Ratio (FR) as first statistical methods to evaluate the susceptibility of a study area to specific events. Additional methods (_other examples to be added_) are being implemented and will be added to the plugin as soon they are ready.
 
 ## Installation
 
 The SZ plugin is not an official QGIS plugin.
 
-It can be installed on QGIS3.x downloading this repository, unzipping the file and copying the psarrett folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.4/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
+It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) copying the _SZ_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
 
-## How it works
+At the end you should have the SZ plugin in your list of installed plugins (in the mainbar _Plugins_ > _Manage and install plugins_)
+
+<img src="./images/plugin_install.png" width="500">
+<p>
+
+and available both from _Plugins_ > _SZ_ > _Susceptibility zoning_
+
+<img src="./images/menu.png" width="500">
+<p>
+
+or from the icon. <img src="./images/icon.png" width="120">
 
 
-### Weight of Evidence and Frequency Ratio
+
+## Statistical methods
+
+
+### Weight of Evidence
 
 _Add a short description of WoE and a few useful reference links_
 
-The WoE is a bi-variate statistical method used for classification. It was introduced by by Agterberg et al. (1989) and then by Bonham-Carter et al. [(1988)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/SC010p0015) for spatial analysis. The model, evaluate the predictive power of an independent variable (cause) in relation to the dependent variable (in our study landslide) by the assignment of two weights (W+, W-).
+The WoE is a bi-variate statistical method used for classification. It was introduced by by Agterberg et al. (1989) and then by [Bonham-Carter et al. (1988)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/SC010p0015) for spatial analysis. The model evaluates the predictive power of an independent variable (cause) in relation to the dependent variable (in our study, landslides) by the assignment of two weights (W+, W-).
 
 The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative ones. The sum of W+ and W- and of all the independent variables considered provides the Susceptibility Index (SI).
 
@@ -33,7 +47,9 @@ W- = ln((Npx2/(Npx1+Npx2))/(Npx4/(Npx3+Npx4)))
 
 SI = Σ(W+ - W-)
 
-Npx1 is the number of pixels representing the presence of both independent variable and dependent variable; Npx2 is the number of pixels representing the presence dependent variable and absence of independent variable; Npx3 is the number of pixels representing the presence of independent variable and absence of dependent variable; Npx4 is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
+Npx1 is the number of pixels representing the presence of both independent variable and dependent variable; Npx2 is the number of pixels representing the presence of dependent variable and absence of independent variable; Npx3 is the number of pixels representing the presence of independent variable and absence of dependent variable; Npx4 is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
+
+### Frequency Ratio
 
 As the WoE, the Frequency Ratio (FR) is a simple bi-variate statistical method often used for classification.
 
@@ -42,22 +58,47 @@ FR = (Npx1/Npx2)/(ΣNpx1/ΣNpx2)
 SI = ΣFR
 
 Npx1 = The number of pixels containing the dependent variable in a class; Npx2 = Total number of pixels of each class in the whole area; ΣNpx1 = Total number of pixels containing the event; ΣNpx2 = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
- 
+
+## Usage
+
+As an example on how to use the plugin, you can access a test QGIS project and some data in the [data](https://github.com/CNR-IRPI-Padova/SZ/tree/master/data) folder.
+
+Open the _test.qgz_ project in your QGIS and you'll see some data located in an area of the Veneto region (Italy).
+
+<img src="./images/test_qgz.png" width="500">
+
 ### Input data
+
+* LandslidesInventory is ...
+* LandslideValidation is ...
+* LandslideTraining is ...
+* poly is ...
+* dem is ...
+* slope is ...
 
 ### Classification of zones
 
+In the _data_ folder there are also 2 text files (_demclasses.txt_ and _slopeclasses.txt_) providing classification of zones for the two causes (dem and slope1).
+
 ## The plugin interface
 
-<img src="https://github.com/CNR-IRPI-Padova/SZ/blob/master/images/Screenshot1.png" width="500">
+When you start the plugin (through menu or icon), the interface shows you two main tabs (_Susceptibility Zoning_ and _ROC tool_).
+
+The _Susceptibility Zoning_ tab allows you to set input data, parameters and output file and run the classification, while the _ROC tool_ allows you to create a [ROC curve](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) graphic.
+
+### Susceptibility Zoning
+
+<img src="./images/interface_sz1.png" width="500">
 
 _Fig. 1 Input causes from the main GUI section of SZ plugin for susceptibility mapping._
 
-<img src="https://github.com/CNR-IRPI-Padova/SZ/blob/master/images/Screenshot2.png" width="500">
+<img src="./images/Screenshot2.png" width="500">
 
 _Fig. 2 Rest of input from the main GUI section of SZ plugin for Susceptibility mapping._
 
-<img src="https://github.com/CNR-IRPI-Padova/SZ/blob/master/images/Screenshot3.png" width="500">
+### ROC tool
+
+<img src="./images/Screenshot3.png" width="500">
 
 _Fig. 3 Input data for Susceptibility Index ROC based classification and validation._
 
