@@ -251,8 +251,13 @@ class WoE:
         self.matrix[(self.RasterInt>Max[key_max])]=-9999
         self.RasterInt[(self.RasterInt>Max[key_max])]=-9999
         for i in range(1,count):
-            self.matrix[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i]
-            self.RasterInt[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i].astype(int)
+            #self.matrix[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i]
+            multindex[i]=np.where((self.RasterInt>=Min[i])&(self.RasterInt<=Max[i]))
+            multindexInt[i]=np.where((self.RasterInt>=Min[i])&(self.RasterInt<=Max[i]))
+            #self.RasterInt[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i].astype(int)
+        for i in range(1,count):
+            self.matrix[multindex[i]]=clas[i]
+            self.RasterInt[multindexInt[i]]=clas[i].astype(int)
 
     def WoE(self):######################calculate W+,W-,Wf
         ################################################
