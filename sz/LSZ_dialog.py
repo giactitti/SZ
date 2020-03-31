@@ -184,6 +184,7 @@ class modelDialog(QtWidgets.QDialog, FORM_CLASS):
         self.gridLayout_n.addWidget(self.label_n, 1, 0, 1, 1)
         self.mMapLayerComboBoxlista[self.ii] = gui.QgsMapLayerComboBox(self.groupBoxlista[self.ii])
         self.mMapLayerComboBoxlista[self.ii].setObjectName("mMapLayerComboBox_"+str(self.ii))
+        self.mMapLayerComboBoxlista[self.ii].setFilters(QgsMapLayerProxyModel.RasterLayer)
         self.gridLayout_n.addWidget(self.mMapLayerComboBoxlista[self.ii], 0, 0, 1, 1)
         self.gridLayout_2.addWidget(self.groupBoxlista[self.ii], 23+self.ii, 2, 1, 1)
         self.groupBoxlista[self.ii].setTitle(QtCore.QCoreApplication.translate("WoEDialogBase", "Cause "+str(self.ii+5)))
