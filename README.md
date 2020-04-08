@@ -39,6 +39,8 @@ The WoE is a bi-variate statistical method used for classification. It was intro
 
 The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative one. The sum of _W+_ and _W_- and of all the independent variables considered provides the Susceptibility Index (SI).
 
+<br>
+
 <img src="https://latex.codecogs.com/svg.latex?W&plus;&space;=&space;ln&space;\frac{Np_{x1}/(Np_{x1}&plus;Np_{x2})}{Np_{x3}/(Np_{x3}&plus;Np_{x4})}" title="W+ = ln \frac{Np_{x1}/(Np_{x1}+Np_{x2})}{Np_{x3}/(Np_{x3}+Np_{x4})}" />
 
 <br>
