@@ -39,30 +39,34 @@ The WoE is a bi-variate statistical method used for classification. It was intro
 
 The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative one. The sum of _W+_ and _W_- and of all the independent variables considered provides the Susceptibility Index (SI).
 
-<img src="./images/eq1.svg" width="300">
+<img src="./images/eq1.svg">
 <!-- W+ = ln \frac{Np_{x1}/(Np_{x1}+Np_{x2})}{Np_{x3}/(Np_{x3}+Np_{x4})} -->
 
 <br>
 
-<img src="./images/eq2.svg" width="200">
+<img src="./images/eq2.svg">
 <!-- W- = ln \frac{\frac{Np_{x2}}{Np_{x1}+Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}+Np_{x4}}} -->
 
 <br>
 
-<img src="./images/eq3.svg" width="200">
+<img src="./images/eq3.svg">
 <!-- SI = \sum (W_{+} - W_{-}) -->
 
-Np</sub>(x1) is the number of pixels representing the presence of both independent variable and dependent variable; _Npx2_ is the number of pixels representing the presence of dependent variable and absence of independent variable; _Npx3_ is the number of pixels representing the presence of independent variable and absence of dependent variable; _Npx4_ is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
+_Np<sub>x1</sub>_ is the number of pixels representing the presence of both independent variable and dependent variable; _Np<sub>x2</sub>_ is the number of pixels representing the presence of dependent variable and absence of independent variable; _Np<sub>x3</sub>_ is the number of pixels representing the presence of independent variable and absence of dependent variable; _Np<sub>x4</sub>_ is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
 
 ### Frequency Ratio
 
 As the WoE, the Frequency Ratio (FR) is a simple bi-variate statistical method often used for classification.
 
-_FR = (Npx1/Npx2)/(ΣNpx1/ΣNpx2)_
+<img src="./images/eq4.svg">
+<!-- FR = \frac{Np_{x1}/Np_{x2}}{\sum Np_{x1}/ \sum Np_{x2}} -->
 
-_SI = ΣFR_
+<br>
 
-_Npx1_ = The number of pixels containing the dependent variable in a class; _Npx2_ = Total number of pixels of each class in the whole area; _ΣNpx1_ = Total number of pixels containing the event; _ΣNpx2_ = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
+<img src="./images/eq5.svg">
+<!-- SI = \sum FR -->
+
+_Np<sub>x1</sub>_ = The number of pixels containing the dependent variable in a class; _Np<sub>x2<sub>_ = Total number of pixels of each class in the whole area; _ΣNpx1_ = Total number of pixels containing the event; _ΣNpx2_ = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
 
 ## Usage
 
