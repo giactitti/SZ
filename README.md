@@ -52,7 +52,7 @@ The positive weight defines that the independent variable is favorable to landsl
 <img src="./images/eq3.svg" width="200">
 <!-- SI = \sum (W_{+} - W_{-}) -->
 
-_Npx1_ is the number of pixels representing the presence of both independent variable and dependent variable; _Npx2_ is the number of pixels representing the presence of dependent variable and absence of independent variable; _Npx3_ is the number of pixels representing the presence of independent variable and absence of dependent variable; _Npx4_ is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
+Np</sub>(x1) is the number of pixels representing the presence of both independent variable and dependent variable; _Npx2_ is the number of pixels representing the presence of dependent variable and absence of independent variable; _Npx3_ is the number of pixels representing the presence of independent variable and absence of dependent variable; _Npx4_ is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
 
 ### Frequency Ratio
 
