@@ -39,17 +39,18 @@ The WoE is a bi-variate statistical method used for classification. It was intro
 
 The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative one. The sum of _W+_ and _W_- and of all the independent variables considered provides the Susceptibility Index (SI).
 
-<br>
-
-<img src="https://latex.codecogs.com/svg.latex?W&plus;&space;=&space;ln&space;\frac{Np_{x1}/(Np_{x1}&plus;Np_{x2})}{Np_{x3}/(Np_{x3}&plus;Np_{x4})}" title="W+ = ln \frac{Np_{x1}/(Np_{x1}+Np_{x2})}{Np_{x3}/(Np_{x3}+Np_{x4})}" />
-
-<br>
-
-<img src="https://latex.codecogs.com/svg.latex?W-&space;=&space;ln&space;\frac{\frac{Np_{x2}}{Np_{x1}&plus;Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}&plus;Np_{x4}}}" title="W- = ln \frac{\frac{Np_{x2}}{Np_{x1}+Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}+Np_{x4}}}" />
+<img src="./images/eq1.svg" width="300">
+<!-- W+ = ln \frac{Np_{x1}/(Np_{x1}+Np_{x2})}{Np_{x3}/(Np_{x3}+Np_{x4})} -->
 
 <br>
 
-<img src="https://latex.codecogs.com/svg.latex?SI&space;=&space;\sum&space;(W_{&plus;}&space;-&space;W_{-})" title="SI = \sum (W_{+} - W_{-})" />
+<img src="./images/eq2.svg" width="200">
+<!-- W- = ln \frac{\frac{Np_{x2}}{Np_{x1}+Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}+Np_{x4}}} -->
+
+<br>
+
+<img src="./images/eq3.svg" width="200">
+<!-- SI = \sum (W_{+} - W_{-}) -->
 
 _Npx1_ is the number of pixels representing the presence of both independent variable and dependent variable; _Npx2_ is the number of pixels representing the presence of dependent variable and absence of independent variable; _Npx3_ is the number of pixels representing the presence of independent variable and absence of dependent variable; _Npx4_ is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
 
