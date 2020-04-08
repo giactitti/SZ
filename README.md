@@ -8,13 +8,13 @@ This repository contains the code for a plugin for [QGIS](https://www.qgis.org),
 
 The plugin has been developed with a main focus and application towards landslides susceptibility, but it can be applied to different types of natural events or inter-disciplinary applications.
 
-The plugin uses a bi-variate "Weight of Evidence" (WoE) model and the Frequency Ratio (FR) as first statistical methods to evaluate the susceptibility of a study area to specific events. Additional methods (_other examples to be added_) are being implemented and will be added to the plugin as soon they are ready.
+The plugin uses a bi-variate "Weight of Evidence" (WoE) model and the Frequency Ratio (FR) as first statistical methods to evaluate the susceptibility of a study area to specific events. Additional methods are being implemented and will be added to the plugin as soon they are ready.
 
 ## Installation
 
 The SZ plugin is not an official QGIS plugin.
 
-It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) copying the _SZ_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
+It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) and copying the _SZ_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
 
 At the end you should have the SZ plugin in your list of installed plugins (in the mainbar _Plugins_ > _Manage and install plugins_)
 
@@ -35,29 +35,29 @@ or from the icon. <img src="./images/icon.png" width="120">
 
 ### Weight of Evidence
 
-_Add a short description of WoE and a few useful reference links_
+The WoE is a bi-variate statistical method used for classification. It was introduced by Agterberg et al. (1989) and then by [Bonham-Carter et al. (1988)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/SC010p0015) for spatial analysis. The model evaluates the predictive power of an independent variable (cause) in relation to the dependent variable (in our study, landslides) by the assignment of two weights (_W+_, _W-_).
 
-The WoE is a bi-variate statistical method used for classification. It was introduced by by Agterberg et al. (1989) and then by [Bonham-Carter et al. (1988)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/SC010p0015) for spatial analysis. The model evaluates the predictive power of an independent variable (cause) in relation to the dependent variable (in our study, landslides) by the assignment of two weights (W+, W-).
+The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative one. The sum of _W+_ and _W_- and of all the independent variables considered provides the Susceptibility Index (SI).
 
-The positive weight defines that the independent variable is favorable to landslide occurrence; on the contrary the negative ones. The sum of W+ and W- and of all the independent variables considered provides the Susceptibility Index (SI).
+<img src="https://latex.codecogs.com/svg.latex?W&plus;&space;=&space;ln&space;\frac{Np_{x1}/(Np_{x1}&plus;Np_{x2})}{Np_{x3}/(Np_{x3}&plus;Np_{x4})}" title="W+ = ln \frac{Np_{x1}/(Np_{x1}+Np_{x2})}{Np_{x3}/(Np_{x3}+Np_{x4})}" />
 
-W+ = ln((Npx1/(Npx1+Npx2))/(Npx3/(Npx3+Npx4)))
 
-W- = ln((Npx2/(Npx1+Npx2))/(Npx4/(Npx3+Npx4)))
+<img src="https://latex.codecogs.com/svg.latex?W-&space;=&space;ln&space;\frac{\frac{Np_{x2}}{Np_{x1}&plus;Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}&plus;Np_{x4}}}" title="W- = ln \frac{\frac{Np_{x2}}{Np_{x1}+Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}+Np_{x4}}}" />
 
-SI = Σ(W+ - W-)
 
-Npx1 is the number of pixels representing the presence of both independent variable and dependent variable; Npx2 is the number of pixels representing the presence of dependent variable and absence of independent variable; Npx3 is the number of pixels representing the presence of independent variable and absence of dependent variable; Npx4 is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
+<img src="https://latex.codecogs.com/svg.latex?SI&space;=&space;\sum&space;(W_{&plus;}&space;-&space;W_{-})" title="SI = \sum (W_{+} - W_{-})" />
+
+_Npx1_ is the number of pixels representing the presence of both independent variable and dependent variable; _Npx2_ is the number of pixels representing the presence of dependent variable and absence of independent variable; _Npx3_ is the number of pixels representing the presence of independent variable and absence of dependent variable; _Npx4_ is the number of pixels representing the absence of both independent variable and dependent variable [(Dahal et al., 2008)](https://link.springer.com/article/10.1007/s00254-007-0818-3)
 
 ### Frequency Ratio
 
 As the WoE, the Frequency Ratio (FR) is a simple bi-variate statistical method often used for classification.
 
-FR = (Npx1/Npx2)/(ΣNpx1/ΣNpx2)
+_FR = (Npx1/Npx2)/(ΣNpx1/ΣNpx2)_
 
-SI = ΣFR
+_SI = ΣFR_
 
-Npx1 = The number of pixels containing the dependent variable in a class; Npx2 = Total number of pixels of each class in the whole area; ΣNpx1 = Total number of pixels containing the event; ΣNpx2 = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
+_Npx1_ = The number of pixels containing the dependent variable in a class; _Npx2_ = Total number of pixels of each class in the whole area; _ΣNpx1_ = Total number of pixels containing the event; _ΣNpx2_ = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
 
 ## Usage
 
