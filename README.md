@@ -41,9 +41,11 @@ The positive weight defines that the independent variable is favorable to landsl
 
 <img src="https://latex.codecogs.com/svg.latex?W&plus;&space;=&space;ln&space;\frac{Np_{x1}/(Np_{x1}&plus;Np_{x2})}{Np_{x3}/(Np_{x3}&plus;Np_{x4})}" title="W+ = ln \frac{Np_{x1}/(Np_{x1}+Np_{x2})}{Np_{x3}/(Np_{x3}+Np_{x4})}" />
 
+<br>
 
 <img src="https://latex.codecogs.com/svg.latex?W-&space;=&space;ln&space;\frac{\frac{Np_{x2}}{Np_{x1}&plus;Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}&plus;Np_{x4}}}" title="W- = ln \frac{\frac{Np_{x2}}{Np_{x1}+Np_{x2}}}{\frac{Np_{x4}}{Np_{x3}+Np_{x4}}}" />
 
+<br>
 
 <img src="https://latex.codecogs.com/svg.latex?SI&space;=&space;\sum&space;(W_{&plus;}&space;-&space;W_{-})" title="SI = \sum (W_{+} - W_{-})" />
 
