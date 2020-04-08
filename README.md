@@ -66,7 +66,7 @@ As the WoE, the Frequency Ratio (FR) is a simple bi-variate statistical method o
 <img src="./images/eq5.svg">
 <!-- SI = \sum FR -->
 
-_Np<sub>x1</sub>_ = The number of pixels containing the dependent variable in a class; _Np<sub>x2<sub>_ = Total number of pixels of each class in the whole area; _ΣNpx1_ = Total number of pixels containing the event; _ΣNpx2_ = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
+_Np<sub>x1</sub>_ = The number of pixels containing the dependent variable in a class; _Np<sub>x2<sub>_ = Total number of pixels of each class in the whole area; _&sum;Np<sub>x1</sub>_ = Total number of pixels containing the event; _&sum;Np<sub>x2</sub>_ = Total number of pixels in the study area [(Kahan et al., 2019)](https://www.sciencedirect.com/science/article/pii/S1110982316300989)
 
 ## Usage
 
@@ -78,7 +78,7 @@ Open the _test.qgz_ project in your QGIS and you'll see some data located in an 
 
 ### Input data
 
-* LandslidesInventory is ...
+* LandslidesInventory is the whole set of landslides events collected in the area;
 * LandslideValidation is ...
 * LandslideTraining is ...
 * poly is ...
@@ -97,19 +97,25 @@ The _Susceptibility Zoning_ tab allows you to set input data, parameters and out
 
 ### Susceptibility Zoning
 
-<img src="./images/interface_sz1.png" width="500">
+<img src="./images/interface_sz.png" width="500">
 
-_Fig. 1 Input causes from the main GUI section of SZ plugin for susceptibility mapping._
+_Input from the main GUI section of SZ plugin for susceptibility mapping._
 
-<img src="./images/Screenshot2.png" width="500">
+The first required input is the _Inventory_: select the point shapefile with the inventory for your events (landslides in our example).
 
-_Fig. 2 Rest of input from the main GUI section of SZ plugin for Susceptibility mapping._
+In the following boxes you can add several (deafault 4) causes connected with your susceptibility analysis. In the example we've added _dem_ and _slope_ raster datasets as the first 2 causes.
+
+You can add even more than 4 causes clicking on the "+" symbol under the "Add cause" text.
+
+Then you can select the method of analysis (currently _Weight of evidence_ and _Frequency Ratio_), the extent of the study area and a polygon to define the area of interest.
+
+You can finally define the cell size, the CRS and the file name for the output.
 
 ### ROC tool
 
 <img src="./images/Screenshot3.png" width="500">
 
-_Fig. 3 Input data for Susceptibility Index ROC based classification and validation._
+_Input data for Susceptibility Index ROC-based classification and validation._
 
 ## Applications
 
