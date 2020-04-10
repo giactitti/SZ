@@ -123,6 +123,8 @@ Then you can select the method of analysis (currently _Weight of evidence_ and _
 
 You can finally define the cell size, the CRS, the file name for the output and the folder for intermediate outputs (default _/tmp_).
 
+<img src="./images/lsi.png" width="500"> 
+
 ### ROC tool
 
 <img src="./images/roctool.png" width="500">
@@ -136,6 +138,8 @@ The second required input is the _Inventory_: select the point shapefile with th
 Then you can select the _Validation_ and _Training_ datasets: select the point shapefile with the part of the inventory for your events (landslides in our example).
 
 You can finally define the folder for intermediate outputs (default _/tmp_).
+
+<img src="./images/statistic.png" width="500"> 
 
 ## Applications
 
