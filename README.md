@@ -99,8 +99,7 @@ Susceptibility zoning:
 ROC tool:
 * _LandslidesInventory.shp_ is the whole set of landslides events collected in the area;
 * _LandslideValidation.shp_ is a part of the entire landslide inventory used for validation;
-* _LandslideTraining.shp_ is the rest of the landslide inventory used to train the model;
-* _Classification.txt_ is the classes of the Susceptibility Index.
+* _LandslideTraining.shp_ is the rest of the landslide inventory used to train the model.
 
 ## The plugin interface
 
@@ -138,7 +137,7 @@ The second required input is the _Inventory_: select the point shapefile with th
 
 Then you can select the _Validation_ and _Training_ datasets: select the point shapefile with the part of the inventory for your events (landslides in our example).
 
-You can finally load the _Classification_ of the Susceptibility Index for the curve subdivision and define the folder for intermediate outputs (default _/tmp_).
+You can finally define the folder for intermediate outputs (default _/tmp_).
 
 <img src="./images/statistic.png" width="500"> 
 
