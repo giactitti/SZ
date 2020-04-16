@@ -63,8 +63,8 @@ class WoE:
                 listclasses.append(self.classeslista[y])
         #######################################################################
         countcause=len(listcause)######delete empty cause!!!!!!!!!!
-        print(listclasses)
-        print(listcause)
+        #print(listclasses)
+        #print(listcause)
         if countcause==0:#verify empty row input
             QgsMessageLog.logMessage('Select at least one cause', tag="WoE")
             raise ValueError  # Select at least one cause, see 'WoE' Log Messages Panel
@@ -82,10 +82,13 @@ class WoE:
             dem_datas=self.vector2array(self.inventory,self.w,self.h,self.xmin,self.ymin,self.xmax,self.ymax,self.xsize,self.ysize)
             # write the data to output file
             rf1='/tmp/inv.tif'
-            dem_datas1=dem_datas#[::-1]
+            dem_datas1=np.zeros(np.shape(dem_datas),dtype='float32')
+            dem_datas1[:]=dem_datas[:]#[::-1]
             w1=self.w
             h1=self.h*(-1)
             self.array2raster(rf1,w1,h1,dem_datas1,self.origine)##########rasterize inventory
+            del dem_datas
+            del dem_datas1
             ##################################
             IN1a=rf1
             IN2a='/tmp/invq.tif'
@@ -98,7 +101,7 @@ class WoE:
                 raise ValueError  # can't open raster input, see 'WoE' Log Messages Panel
             ap=self.ds15.GetRasterBand(1)
             NoData=ap.GetNoDataValue()
-            invmatrix = np.array(ap.ReadAsArray()).astype('int16')
+            invmatrix = np.array(ap.ReadAsArray()).astype(np.int64)
             bands = self.ds15.RasterCount
             if bands>1:#####################verify bands
                 QgsMessageLog.logMessage("ERROR: input rasters shoud be 1-band raster", tag="WoE")
@@ -108,8 +111,10 @@ class WoE:
             QgsMessageLog.logMessage("Failure to save sized inventory", tag="WoE")
             raise ValueError  # Failure to save sized inventory, see 'WoE' Log Messages Panel
         ###########################################load inventory
-        self.catalog=np.array([])
-        self.catalog=invmatrix
+        self.catalog=np.zeros(np.shape(invmatrix),dtype='int64')
+        print(np.shape(invmatrix),'shape catalog')
+        self.catalog[:]=invmatrix[:]
+        del invmatrix
         #del valuess
         ###########cause
         for v in range(countcause):
@@ -117,10 +122,14 @@ class WoE:
             ds8x = ds8.RasterXSize
             ds8y = ds8.RasterYSize
             gt= ds8.GetGeoTransform()
-            causexl = round(gt[0],2)
-            causeyt = round(gt[3],2)
-            causexr = round(gt[0] + gt[1] * ds8x,2)
-            causeyb = round(gt[3] + gt[5] * ds8y,2)
+            # causexl = round(gt[0],2)
+            # causeyt = round(gt[3],2)
+            # causexr = round(gt[0] + gt[1] * ds8x,2)
+            # causeyb = round(gt[3] + gt[5] * ds8y,2)
+            causexl = gt[0]
+            causeyt = gt[3]
+            causexr = gt[0] + gt[1] * ds8x
+            causeyb = gt[3] + gt[5] * ds8y
             QgsMessageLog.logMessage(self.extent, tag="WoE")
             if (causexl)>(self.xmin) or (causexr)<(self.xmax) or (causeyb)>(self.ymin) or (causeyt)<(self.ymax):
                 QgsMessageLog.logMessage('Cause %s extension cannot satisfy selected extension'%v, tag="WoE")
@@ -133,9 +142,10 @@ class WoE:
         Causes={}
         id={}
         Mat={}
+        dimensioni={}
         self.Wfs={}
         for i in range(countcause):
-            matrix=None
+            #matrix=None
             self.Wcause=None
             self.classes=None
             self.Wcause=listcause[i]
@@ -152,24 +162,32 @@ class WoE:
             gt=self.ds2.GetGeoTransform()
             ww=gt[1]
             hh=gt[5]
+            xyo=[gt[0],gt[3]]
             a=self.ds2.GetRasterBand(1)
             NoData=a.GetNoDataValue()
-            self.RasterInt = np.array(a.ReadAsArray()).astype('int64')
-            self.matrix = np.array(a.ReadAsArray()).astype('float32')
+            self.RasterInt = np.array(a.ReadAsArray()).astype(int)
+            self.matrix = np.array(a.ReadAsArray()).astype(np.float32)
             bands = self.ds2.RasterCount
             if bands>1:#####################verify bands
                 QgsMessageLog.logMessage("ERROR: input rasters shoud be 1-band raster", tag="WoE")
                 raise ValueError  # input rasters shoud be 1-band raster, see 'WoE' Log Messages Panel
             ################################################################
             self.classification()#############
-            self.RasterInt1=self.RasterInt#[::-1]
-            np.size(self.RasterInt1)
-            self.array2raster(pathszcause,ww,hh,self.RasterInt1,self.origine)
+            del self.RasterInt
+            self.matrix1=np.zeros(np.shape(self.matrix),dtype='float32')
+            self.matrix1[:]=self.matrix[:]
+            #print(max(self.matrix1,'max'))
+            #np.size(self.RasterInt1)
+            self.array2raster(pathszcause,ww,hh,self.matrix1,xyo)
+            del self.matrix
+            del self.matrix1
+            #print(ciao)
             ###################
             IN2='/tmp/causeq'+str(i)+'.tif'
             IN1=pathszcause
             IN3=self.Wreclassed
             self.cut(IN1,IN2,IN3)##############################
+            #print(ciao)
             self.matrix=None
             self.RasterInt=None
             self.ds22=None
@@ -182,21 +200,23 @@ class WoE:
             hh=gt[5]
             aa=self.ds22.GetRasterBand(1)
             NoData=aa.GetNoDataValue()
-            self.RasterInt = np.array(aa.ReadAsArray()).astype('int64')
-            self.matrix = np.array(aa.ReadAsArray()).astype('float32')
+            self.RasterInt = np.array(aa.ReadAsArray()).astype(np.int64)
+            self.matrix = np.array(aa.ReadAsArray()).astype(np.float32)
             bands = self.ds22.RasterCount
             if bands>1:#####################verify bands
                 QgsMessageLog.logMessage("ERROR: input rasters shoud be 1-band raster", tag="WoE")
                 raise ValueError  # input rasters shoud be 1-band raster, see 'WoE' Log Messages Panel
             ####################
-            Causes[i]=self.RasterInt
-            Mat[i]=self.matrix
+            Causes[i]=self.RasterInt[:]
+            Mat[i]=self.matrix[:]
             id[i]=np.where(self.RasterInt==-9999)
+            dimensioni[i]=np.shape(self.matrix)
             ##################################-9999
-            self.matrix=None
-            self.RasterInt=None
-            out_bandC=None
-            dataC=None
+            del self.matrix
+            del self.RasterInt
+            #del out_bandC
+            #del dataC
+
         for causa in range(countcause):
             self.Raster=np.array([])
             self.Matrix=np.array([])
@@ -205,8 +225,10 @@ class WoE:
             self.txtout=self.fold+'/Wftxt'+str(causa)+'.txt'
             self.Weightedcause=self.fold+'/weightedcause'+str(causa)+'.tif'
             self.ds10=None
-            self.Raster=Causes[causa]
-            self.Matrix=Mat[causa]
+            self.Raster=np.zeros(np.shape(Causes[causa]),dtype='int64')
+            self.Raster[:]=Causes[causa]
+            self.Matrix=np.zeros(np.shape(Mat[causa]),dtype='float32')
+            self.Matrix[:]=Mat[causa]
             for cc in range(countcause):
                 self.Raster[id[cc]]=-9999
                 self.Matrix[id[cc]]=-9999
@@ -214,7 +236,7 @@ class WoE:
                 self.WoE()#################
             elif self.method==1:
                 self.FR()##############
-            self.Wfs[causa]=self.weighted
+            self.Wfs[causa]=self.weighted[:]
             self.saveWf()##################
             self.weighted=np.array([])
         #del self.dem
@@ -235,9 +257,9 @@ class WoE:
             for cond in c:
                 b=np.array([])
                 b=np.asarray(cond)
-                Min[count]=b[0].astype(int)
-                Max[count]=b[1].astype(int)
-                clas[count]=b[2].astype(int)
+                Min[count]=b[0].astype(np.float32)
+                Max[count]=b[1].astype(np.float32)
+                clas[count]=b[2]#.astype(int)
                 count+=1
         key_max=None
         key_min=None
@@ -250,14 +272,20 @@ class WoE:
         self.RasterInt[(self.RasterInt<Min[key_min])]=-9999
         self.matrix[(self.RasterInt>Max[key_max])]=-9999
         self.RasterInt[(self.RasterInt>Max[key_max])]=-9999
+        multindex={}
+        multindexInt={}
         for i in range(1,count):
-            #self.matrix[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i]
-            multindex[i]=np.where((self.RasterInt>=Min[i])&(self.RasterInt<=Max[i]))
-            multindexInt[i]=np.where((self.RasterInt>=Min[i])&(self.RasterInt<=Max[i]))
+            self.matrix[(self.matrix>=Min[i])&(self.matrix<Max[i])]=clas[i]
+            #multindex[i]=np.where((self.RasterInt>=Min[i])&(self.RasterInt<=Max[i]))
+            #multindexInt[i]=np.where((self.RasterInt>=Min[i]) & (self.RasterInt<=Max[i]))
+            print(i)
+            #print(Min[i],Max[i])
             #self.RasterInt[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i].astype(int)
-        for i in range(1,count):
-            self.matrix[multindex[i]]=clas[i]
-            self.RasterInt[multindexInt[i]]=clas[i].astype(int)
+        # for ii in range(1,count):
+        #     #print(clas[ii].astype(int),'clasi')
+        #     self.matrix[multindexInt[ii]]=clas[ii]
+        #     #self.RasterInt[multindexInt[ii]]=clas[ii].astype(int)
+        # #print(self.RasterInt[self.RasterInt==4.98001],'max')
 
     def WoE(self):######################calculate W+,W-,Wf
         ################################################
@@ -433,14 +461,17 @@ class WoE:
 
     def saveWf(self):
         try:
-            out_data = None
+            #out_data = None
             # read in data from first band of input raster
             cols = self.xsize
             rows = self.ysize
-            self.weighted1=self.weighted#[::-1]
+            self.weighted1=np.zeros(np.shape(self.weighted),dtype='float32')
+            self.weighted1[:]=self.weighted[:]#[::-1]
             w2=self.w
             h2=self.h*(-1)
             self.array2raster(self.Weightedcause,w2,h2,self.weighted1,self.origine)
+            del self.weighted
+            del self.weighted1
 
         except:
             QgsMessageLog.logMessage("Failure to set nodata values on raster Wf", tag="WoE")
@@ -464,6 +495,7 @@ class WoE:
             w3=self.w
             h3=self.h*(-1)
             self.array2raster(self.LSIout,w3,h3,self.LSI,self.origine)
+            del self.LSI
         except:
             QgsMessageLog.logMessage("ERROR: Failure to set nodata values on raster LSI", tag="WoE")
             raise ValueError  # Failure to set nodata values on raster LSI, see 'WoE' Log Messages Panel
@@ -484,14 +516,21 @@ class WoE:
         outRasterSRS.ImportFromEPSG(int(self.epsg[self.epsg.rfind(':')+1:]))
         outRaster.SetProjection(outRasterSRS.ExportToWkt())
         outband.FlushCache()
+        print(cols,rows,originX, pixelWidth,originY, pixelHeight, 'array2raster')
+        del array
 
     def cut(self,in1,in2,in3):
+        print(self.newYNumPxl,self.newXNumPxl,'dimensione causa')
         if self.polynum==1:
             try:
                 if os.path.isfile(in2):
                     os.remove(in2)
 
-                os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
+                print(self.newYNumPxl,self.newXNumPxl,self.xmin,self.ymax,self.xmax,self.ymin)
+
+                # os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
+
+                processing.run('gdal:cliprasterbymasklayer', {'INPUT': in1,'MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'MULTITHREADING': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': in2})
 
                 print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
             except:
@@ -501,7 +540,9 @@ class WoE:
                 if os.path.isfile(in3):
                     os.remove(in3)
 
-                processing.run('gdal:cliprasterbymasklayer', {'INPUT': in2,'MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'MULTITHREADING': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': in3})
+                os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in2 +' '+in3)
+
+                # processing.run('gdal:cliprasterbymasklayer', {'INPUT': in2,'MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'MULTITHREADING': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': in3})
 
             except:
                 QgsMessageLog.logMessage("Failure to save clipped input", tag="WoE")
@@ -513,13 +554,14 @@ class WoE:
                 if os.path.isfile(in2):
                     os.remove(in2)
 
-                os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
+                #os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
 
-                print('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
+                #print('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
+                print(self.newYNumPxl,self.newXNumPxl,self.xmin,self.ymax,self.xmax,self.ymin)
 
-                os.system('gdal_translate -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in2 +' '+in3)
+                os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in1 +' '+in3)
 
-                print('gdal_translate -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in2 +' '+in3)
+                print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in2 +' '+in3)
 
             except:
                 QgsMessageLog.logMessage("Failure to save sized input", tag="WoE")
@@ -542,7 +584,9 @@ class WoE:
         size=np.array([pxlw,pxlh])
         OS=np.array([xm,yM])
         NumPxl=(np.ceil(abs((XY-OS)/size)-1))#from 0 first cell
-        valuess=np.zeros((sizey,sizex),dtype='int16')
+        #print(NumPxl)
+        print(sizey,sizex,'dimensioni inventario')
+        valuess=np.zeros((sizey,sizex),dtype='int64')
         #print(XY)
         #print(NumPxl)
         #print(len(NumPxl))
@@ -550,10 +594,10 @@ class WoE:
         try:
             for i in range(count):
                 #print(i,'i')
-                if XY[i,1]<yM and XY[i,1]>ym and XY[i,0]<xM and XY[i,0]>xm:
+                if XY[i,1]<=yM and XY[i,1]>=ym and XY[i,0]<=xM and XY[i,0]>=xm:
                     valuess[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
         except:#only 1 feature
-            if XY[1]<yM and XY[1]>ym and XY[0]<xM and XY[0]>xm:
+            if XY[1]<=yM and XY[1]>=ym and XY[0]<=xM and XY[0]>=xm:
                 valuess[NumPxl[1].astype(int),NumPxl[0].astype(int)]=1
-        fuori = valuess.astype('float32')
+        fuori = valuess.astype(np.float32)
         return fuori
