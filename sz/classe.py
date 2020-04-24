@@ -210,6 +210,7 @@ class WoE:
             Causes[i]=self.RasterInt[:]
             Mat[i]=self.matrix[:]
             id[i]=np.where(self.RasterInt==-9999)
+            idcat=np.where(self.catalog==-9999)
             dimensioni[i]=np.shape(self.matrix)
             ##################################-9999
             del self.matrix
@@ -229,9 +230,12 @@ class WoE:
             self.Raster[:]=Causes[causa]
             self.Matrix=np.zeros(np.shape(Mat[causa]),dtype='float32')
             self.Matrix[:]=Mat[causa]
+            self.Raster[idcat]=-9999
+            self.Matrix[idcat]=-9999
             for cc in range(countcause):
                 self.Raster[id[cc]]=-9999
                 self.Matrix[id[cc]]=-9999
+                self.catalog[id[cc]]=-9999
             if self.method==0:
                 self.WoE()#################
             elif self.method==1:
@@ -278,7 +282,7 @@ class WoE:
             self.matrix[(self.matrix>=Min[i])&(self.matrix<Max[i])]=clas[i]
             #multindex[i]=np.where((self.RasterInt>=Min[i])&(self.RasterInt<=Max[i]))
             #multindexInt[i]=np.where((self.RasterInt>=Min[i]) & (self.RasterInt<=Max[i]))
-            print(i)
+            #print(i)
             #print(Min[i],Max[i])
             #self.RasterInt[(self.RasterInt>=Min[i])&(self.RasterInt<=Max[i])]=clas[i].astype(int)
         # for ii in range(1,count):
@@ -294,19 +298,26 @@ class WoE:
         idx2=[]
         idx3=[]
         idx=np.where(np.isnan(self.catalog))
+        #print(len(self.catalog[self.catalog>-9999]),'catalog0')
         self.catalog[idx]=-9999
         ###############################################
         product=np.array([])
         diff=np.array([])
+        #print(len(self.catalog[self.catalog>-9999]),'catalog')
+        #print(len(self.Raster[self.Raster>-9999]),'raster')
         product=(self.catalog*self.Raster)
+        #print(len(product),'lunghezza1')
         diff=(self.Raster-product)
+        #print(len(diff),'lunghezza2')
         ######################################clean nan values
         idx2=np.where(self.catalog==-9999)
         product[idx2]=-9999
         diff[idx2]=-9999
         diff[idx3]=-9999
         product[self.Raster==-9999]=-9999
+        #print(len(product[product>-9999]),'lunghezza1-1')
         diff[self.Raster==-9999]=-9999
+        #print(len(diff[self.Raster>-9999]),'lunghezza2-1')
         ############################################
         M=int(np.nanmax(self.Raster))
         countProduct = {}
@@ -314,15 +325,26 @@ class WoE:
         for n in range(0,M+1):
             P=np.array([])
             D=np.array([])
-            P=np.argwhere(product==float(n))
-            PP=float(len(P))
+            PP=None
+            DD=None
+            #P=np.argwhere(product==float(n))
+            P=np.where(product==float(n))
+            PP=float(len(P[0]))
+            #print(len(product[product>0]),'PP',n)
+            #print(len(product[product==0]),'PP',n)
+            #print(len(product[(product<1)&(product>-1)]),'PP',n)
+            #print(len(product[product>-9999]),'PP',n)
             countProduct[n]=PP
-            D=np.argwhere(diff==n)
-            DD=float(len(D))
+            D=np.where(diff==float(n))
+            DD=float(len(D[0]))
+            #print(len(diff[diff>0]),'DD',n)
+            #print(len(diff[diff==0]),'DD',n)
             countDiff[n]=DD
         self.weighted=np.array([])
-        self.weighted=self.Matrix
+        self.weighted=np.zeros(np.shape(self.Matrix),dtype='float32')
+        self.weighted[:]=self.Matrix[:]
         file = open(self.txtout,'w')#################save W+, W- and Wf
+        file.write('class,Npx1,Npx2,Npx3,Npx4,W+,W-,Wf\n')
         for i in range(1,M+1):
             Npx1=None
             Npx2=None
@@ -341,23 +363,36 @@ class WoE:
                 Npx3='none'
                 Npx4='none'
                 var=[i,Npx1,Npx2,Npx3,Npx4,Wplus,Wminus,Wf]
-                file.write('class,Npx1,Npx2,Npx3,Npx4,W+,W-,Wf: %s\n' %var)
+                file.write(','.join(str(e) for e in var)+'\n')
                 self.weighted[self.Raster == i] = 0.
+                #print(len(self.weighted[self.Raster == i]),'weighted')
+
             else:
                 Npx1=float(countProduct[i])
                 for ii in range(1,M+1):
                     try:
                         Npx2 += float(countProduct[ii])
+                        #Npx2 = Npx2+float(countProduct[ii])
                     except:
                         Npx2 = float(countProduct[ii])
                 Npx2 -= float(countProduct[i])
+                #Npx2 = Npx2-float(countProduct[i])
                 Npx3=float(countDiff[i])
                 for iii in range(1,M+1):
+                    #print(iii,'iii')
                     try:
                         Npx4 += float(countDiff[iii])
+                        #Npx4 =  Npx4+float(countDiff[iii])
                     except:
                         Npx4 = float(countDiff[iii])
                 Npx4 -= float(countDiff[i])
+                #Npx4 = Npx4-float(countDiff[i])
+                if (Npx1+Npx2+Npx3+Npx4)==len(product[product>-9999]):
+                    print(len(product[product>-9999]),'= Number of not null cells')
+                else:
+                    QgsMessageLog.logMessage("Failure to claculate Npx1,Npx2,Npx3,Npx4", tag="WoE")
+                    raise ValueError  # Failure to claculate Npx1,Npx2,Npx3,Npx4, see 'WoE' Log Messages Panel
+                #print(Npx1+Npx2+Npx3+Npx4,'sum')
                 #W+ W-
                 #Npx1,Npx2,Npx3,Npx4
                 if Npx1==0 or Npx3==0:
@@ -370,8 +405,10 @@ class WoE:
                     Wminus=math.log((Npx2/(Npx1+Npx2))/(Npx4/(Npx3+Npx4)))
                 Wf=Wplus-Wminus
                 var=[i,Npx1,Npx2,Npx3,Npx4,Wplus,Wminus,Wf]
-                file.write('class,Npx1,Npx2,Npx3,Npx4,W+,W-,Wf: %s\n' %var)#################save W+, W- and Wf
+                file.write(','.join(str(e) for e in var)+'\n')#################save W+, W- and Wf
                 self.weighted[self.Raster == i] = Wf
+                #print(len(self.weighted[self.Raster == i]),'weighted')
+                #print(Npx1+Npx2+Npx3+Npx4,'sum')
         file.close()
         product=np.array([])
         diff=np.array([])
@@ -405,7 +442,7 @@ class WoE:
             D=np.array([])
             P=np.argwhere(product==float(n))
             PP=float(len(P))
-            print(PP)
+            #print(PP)
             countProduct[n]=PP
             D=np.argwhere(clas==n)
             DD=float(len(D))
@@ -413,6 +450,7 @@ class WoE:
         self.weighted=np.array([])
         self.weighted=self.Matrix
         file = open(self.txtout,'w')#################save W+, W- and Wf
+        file.write('class,Npx1,Npx2,Npx3,Npx4,Wf\n')
         for i in range(1,M+1):
             Npx1=None
             Npx2=None
@@ -431,7 +469,7 @@ class WoE:
                 #Wplus=0.
                 #Wminus=0.
                 var=[i,Npx1,Npx2,Npx3,Npx4,Wf]
-                file.write('class,Npx1,Npx2,Npx3,Npx4,Wf: %s\n' %var)
+                file.write(','.join(str(e) for e in var)+'\n')
                 self.weighted[self.Raster == i] = 0.
             else:
                 Npx1=float(countProduct[i])
@@ -453,7 +491,7 @@ class WoE:
                 else:
                     Wf=(np.divide((np.divide(Npx1,Npx2)),(np.divide(Npx3,Npx4))))
                 var=[i,Npx1,Npx2,Npx3,Npx4,Wf]
-                file.write('class,Npx1,Npx2,Npx3,Npx4,Wf: %s\n' %var)#################save W+, W- and Wf
+                file.write(','.join(str(e) for e in var)+'\n') #################save W+, W- and Wf
                 self.weighted[self.Raster == i] = float(Wf)
         file.close()
         product=np.array([])
@@ -520,19 +558,21 @@ class WoE:
         del array
 
     def cut(self,in1,in2,in3):
-        print(self.newYNumPxl,self.newXNumPxl,'dimensione causa')
+        print(self.newYNumPxl,self.newXNumPxl,'cause dimensions')
         if self.polynum==1:
             try:
                 if os.path.isfile(in2):
                     os.remove(in2)
 
-                print(self.newYNumPxl,self.newXNumPxl,self.xmin,self.ymax,self.xmax,self.ymin)
+                #print(self.newYNumPxl,self.newXNumPxl,self.xmin,self.ymax,self.xmax,self.ymin)
 
                 # os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
 
                 processing.run('gdal:cliprasterbymasklayer', {'INPUT': in1,'MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'MULTITHREADING': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': in2})
 
-                print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
+                print('gdal:cliprasterbymasklayer', {'INPUT': in1,'MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'MULTITHREADING': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': in2})
+
+                #print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in1 +' '+in2)
             except:
                 QgsMessageLog.logMessage("Failure to save sized /tmp input", tag="WoE")
                 raise ValueError  # Failure to save sized /tmp input Log Messages Panel
@@ -541,6 +581,8 @@ class WoE:
                     os.remove(in3)
 
                 os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in2 +' '+in3)
+
+                print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 '+ in2 +' '+in3)
 
                 # processing.run('gdal:cliprasterbymasklayer', {'INPUT': in2,'MASK': self.poly, 'NODATA': -9999, 'ALPHA_BAND': False, 'CROP_TO_CUTLINE': False, 'KEEP_RESOLUTION': True, 'MULTITHREADING': True, 'OPTIONS': '', 'DATA_TYPE': 6,'OUTPUT': in3})
 
@@ -557,11 +599,11 @@ class WoE:
                 #os.system('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
 
                 #print('gdalwarp -ot Float32 -q -of GTiff -t_srs '+str(self.epsg)+' -r bilinear '+ in1+' '+in2)
-                print(self.newYNumPxl,self.newXNumPxl,self.xmin,self.ymax,self.xmax,self.ymin)
+                #print(self.newYNumPxl,self.newXNumPxl,self.xmin,self.ymax,self.xmax,self.ymin)
 
                 os.system('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in1 +' '+in3)
 
-                print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in2 +' '+in3)
+                print('gdal_translate -a_srs '+str(self.epsg)+' -of GTiff -ot Float32 -outsize ' + str(self.newXNumPxl) +' '+ str(self.newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) + ' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + in1 +' '+in3)
 
             except:
                 QgsMessageLog.logMessage("Failure to save sized input", tag="WoE")
