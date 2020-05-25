@@ -166,3 +166,4 @@ Titti, Giacomo, Sarretta, Alessandro, Crema, Stefano, Pasuto, Alessandro, & Borg
 ## Credits
 
 Giacomo Titti and Alessandro Sarretta, Padova, March 2020
+please cite as: Giacomo Titti, & Alessandro Sarretta. (2020, May 25). CNR-IRPI-Padova/SZ: SZ plugin (Version v0.1). Zenodo. http://doi.org/10.5281/zenodo.3843275
