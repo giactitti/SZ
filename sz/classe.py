@@ -8,7 +8,7 @@
                               -------------------
         begin                : 2019-06-22
         git sha              : $Format:%H$
-        copyright            : (C) 2019 by Giacomo Titti CNR-IRPI
+        copyright            : (C) 2019 by Giacomo Titti & Alessandro Sarretta
         email                : giacomotitti@gmail.com
  ***************************************************************************/
 

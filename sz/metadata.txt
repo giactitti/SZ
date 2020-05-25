@@ -11,13 +11,13 @@ name=SZ
 qgisMinimumVersion=3.0
 description=Landslide Susceptibility Zoning
 version=0.1
-author=Giacomo Titti CNR-IRPI
+author=Giacomo Titti & Alessandro Sarretta
 email=giacomotitti@gmail.com
 
 about=Susceptibility Zoning by Weight of Evidence and Validation by ROC
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/CNR-IRPI-Padova/SZ
+repository=https://github.com/CNR-IRPI-Padova/SZ
 # End of mandatory metadata
 
 # Recommended items:
@@ -28,7 +28,7 @@ repository=http://repo
 # Tags are comma separated with spaces allowed
 tags=python
 
-homepage=http://homepage
+homepage=https://github.com/CNR-IRPI-Padova/SZ
 category=Plugins
 icon=icon.png
 # experimental flag
