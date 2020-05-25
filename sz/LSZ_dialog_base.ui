@@ -93,9 +93,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-548</y>
             <width>778</width>
-            <height>1258</height>
+            <height>1252</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -134,32 +134,6 @@
              </layout>
             </widget>
            </item>
-           <item row="46" column="2">
-            <spacer name="verticalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="27" column="2">
-            <spacer name="verticalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
            <item row="59" column="2">
             <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
              <property name="decimals">
@@ -170,7 +144,7 @@
              </property>
             </widget>
            </item>
-           <item row="44" column="2">
+           <item row="46" column="2">
             <widget class="QLabel" name="label_19">
              <property name="font">
               <font>
@@ -183,10 +157,10 @@
              </property>
             </widget>
            </item>
-           <item row="69" column="2">
+           <item row="68" column="2">
             <widget class="QLineEdit" name="lineEdit_5"/>
            </item>
-           <item row="67" column="2">
+           <item row="66" column="2">
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>Output file</string>
@@ -206,7 +180,7 @@
              </property>
             </widget>
            </item>
-           <item row="70" column="2">
+           <item row="69" column="2">
             <widget class="QLabel" name="label_18">
              <property name="text">
               <string>Work folder</string>
@@ -230,19 +204,6 @@
            <item row="52" column="2">
             <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox"/>
            </item>
-           <item row="45" column="2">
-            <spacer name="verticalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
            <item row="47" column="2">
             <spacer name="verticalSpacer">
              <property name="orientation">
@@ -256,14 +217,14 @@
              </property>
             </spacer>
            </item>
-           <item row="72" column="3">
+           <item row="71" column="3">
             <widget class="QPushButton" name="pushButton_12">
              <property name="text">
               <string>...</string>
              </property>
             </widget>
            </item>
-           <item row="72" column="2">
+           <item row="71" column="2">
             <widget class="QLineEdit" name="lineEdit_16"/>
            </item>
            <item row="2" column="2">
@@ -308,7 +269,7 @@
              </property>
             </widget>
            </item>
-           <item row="65" column="2">
+           <item row="64" column="2">
             <widget class="QLabel" name="label_24">
              <property name="font">
               <font>
@@ -331,7 +292,7 @@
              </property>
             </widget>
            </item>
-           <item row="64" column="2">
+           <item row="63" column="2">
             <spacer name="verticalSpacer_4">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -351,10 +312,10 @@
              </property>
             </widget>
            </item>
-           <item row="42" column="2">
+           <item row="45" column="2">
             <widget class="QComboBox" name="comboBox"/>
            </item>
-           <item row="69" column="3">
+           <item row="68" column="3">
             <widget class="QPushButton" name="pushButton_5">
              <property name="inputMethodHints">
               <set>Qt::ImhNone</set>
@@ -364,7 +325,7 @@
              </property>
             </widget>
            </item>
-           <item row="71" column="2">
+           <item row="70" column="2">
             <widget class="QCheckBox" name="checkBox_2">
              <property name="text">
               <string>select to change default /tmp</string>
@@ -387,20 +348,7 @@
              </property>
             </widget>
            </item>
-           <item row="63" column="2">
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="28" column="2">
+           <item row="31" column="2">
             <widget class="QLabel" name="label_21">
              <property name="font">
               <font>
@@ -413,32 +361,19 @@
              </property>
             </widget>
            </item>
-           <item row="25" column="2">
+           <item row="29" column="2">
             <widget class="QLabel" name="label_27">
              <property name="text">
               <string>Add cause</string>
              </property>
             </widget>
            </item>
-           <item row="26" column="2">
+           <item row="30" column="2">
             <widget class="QPushButton" name="pushButton_2">
              <property name="text">
               <string>+</string>
              </property>
             </widget>
-           </item>
-           <item row="43" column="2">
-            <spacer name="verticalSpacer_7">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item row="13" column="2">
             <widget class="QGroupBox" name="groupBox_2">
@@ -563,6 +498,58 @@
               <string>Causative factors and classes of the causative factor:</string>
              </property>
             </widget>
+           </item>
+           <item row="27" column="2">
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="26" column="2">
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="25" column="2">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="28" column="2">
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>

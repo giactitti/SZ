@@ -270,6 +270,7 @@ class model:
             self.dlg.pushButton_8.clicked.connect(self.select_txt3_file)
             self.dlg.lineEdit_9.clear()
             self.dlg.pushButton_9.clicked.connect(self.select_txt4_file)
+            self.dlg.pushButton_2.clicked.connect(self.dlg.clickMethod)
             # #inventory,dem,fold
             self.dlg.lineEdit_16.clear()
             self.dlg.pushButton_12.clicked.connect(self.select_input16_file)
@@ -277,11 +278,7 @@ class model:
             self.dlg.lineEdit_5.clear()
             self.dlg.pushButton_5.clicked.connect(self.select_output_file)
             ########################################
-            #output button roc
-            #self.dlg.lineEdit.clear()
-            #self.dlg.pushButton.clicked.connect(self.select_output_fileroc)
-            #self.dlg.pushButton_2.clicked.connect(self.dlg.clickMethod)
-
+            #roc
             self.dlg.lineEdit_2.clear()
             self.dlg.pushButton_3.clicked.connect(self.select_input3_file)
             #print(self.dlg.ii, 'stampa')
