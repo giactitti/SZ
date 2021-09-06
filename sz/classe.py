@@ -32,6 +32,7 @@ import os
 import ogr
 from qgis import *
 from qgis.analysis import *
+import tempfile
 
 class WoE:
     def iter(self):
@@ -81,11 +82,14 @@ class WoE:
         self.origine=[self.xmin,self.ymax]
         #######################################inventory from shp to tif
         #try:
-
+        self.f = tempfile.gettempdir()
         #try:
         dem_datas=np.zeros((self.ysize,self.xsize),dtype='int64')
         # write the data to output file
-        rf1='/tmp/01inv.tif'
+        print(self.f[1])
+        rf1=self.f+'/01inv.tif'
+        print(rf1)
+        #rf1='/tmp/01inv.tif'
         dem_datas1=np.zeros(np.shape(dem_datas),dtype='float32')
         dem_datas1[:]=dem_datas[:]#[::-1]
         w1=self.w
@@ -95,7 +99,7 @@ class WoE:
         del dem_datas1
         ##################################
         self.IN3a=rf1
-        self.IN2a='/tmp/02invq.tif'
+        self.IN2a=self.f+'/02invq.tif'
         #IN2b='/tmp/03invq.tif'
         #self.IN3a='/tmp/04inventorynxn.tif'
         #self.cutextent(IN1a,IN2a)
@@ -245,9 +249,9 @@ class WoE:
             # del self.matrix1
             # #print(ciao)
             # ###################
-            IN2='/tmp/02causeq'+str(i)+'.tif'
+            IN2=self.f+'/02causeq'+str(i)+'.tif'
             IN1=self.Wcause
-            IN3='/tmp/03causec'+str(i)+'.tif'
+            IN3=self.f+'/03causec'+str(i)+'.tif'
             IN4=pathszcause
             self.alignRaster(self.IN3a, IN1, IN2)
             self.cutextent(IN2,IN3,self.IN3a)
@@ -870,5 +874,5 @@ class WoE:
                 valuess[NumPxl[1].astype(int),NumPxl[0].astype(int)]=1
         fuori = valuess.astype(np.float32)
 
-        self.array2raster('/tmp/04inventory.tif',pxlw,pxlh,fuori,OS)
+        self.array2raster(self.f+'/04inventory.tif',pxlw,pxlh,fuori,OS)
         return fuori
