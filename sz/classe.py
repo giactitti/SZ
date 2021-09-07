@@ -29,7 +29,10 @@ import csv
 from qgis.core import QgsMessageLog,QgsRasterLayer
 import processing
 import os
-import ogr
+try:
+    from osgeo import ogr
+except:
+    import ogr
 from qgis import *
 from qgis.analysis import *
 import tempfile
