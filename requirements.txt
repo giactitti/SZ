@@ -2,4 +2,4 @@ csv
 scikit-learn
 matplotlib
 plotly
-geopandas
+pandas
