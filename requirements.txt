@@ -1,5 +1,5 @@
-numpy
-math
 csv
 scikit-learn
 matplotlib
+plotly
+geopandas
