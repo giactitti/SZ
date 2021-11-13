@@ -135,7 +135,7 @@ class classeProvider(QgsProcessingProvider):
         Should return a QIcon which is used for your provider inside
         the Processing toolbox.
         """
-        return QIcon('./icon.svg')
+        return QIcon('icon.svg')
 
     def longName(self):
         """

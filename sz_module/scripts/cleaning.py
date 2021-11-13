@@ -167,6 +167,7 @@ class cleankernelAlgorithm(QgsProcessingAlgorithm):
         geot=ds.GetGeoTransform()
         newXNumPxl=np.round(abs(self.xmax-self.xmin)/(abs(geot[1]))).astype(int)
         newYNumPxl=np.round(abs(self.ymax-self.ymin)/(abs(geot[5]))).astype(int)
+        print(newYNumPxl)
         try:
             os.system('gdal_translate -of GTiff -ot Float32 -strict -outsize ' + str(newXNumPxl) +' '+ str(newYNumPxl) +' -projwin ' +str(self.xmin)+' '+str(self.ymax)+' '+ str(self.xmax) + ' ' + str(self.ymin) +' -co COMPRESS=DEFLATE -co PREDICTOR=1 -co ZLEVEL=6 ' + parameters['INPUT_RASTER_LAYER'] +' '+ self.f+'/sizedslopexxx.tif')
         except:
@@ -180,6 +181,21 @@ class cleankernelAlgorithm(QgsProcessingAlgorithm):
         self.raster[0][self.raster[0]==nodata]=-9999
         x = self.ds1.RasterXSize
         y = self.ds1.RasterYSize
+
+        gtdem= self.ds1.GetGeoTransform()
+        size=np.array([abs(gtdem[1]),abs(gtdem[5])])
+        OS=np.array([gtdem[0],gtdem[3]])
+        #print OS
+        #print(self.XY)
+        #print(OS)
+        #print(size)
+        #NumPxl=(np.ceil((abs(self.XY-OS)/size)-1))#from 0 first cell
+        xmin=OS[0]
+        xmax=OS[0]+(size[0]*x)
+        ymax=OS[1]
+        ymin=OS[1]-(size[1]*y)
+        #print(xmin,xmax,ymin,ymax,'ciaooooo')
+
 
 
         layer=QgsVectorLayer(parameters['INPUT_VECTOR_LAYER'], '', 'ogr')
@@ -197,43 +213,47 @@ class cleankernelAlgorithm(QgsProcessingAlgorithm):
         count=0
         for feature in features:
             count +=1
-            geom = feature.geometry().asMultiPoint()
-            print(geom)
+            geom = feature.geometry().asPoint()
+            #print(geom)
             #print(geom.asMultiPoint())
-            xy=np.array([geom[0].x(),geom[0].y()])
+            xy=np.array([geom[0],geom[1]])
             try:
                 self.XY=np.vstack((self.XY,xy))
             except:
                 self.XY=xy
         #print XY
-        print(self.XY,'xy')
+        #print(self.XY,'xy')
         gtdem= self.ds1.GetGeoTransform()
         size=np.array([abs(gtdem[1]),abs(gtdem[5])])
         OS=np.array([gtdem[0],gtdem[3]])
         #print OS
-        print(self.XY)
-        print(OS)
-        print(size)
+        #print(self.XY)
+        #print(OS)
+        #print(size)
         NumPxl=(np.ceil((abs(self.XY-OS)/size)-1))#from 0 first cell
         #NumPxl[NumPxl==-1.]=0
 
         values=np.zeros((y,x), dtype='Int16')
+        #print(x,y,'size')
         #if out_data is None:
         #    raise ValueError # Could not create output file, see 'WoE' Log Messages Panel
         #    # set values below nodata threshold to nodata
         #values[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
         #print len(NumPxl)
-        print(NumPxl[0,:])
-        print(NumPxl[1,:])
-        print(x,y)
-        try:
-            for i in range(count):
-                #print(i,'i')
-                if self.XY[i,1]<=self.ymax and self.XY[i,1]>=self.ymin and self.XY[i,0]<=self.xmax and self.XY[i,0]>=self.xmin:
-                    values[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
-        except:#only 1 feature
-           if self.XY[1]<=self.ymax and self.XY[1]>=self.ymin and self.XY[0]<=self.xmax and self.XY[0]>=self.xmin:
-               values[NumPxl[1].astype(int),NumPxl[0].astype(int)]=1
+        #print(NumPxl,'numpxl')
+        #print(self.ymax,self.ymin,self.xmax,self.xmin)
+        #print(self.XY,'xy')
+        #print(count)
+        #print(NumPxl)
+        # try:
+        for i in range(count):
+            if self.XY[i,1]<=ymax and self.XY[i,1]>=ymin and self.XY[i,0]<=xmax and self.XY[i,0]>=xmin:
+                print(i,'ii')
+                values[NumPxl[i,1].astype(int),NumPxl[i,0].astype(int)]=1
+                #print(i,'ii')
+        # except:#only 1 feature
+        #    if self.XY[1]<=self.ymax and self.XY[1]>=self.ymin and self.XY[0]<=self.xmax and self.XY[0]>=self.xmin:
+        #        values[NumPxl[1].astype(int),NumPxl[0].astype(int)]=1
         self.raster[1] = values.astype('float32')
         print(np.max(self.raster[1]),'self')
 
@@ -262,12 +282,12 @@ class cleankernelAlgorithm(QgsProcessingAlgorithm):
         #oout[(g[idx]>0)]=1
         self.oout=np.array([])
         self.oout=R*g
-        print(np.max(self.oout),'oout')
+        print(np.max(self.oout),'max oout')
         self.oout[(self.raster[0]==-9999)]=-9999
         self.oout[(self.raster[1]==0)]=-9999
         self.oout[(self.oout<parameters['INPUT_INT_1'])]=-9999
         self.oout[self.oout>=parameters['INPUT_INT_1']]=1
-        print(np.max(self.oout),'oout')
+        print(np.max(self.oout),'max oout')
         g=None
         ggg==np.array([])
 
@@ -281,19 +301,22 @@ class cleankernelAlgorithm(QgsProcessingAlgorithm):
         #xycoord=np.zeros((len(col),2))
         self.XYcoord=np.array([0,0])
         print(self.XY,'lenxy')
+        #print(len(col),'lun')
         for i in range(len(col)):
             xmin=OOx+(xsize*col[i])
             xmax=OOx+(xsize*col[i])+(xsize)
             ymax=OOy+(ysize*row[i])
             ymin=OOy+(ysize*row[i])+(ysize)
+            print(xmin,xmax,ymin,ymax,'ciaooooo')
             for ii in range(len(self.XY)):
                 if (self.XY[ii,0]>=xmin and self.XY[ii,0]<=xmax and self.XY[ii,1]>=ymin and self.XY[ii,1]<=ymax):
+                    print(ii)
                     self.XYcoord=np.vstack((self.XYcoord,self.XY[ii,:]))
 
             #xycoord[i,:]=np.array([OOx+(xsize*col[i])+(xsize/2),OOy+(ysize*row[i])+(ysize/2)])
             #rowXY,colXY=np.where((XY[:,0]>=xmin)&(XY[:,0]<=xmax)&(XY[:,1]>=ymin)&(XY[:,1]<=ymax))
         print(self.XYcoord)
-        self.XYcoord=self.XYcoord[1:]
+        self.XYcoord=self.XYcoord[:]
 
     def saveV(self, parameters):
         # set up the shapefile driver
@@ -318,6 +341,7 @@ class cleankernelAlgorithm(QgsProcessingAlgorithm):
             # Set the attributes using the values from the delimited text file
             feature.SetField("id", i)
             # create the WKT for the feature using Python string formatting
+            print(self.XYcoord,'ao')
             wkt = "POINT(%f %f)" % (float(self.XYcoord[i,0]) , float(self.XYcoord[i,1]))
             # Create the point from the Well Known Txt
             point = ogr.CreateGeometryFromWkt(wkt)
