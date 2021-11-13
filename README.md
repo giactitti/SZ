@@ -29,7 +29,7 @@ It can be installed on QGIS3.x cloning the repository or downloading it as zip f
   
 At the end you should have the SZ plugin in your processing toolbox
 
-<img src="./images/gui.png" width="500">
+<img src="./images/gui.png" width="300">
 <p>
 
 Then you need to install the basic dependencies to run the project on your system:
