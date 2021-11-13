@@ -61,7 +61,7 @@ Input data for SI k-fold or SI functions should be a vector layer with a number 
  
 ### Test
 
-A dataset and QGIS project are available in .... to test the plugin.
+A dataset and QGIS project are available in [test](./test) folder to test the plugin.
 
 <img src="./images/test.png" width="500"> 
 
@@ -81,6 +81,9 @@ A dataset and QGIS project are available in .... to test the plugin.
 ## Applications
 
 _A few examples and references about applications_
+  
+
+TTitti, G., Borgatti, L., Zou, Q., Cui, P., & Pasuto, A. (2021). Landslide susceptibility in the Belt and Road Countries: continental step of a multi-scale approach. Environmental Earth Sciences, 80(18), 1-18.[10.1007/s12665-021-09910-1](https://doi.org/10.1007/s12665-021-09910-1)
 
 Titti, G., Borgatti, L., Zou, Q., Pasuto, A., 2019. Small-Scale landslide Susceptibility Assessment. The Case Study of the Southern Asia. Proceedings 30, 14. [10.3390/proceedings2019030014](https://doi.org/10.3390/proceedings2019030014)
 
@@ -92,6 +95,6 @@ Titti, Giacomo, Sarretta, Alessandro, Crema, Stefano, Pasuto, Alessandro, & Borg
 
 ## Credits
 
-Giacomo Titti and Alessandro Sarretta, Padova, March 2020
+Giacomo Titti and Alessandro Sarretta, Padova, November 2021
 
-please cite as: Giacomo Titti, & Alessandro Sarretta. (2020, May 25). CNR-IRPI-Padova/SZ: SZ plugin (Version v0.1). Zenodo. http://doi.org/10.5281/zenodo.3843275
+please cite as: Giacomo Titti, & Alessandro Sarretta. (2020, May 25). CNR-IRPI-Padova/SZ: SZ plugin (Version v1.0). Zenodo.
