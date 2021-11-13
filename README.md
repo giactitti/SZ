@@ -2,23 +2,27 @@
 
 ## Introduction
 
-This repository contains the code for a plugin for [QGIS](https://www.qgis.org), called "Susceptibility Zoning plugin", aiming at creating maps of susceptibility to various natural forcing elements.
+This repository contains the code for a plugin for [QGIS](https://www.qgis.org), called "Susceptibility Zoning plugin" (SZ-plugin), aiming at creating maps of susceptibility to various natural forcing elements.
 
 The plugin has been developed with a main focus and application towards landslides susceptibility, but it can be applied to different types of natural events or inter-disciplinary applications.
 
-The plugin uses a bi-variate "Weight of Evidence" (WoE) model and the Frequency Ratio (FR) as first statistical methods to evaluate the susceptibility of a study area to specific events. Additional methods are being implemented and will be added to the plugin as soon they are ready, such as:
+The plugin uses several type of statistical model for susceptibility evaluation, such as:
 
-* logistic regression
-* neural network
-* linear regression
-* multi-criteria decision
+* Weight of Evidence
+* Frequency Ratio
+* Logistic Regression
+* Decision Tree
+* Support Vector Machine
+* Random Forest
+
+The plugin allows to cross-validate the results by simple random selection of test/train samples or allows to cross-validate by k-fold cross-validation method.
 
 
 ## Installation
 
 The SZ plugin is not an official QGIS plugin.
 
-It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) and copying the _SZ_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
+It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) and copying the _sz_module_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
 
 At the end you should have the SZ plugin in your list of installed plugins (in the mainbar _Plugins_ > _Manage and install plugins_)
 
