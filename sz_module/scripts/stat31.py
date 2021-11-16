@@ -88,7 +88,7 @@ class rasterstatkernelAlgorithm(QgsProcessingAlgorithm):
         return 'kernel stat'
 
     def displayName(self):
-        return self.tr('03 Poits Kernel Statistics')
+        return self.tr('03 Points Kernel Statistics')
 
     def group(self):
         return self.tr('Data preparation')
