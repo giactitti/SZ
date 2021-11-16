@@ -124,7 +124,7 @@ class SVCAlgorithm(QgsProcessingAlgorithm):
         return 'Fit-CV_SVC'
 
     def displayName(self):
-        return self.tr('05 SVC Fitting/CrossValid')
+        return self.tr('05 SVM Fitting/CrossValid')
 
     def group(self):
         return self.tr('SI')
