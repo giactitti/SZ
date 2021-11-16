@@ -1,5 +1,10 @@
-csv
 scikit-learn
 matplotlib
 plotly
+chart_studio
 pandas
+numpy
+scipy
+gdal
+ogr
+osr
