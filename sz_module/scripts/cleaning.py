@@ -83,7 +83,7 @@ class cleankernelAlgorithm(QgsProcessingAlgorithm):
 
         self.addParameter(QgsProcessingParameterExtent(self.EXTENT, self.tr('Extension'), defaultValue=None))
 
-        self.addParameter(QgsProcessingParameterNumber(self.NUMBER, self.tr('Buffer radious in pixels'), type=QgsProcessingParameterNumber.Integer))
+        self.addParameter(QgsProcessingParameterNumber(self.NUMBER, self.tr('Buffer radius in pixels'), type=QgsProcessingParameterNumber.Integer))
 
         self.addParameter(QgsProcessingParameterNumber(self.NUMBER1, self.tr('Min value acceptable'), type=QgsProcessingParameterNumber.Integer))
 
