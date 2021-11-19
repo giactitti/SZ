@@ -51,7 +51,7 @@ from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import QgsMessageLog
 from qgis.core import Qgis
 import pandas as pd
-import gdal,ogr
+from osgeo import gdal,ogr
 from PyQt5.QtCore import QFileInfo
 import csv
 #from processing.algs.gdal.GdalAlgorithm import GdalAlgorithm
