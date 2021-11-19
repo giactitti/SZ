@@ -60,7 +60,7 @@ from qgis.core import (QgsProcessing,
                         )
 from qgis.core import *
 from qgis import processing
-import gdal,ogr,osr
+from osgeo import gdal,ogr,osr
 import numpy as np
 import math
 import operator
