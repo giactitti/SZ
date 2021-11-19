@@ -45,7 +45,7 @@ from qgis.core import (QgsProcessing,
                        QgsProcessingParameterFile)
 from qgis import processing
 #import jenkspy
-import gdal,ogr
+from osgeo import gdal,ogr
 import numpy as np
 from sklearn.metrics import roc_curve, auc
 from sklearn.metrics import roc_auc_score
