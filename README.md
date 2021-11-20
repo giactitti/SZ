@@ -24,14 +24,6 @@ The SZ plugin is not an official QGIS plugin.
 
 It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) and copying the _sz_module_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
 
-<img src="./images/install.png" width="500">
-<p>
-  
-At the end you should have the SZ plugin in your processing toolbox
-
-<img src="./images/gui.png" width="300">
-<p>
-
 Then you need to install the basic dependencies to run the project on your system:
 
 Windows, open OSGeo4W Shell (it is provided with QGIS installation) then launch the commands
@@ -47,6 +39,16 @@ cd path/to/downloded/folder/sz
 pip3 install -r requirements.txt
 ``` 
 or you can install them separately using ```sudo apt-get install python3-library```
+
+Lunch QGIS 3.x, and abilitate the plugin from _manage and install plugin_ / _installed_ / _sz_processing_
+
+<img src="./images/install.png" width="500">
+<p>
+  
+At the end you should have the SZ plugin in your processing toolbox
+
+<img src="./images/gui.png" width="300">
+<p>
   
 ### GUI
 
