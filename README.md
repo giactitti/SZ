@@ -34,11 +34,19 @@ At the end you should have the SZ plugin in your processing toolbox
 
 Then you need to install the basic dependencies to run the project on your system:
 
+Windows, open OSGeo4W Shell (it is provided with QGIS installation) then launch the commands
 ```
-cd sz
+cd path/to/downloded/folder/sz
 pip install -r requirements.txt
 ```
 or you can install them separately
+
+Linux, open prompt (Ctrl+Alt+t) and run
+```
+cd path/to/downloded/folder/sz
+pip3 install -r requirements.txt
+``` 
+or you can install them separately using ```sudo apt-get install python3-library```
   
 ### GUI
 
@@ -98,3 +106,6 @@ Titti, Giacomo, Sarretta, Alessandro, Crema, Stefano, Pasuto, Alessandro, & Borg
 Giacomo Titti and Alessandro Sarretta, Padova, November 2021
 
 please cite as: Giacomo Titti, & Alessandro Sarretta. (2020, May 25). CNR-IRPI-Padova/SZ: SZ plugin (Version v1.0). Zenodo.
+  
+## Contacts
+If you have any problem, please pull request or write to giacomotitti@gmail.com
