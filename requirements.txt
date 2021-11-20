@@ -5,6 +5,3 @@ chart_studio
 pandas
 numpy
 scipy
-gdal
-ogr
-osr
