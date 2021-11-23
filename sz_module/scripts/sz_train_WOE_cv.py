@@ -648,7 +648,7 @@ class WOEcvAlgorithm(QgsProcessingAlgorithm):
             #print self.fpr
             #print self.tpr
             #print self.classes
-            aucv=roc_auc_score(y_v[test_ind[i]],scores_v[test_ind[i]], None)
+            aucv=roc_auc_score(y_v[test_ind[i]],scores_v[test_ind[i]])
             print('ROC '+ str(i) +' AUC=',aucv)
             #auct=roc_auc_score(y_t, scores_t, None)
             #r=roc_auc_score(y_true, scores, None)
