@@ -571,8 +571,8 @@ class SVCAlgorithm(QgsProcessingAlgorithm):
         #print self.fpr
         #print self.tpr
         #print self.classes
-        aucv=roc_auc_score(y_v, scores_v, None)
-        auct=roc_auc_score(y_t, scores_t, None)
+        aucv=roc_auc_score(y_v, scores_v)
+        auct=roc_auc_score(y_t, scores_t)
         #r=roc_auc_score(y_true, scores, None)
         normt=(scores_t-scores_t.min())/(scores_t.max()-scores_t.min())
         normv=(scores_v-scores_v.min())/(scores_v.max()-scores_v.min())
