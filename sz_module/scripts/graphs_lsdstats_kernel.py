@@ -64,7 +64,7 @@ from qgis.core import (QgsProcessing,
                        QgsProcessingParameterFolderDestination
                        )
 from qgis import processing
-from osgeo import gdal,ogr,osr
+import gdal,ogr,osr
 import numpy as np
 import math
 import operator
@@ -236,14 +236,15 @@ class statistickernel(QgsProcessingAlgorithm):
 
             #plt.plot(np.arange(len(valuesfield['ev_id'])), matrice[7,:])
             #plt.title('')
-            plt.xlabel('landslides')
-            plt.ylabel('Slope degree')
-            plt.legend(lista[i],loc="upper left")
+            plt.xlabel('points')
+            plt.ylabel('raster value')
+
             plt.grid()
 
             plt.plot(np.arange(len(valuesfield['id'])), matrice[i,:])
-            print(parameters['OUT']+'/fig'+lista[i]+'.png')
-            plt.savefig(parameters['OUT']+'/fig'+lista[i]+'.png',bbox_inches='tight')
+            plt.legend([lista[i]],loc="upper left")
+            print(parameters['OUT']+'/fig'+lista[i]+'.pdf')
+            plt.savefig(parameters['OUT']+'/fig'+lista[i]+'.pdf',bbox_inches='tight')
 
             # plt.plot(np.arange(len(valuesfield['ev_id'])), matrice[2,:])
             # plt.savefig('/home/irpi/SinoItalian_Lab/Tier1_SouthAsia/OutputPaperBRI/Travis062020/fig_lsd'+'/fig'+lista[2]+'.png',bbox_inches='tight')
