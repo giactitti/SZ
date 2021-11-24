@@ -56,6 +56,8 @@ from .scripts.stat31 import rasterstatkernelAlgorithm
 #from .scripts.statmatrix2 import matrixAlgorithm
 from .scripts.classvector import classvAlgorithm
 from .scripts.classvectorw import classvAlgorithmW
+from .scripts.tptn import FPAlgorithm
+
 from .scripts.classcovtxt import classcovtxtAlgorithm
 from .scripts.classcovdeciles import classcovdecAlgorithm
 
@@ -107,8 +109,10 @@ class classeProvider(QgsProcessingProvider):
         self.addAlgorithm(statistickernel())
         self.addAlgorithm(samplerAlgorithm())
         self.addAlgorithm(rasterstatkernelAlgorithm())
+
         self.addAlgorithm(classvAlgorithm())
         self.addAlgorithm(classvAlgorithmW())
+        self.addAlgorithm(FPAlgorithm())
 
         # add additional algorithms here
         # self.addAlgorithm(MyOtherAlgorithm())
