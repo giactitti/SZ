@@ -278,7 +278,7 @@ class RFAlgorithm(QgsProcessingAlgorithm):
             'train': outputs['train'],
             'testy': outputs['testy'],
             'nomi':outputs['nomes'],
-            'txt':parameters['out2'],
+            #'txt':parameters['out2'],
             'testN':parameters['testN']
 
         }

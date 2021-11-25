@@ -279,7 +279,7 @@ class SVCAlgorithm(QgsProcessingAlgorithm):
             'train': outputs['train'],
             'testy': outputs['testy'],
             'nomi':outputs['nomes'],
-            'txt':parameters['out2'],
+            #'txt':parameters['out2'],
             'testN':parameters['testN']
 
         }
@@ -476,7 +476,7 @@ class SVCAlgorithm(QgsProcessingAlgorithm):
         train=parameters['train']
         test=parameters['testy']
         X_train = sc.fit_transform(train[nomi])
-        classifier = SVC(kernel = 'linear', random_state = 0)
+        classifier = SVC(kernel = 'linear', random_state = 0,probability=True)
         classifier.fit(X_train,train['y'])
         prob_fit=classifier.predict_proba(X_train)[::,1]
         if parameters['testN']>0:

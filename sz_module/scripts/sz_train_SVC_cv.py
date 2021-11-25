@@ -473,7 +473,7 @@ class SVCcvAlgorithm(QgsProcessingAlgorithm):
         y=df['y']
         sc = StandardScaler()#####scaler
         X = sc.fit_transform(x)
-        classifier=SVC(kernel = 'linear', random_state = 0)
+        classifier=SVC(kernel = 'linear', random_state = 0,probability=True)
         train_ind={}
         test_ind={}
         prob={}

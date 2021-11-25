@@ -476,7 +476,7 @@ class FRAlgorithm(QgsProcessingAlgorithm):
         Npx4=None
         file = open(parameters['txt'],'w')#################save W+, W- and Wf
         file.write('covariate,class,Npx1,Npx2,Npx3,Npx4,Wf\n')
-        print('covariates:',nomi)
+        #print('covariates:',nomi)
         for ii in nomi:
             classi=df[ii].unique()
             for i in classi:
@@ -492,10 +492,10 @@ class FRAlgorithm(QgsProcessingAlgorithm):
                 dd=pd.DataFrame()
                 #dd = df.apply(lambda x : True if x['y'] == 0 and x['y'] == 1 else False, axis = 1)
                 Npx4 = df.shape[0]#len(dd[dd == True].index)
-                print(Npx1,Npx2,Npx3,Npx4)
+                #print(Npx1,Npx2,Npx3,Npx4)
                 if Npx1==0 or Npx3==0:
                     Wf=0.
-                    print(ii,i)
+                    #print(ii,i)
                 else:
                     Wf=(np.divide((np.divide(Npx1,Npx2)),(np.divide(Npx3,Npx4))))
                 #Wf=Wplus-Wminus

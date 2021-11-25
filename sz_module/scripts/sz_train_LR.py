@@ -67,7 +67,7 @@ from qgis.core import (QgsProcessing,
 from qgis.core import *
 from qgis.utils import iface
 from qgis import processing
-from osgeo import gdal,ogr,osr
+import gdal,ogr,osr
 import numpy as np
 import math
 import operator
@@ -78,7 +78,7 @@ import matplotlib.pyplot as plt
 import csv
 from processing.algs.gdal.GdalUtils import GdalUtils
 #import plotly.express as px
-#import chart_studio
+import chart_studio
 import plotly.offline
 import plotly.graph_objs as go
 #import geopandas as gd
@@ -277,7 +277,7 @@ class LRAlgorithm(QgsProcessingAlgorithm):
             'train': outputs['train'],
             'testy': outputs['testy'],
             'nomi':outputs['nomes'],
-            'txt':parameters['out2'],
+            #'txt':parameters['out2'],
             'testN':parameters['testN']
 
         }
@@ -569,8 +569,11 @@ class LRAlgorithm(QgsProcessingAlgorithm):
         #print self.fpr
         #print self.tpr
         #print self.classes
-        aucv=roc_auc_score(y_v, scores_v)
-        auct=roc_auc_score(y_t, scores_t)
+        #print(len(scores_v),len(scores_t))
+        #print(len(y_v),len(y_t))
+
+        aucv=roc_auc_score(y_v, scores_v,None)
+        auct=roc_auc_score(y_t, scores_t,None)
         #r=roc_auc_score(y_true, scores, None)
         normt=(scores_t-scores_t.min())/(scores_t.max()-scores_t.min())
         normv=(scores_v-scores_v.min())/(scores_v.max()-scores_v.min())
