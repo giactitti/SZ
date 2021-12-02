@@ -105,9 +105,9 @@ Titti, Giacomo, Sarretta, Alessandro, Crema, Stefano, Pasuto, Alessandro, & Borg
 
 ## Credits
 
-Giacomo Titti and Alessandro Sarretta, Padova, November 2021
+Giacomo Titti, Alessandro Sarretta and Luigi Lombardo, Padova, November 2021
 
-please cite as: Giacomo Titti, & Alessandro Sarretta. (2020, May 25). CNR-IRPI-Padova/SZ: SZ plugin (Version v1.0). Zenodo.
+please cite as: Giacomo Titti, Alessandro Sarretta and Luigi Lombardo. (2020, May 25). CNR-IRPI-Padova/SZ: SZ plugin (Version v1.0). Zenodo.
   
 ## Contacts
 If you have any problem, please pull request or write to giacomotitti@gmail.com
