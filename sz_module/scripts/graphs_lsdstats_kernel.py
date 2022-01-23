@@ -70,7 +70,7 @@ import operator
 import random
 from qgis import *
 ##############################
-from osgeo import gdal,osr,ogr
+#from osgeo import gdal,osr,ogr
 import sys,os
 import math
 import csv
