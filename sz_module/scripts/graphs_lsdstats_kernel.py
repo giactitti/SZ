@@ -64,7 +64,6 @@ from qgis.core import (QgsProcessing,
                        QgsProcessingParameterFolderDestination
                        )
 from qgis import processing
-import gdal,ogr,osr
 import numpy as np
 import math
 import operator
