@@ -506,7 +506,7 @@ class LRAlgorithm(QgsProcessingAlgorithm):
         #print self.classes
         #aucv=roc_auc_score(self.y_v, self.scores_v, None)
         #auct=roc_auc_score(self.y_t, self.scores_t, None)
-        r=roc_auc_score(y_true, scores, None)
+        r=roc_auc_score(y_true, scores)
 
         fig=plt.figure()
         lw = 2
@@ -572,8 +572,8 @@ class LRAlgorithm(QgsProcessingAlgorithm):
         #print(len(scores_v),len(scores_t))
         #print(len(y_v),len(y_t))
 
-        aucv=roc_auc_score(y_v, scores_v,None)
-        auct=roc_auc_score(y_t, scores_t,None)
+        aucv=roc_auc_score(y_v, scores_v)
+        auct=roc_auc_score(y_t, scores_t)
         #r=roc_auc_score(y_true, scores, None)
         normt=(scores_t-scores_t.min())/(scores_t.max()-scores_t.min())
         normv=(scores_v-scores_v.min())/(scores_v.max()-scores_v.min())
