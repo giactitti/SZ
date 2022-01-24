@@ -530,7 +530,7 @@ class FRAlgorithm(QgsProcessingAlgorithm):
         #print self.classes
         #aucv=roc_auc_score(self.y_v, self.scores_v, None)
         #auct=roc_auc_score(self.y_t, self.scores_t, None)
-        r=roc_auc_score(y_true, scores, None)
+        r=roc_auc_score(y_true, scores)
 
         fig=plt.figure()
         lw = 2
