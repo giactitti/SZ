@@ -86,12 +86,15 @@ A dataset and QGIS project are available in [test](./test) folder to test the pl
 * [Plotly](https://plotly.com/)
 * [Pandas](https://pandas.pydata.org/)
 
+## Tutorial
 
+video tutorial: https://www.youtube.com/watch?v=XpsiCkVF11s
 
 ## Applications
 
 _A few examples and references about applications_
-  
+
+Titti, G., van Westen, C., Borgatti, L., Pasuto, A., & Lombardo, L. (2021). When Enough Is Really Enough? On the Minimum Number of Landslides to Build Reliable Susceptibility Models. Geosciences, 11(11), 469.
 
 Titti, G., Borgatti, L., Zou, Q., Cui, P., & Pasuto, A. (2021). Landslide susceptibility in the Belt and Road Countries: continental step of a multi-scale approach. Environmental Earth Sciences, 80(18), 1-18.[10.1007/s12665-021-09910-1](https://doi.org/10.1007/s12665-021-09910-1)
 
