@@ -312,7 +312,7 @@ class classvAlgorithm(QgsProcessingAlgorithm):
         #fprt, tprt, tresht = roc_curve(self.y_t,self.scores_t)
         #aucv=roc_auc_score(self.y_v, self.scores_v, None)
         #auct=roc_auc_score(self.y_t, self.scores_t, None)
-        r=roc_auc_score(y_true, scores, None)
+        r=roc_auc_score(y_true, scores)
         print('AUC =',r)
 
         giri=20*parameters['NUMBER']
