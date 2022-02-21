@@ -520,7 +520,7 @@ def curve(self,x,y,w,nclasses):
 
 def rok(self,y,w,nclasses,c):
     #fpra,tpra,t=roc_curve(y, w, None)
-    fpra,tpra,t=roc_curve(y,w, None)
+    fpra,tpra,t=roc_curve(y,w)
     xx=np.array([])
     yy=np.array([])
     for i in range(nclasses):
