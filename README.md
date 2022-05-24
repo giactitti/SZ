@@ -89,10 +89,18 @@ A dataset and QGIS project are available in [test](./test_data) folder to test t
 ## Tutorial
 
 video tutorial: https://www.youtube.com/watch?v=XpsiCkVF11s
+  
+## Application
 
-## Applications
+Titti G, Sarretta A, Lombardo L, Crema S, Pasuto A and Borgatti L (2022) Mapping Susceptibility With Open-Source Tools: A New Plugin for QGIS. Front. Earth Sci. 10:842425. doi: 10.3389/feart.2022.842425
+  
+[Referenced dataset](https://zenodo.org/record/6575572)
+
+## Publications
 
 _A few examples and references about applications_
+  
+Titti G, Sarretta A, Lombardo L, Crema S, Pasuto A and Borgatti L (2022) Mapping Susceptibility With Open-Source Tools: A New Plugin for QGIS. Front. Earth Sci. 10:842425. doi: 10.3389/feart.2022.842425
 
 Titti, G., van Westen, C., Borgatti, L., Pasuto, A., & Lombardo, L. (2021). When Enough Is Really Enough? On the Minimum Number of Landslides to Build Reliable Susceptibility Models. Geosciences, 11(11), 469.
 
