@@ -71,7 +71,7 @@ Input data for SI k-fold or SI functions should be a vector layer with a number 
  
 ### Test
 
-A dataset and QGIS project are available in [test](./test) folder to test the plugin.
+A dataset and QGIS project are available in [test](./test_data) folder to test the plugin.
 
 <img src="./images/test.png" width="500"> 
 
