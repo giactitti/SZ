@@ -22,7 +22,19 @@ The plugin allows to cross-validate the results by simple random selection of te
 
 The SZ plugin is not an official QGIS plugin.
 
-It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) and copying the _sz_module_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
+It can be installed on QGIS3.x adding the Plugin Repository to QGIS 'manage and install plugins':
+- flag 'show also experimental plugins'
+<img src="./images/experimental.png" width="500">
+- add plugin repository [https://www.plugins.geoai.it/SZ/sz.xml](https://www.plugins.geoai.it/SZ/sz.xml)
+<img src="./images/addrepo.png" width="500">
+- edit repository
+<img src="./images/repodetail.png" width="500">
+<p>
+
+
+or
+
+cloning the repository or downloading it as zip file (and than unzipping it) and copying the _sz_module_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
 
 Then you need to install the basic dependencies to run the project on your system:
 
