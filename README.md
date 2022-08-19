@@ -138,4 +138,4 @@ Giacomo Titti, Alessandro Sarretta and Luigi Lombardo, Padova, November 2021
 please cite as: Giacomo Titti, Alessandro Sarretta and Luigi Lombardo. (2021). CNR-IRPI-Padova/SZ: SZ plugin (Version v1.0). Zenodo.
   
 ## Contacts
-If you have any problem, please pull request or write to giacomotitti@gmail.com
+If you have any problem, please write to giacomotitti@gmail.com
