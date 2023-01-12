@@ -1,5 +1,6 @@
 # Susceptibility Zoning plugin (SZ)
 
+
 ## Introduction
 
 This repository contains the code for a plugin for [QGIS](https://www.qgis.org), called "Susceptibility Zoning plugin" (SZ-plugin), aiming at creating maps of susceptibility to various natural forcing elements.
@@ -142,3 +143,5 @@ please cite as: Giacomo Titti, Alessandro Sarretta and Luigi Lombardo. (2021). C
   
 ## Contacts
 If you have any problem, please write to giacomotitti@gmail.com
+
+
