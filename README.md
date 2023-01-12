@@ -22,25 +22,45 @@ The plugin allows to cross-validate the results by simple random selection of te
 
 The SZ plugin is not an official QGIS plugin.
 
-It can be installed on QGIS3.x cloning the repository or downloading it as zip file (and than unzipping it) and copying the _sz_module_ folder in your local python/plugin folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
+#### Requirements
 
-Then you need to install the basic dependencies to run the project on your system:
-
+You need to install the basic dependencies to run the project on your system using ```pip``` (visit the [website](https://pip.pypa.io) to install pip):  
+  
 Windows, open OSGeo4W Shell (it is provided with QGIS installation) then launch the commands
 ```
 cd path/to/downloded/folder/sz
-pip install -r requirements.txt
+pip install -r requirements_windows.txt
 ```
 or you can install them separately
 
 Linux, open prompt (Ctrl+Alt+t) and run
 ```
 cd path/to/downloded/folder/sz
-pip3 install -r requirements.txt
+pip3 install -r requirements_linux_mac.txt
 ``` 
 or you can install them separately using ```sudo apt-get install python3-library```
 
-Lunch QGIS 3.x, and abilitate the plugin from _manage and install plugin_ / _installed_ / _sz_processing_
+#### Download and install
+
+It can be installed on QGIS3.x adding the Plugin Repository to QGIS ```manage and install plugins```:
+- flag ```show also experimental plugins```
+
+<img src="./images/experimental.png" width="500">
+
+- add plugin repository
+
+<img src="./images/addrepo.png" width="500">
+
+- edit repository and add [https://www.plugins.geoai.it/SZ/sz.xml](https://www.plugins.geoai.it/SZ/sz.xml)
+
+<img src="./images/repodetail.png" width="500">
+<p>
+
+or
+
+cloning the [GitHub repository](https://github.com/CNR-IRPI-Padova/SZ) or downloading it as zip file (and than unzipping it) and copying the ```sz_module``` folder in your local ```python/plugin``` folder (read [here](https://docs.qgis.org/3.10/en/docs/user_manual/plugins/plugins.html#core-and-external-plugins) for more information).
+
+Lunch QGIS 3.x, and abilitate the plugin from ```manage and install plugin/installed/sz_processing```
 
 <img src="./images/install.png" width="500">
 <p>
@@ -121,4 +141,4 @@ Giacomo Titti, Alessandro Sarretta and Luigi Lombardo, Padova, November 2021
 please cite as: Giacomo Titti, Alessandro Sarretta and Luigi Lombardo. (2021). CNR-IRPI-Padova/SZ: SZ plugin (Version v1.0). Zenodo.
   
 ## Contacts
-If you have any problem, please pull request or write to giacomotitti@gmail.com
+If you have any problem, please write to giacomotitti@gmail.com
