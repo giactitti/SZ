@@ -29,14 +29,14 @@ You need to install the basic dependencies to run the project on your system usi
 Windows, open OSGeo4W Shell (it is provided with QGIS installation) then launch the commands
 ```
 cd path/to/downloded/folder/sz
-pip install -r requirements.txt
+pip install -r requirements_windows.txt
 ```
 or you can install them separately
 
 Linux, open prompt (Ctrl+Alt+t) and run
 ```
 cd path/to/downloded/folder/sz
-pip3 install -r requirements.txt
+pip3 install -r requirements_linux_mac.txt
 ``` 
 or you can install them separately using ```sudo apt-get install python3-library```
 
